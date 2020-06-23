@@ -1,0 +1,22 @@
+{
+  "name": "lz-blog",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxt/content": "^1.3.2",
+    "@nuxtjs/axios": "^5.11.0",
+    "element-ui": "^2.13.2",
+    "nuxt": "^2.13.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "devDependencies": {
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2"
+  }
+}
