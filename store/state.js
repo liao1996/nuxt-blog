@@ -32,7 +32,7 @@ export default {
             color: 'rgb(128,168,225)'
         },
         '算法': {
-            style: 'md-git-network',
+            style: 'el-icon-edit',
             color: 'rgb(240,57,65)'
         },
         '其它': {

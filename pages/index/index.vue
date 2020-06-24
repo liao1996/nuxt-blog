@@ -1,131 +1,203 @@
 <template>
-  <ul ref="entry" class="entry-list">
-    <list-item v-for="(item, index) in recommends" :key="index" :item="item">
-      <title-row :title="item.title"></title-row>
-      <meta-row :item="item" :show-category="true"></meta-row>
-    </list-item>
-  </ul>
+  <div class="container">
+    <nav>
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        @select="handleSelect"
+      >
+        <el-menu-item index="1">推荐</el-menu-item>
+        <el-submenu index="2">
+          <template slot="title">分类</template>
+          <el-menu-item index="2-1">前端</el-menu-item>
+          <el-menu-item index="2-2">算法</el-menu-item>
+          <el-menu-item index="2-3">架构</el-menu-item>
+          <el-submenu index="2-4">
+            <template slot="title">其他</template>
+            <el-menu-item index="2-4-1">生活琐事</el-menu-item>
+            <el-menu-item index="2-4-2">心灵鸡汤</el-menu-item>
+            <el-menu-item index="2-4-3">天马行空</el-menu-item>
+          </el-submenu>
+        </el-submenu>
+        <el-menu-item index="3" disabled title="登陆后才能查看">消息中心</el-menu-item>
+        <el-menu-item index="4">
+          <a href="http://www.eightythousand.com" target="_blank">小喵八万</a>
+        </el-menu-item>
+      </el-menu>
+      <div class="line"></div>
+    </nav>
+    <transition-group name="bolgList" tag="ul" class="bolg_list">
+      <li v-for="(item,index) in blogList" :key="item.id" :hid="item.id" :data-index="index">
+        <nuxt-link :to="{ name: 'index-detail-id', path:'/index/detail' ,query: {id: '1'}}">
+          <!-- :class="{bolg_click:bolg.bolgListClick==item.id}"
+         @mousedown="BolgDown"
+          @mouseup="BolgUp"-->
+          <div class="list_img_box">
+            <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
+            <div class="list_title_box">
+              <div class="list_title">
+                <i class="el-icon-d-arrow-left" size="20"></i>
+                {{item.title}}
+                <i class="el-icon-d-arrow-right" size="20"></i>
+              </div>
+              <p
+                style="text-align: center;color: rgba(92,107,119,0.8);"
+                class="list_time"
+              >发布日期：&nbsp;&nbsp;&nbsp;{{parseTime(item.time)}}</p>
+            </div>
+          </div>
+          <div class="list_info">
+            <p class="list_content" v-html>{{text(item.content) | FontFilter}}</p>
+            <div class="list_record">
+              <span class="list_record_span" style="margin-left: 0px;">
+                <i class="el-icon-view" size="15"></i>
+                &nbsp;&nbsp;&nbsp;{{item.readNum}}
+              </span>
+              <span class="list_record_span">
+                <i class="el-icon-star-on" size="15"></i>
+                &nbsp;&nbsp;&nbsp;{{item.loveNum}}
+              </span>
+              <span class="list_record_span">
+                <i class="el-icon-chat-line-round" size="15"></i>
+                &nbsp;&nbsp;{{item.fontNum}}
+              </span>
+              <div class="list_tag">
+                <div class="tag">
+                  <i
+                    :class="$store.state.tag[item.tag].style"
+                    :style="{color:$store.state.tag[item.tag].color}"
+                  >&nbsp;{{item.tag}}</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
+          <!-- <div class="hr"></div> -->
+        </nuxt-link>
+      </li>
+    </transition-group>
+  </div>
 </template>
 
 <script>
-import ListItem from '~/components/home/list-item'
-import TitleRow from '~/components/home/title-row'
-import MetaRow from '~/components/home/meta-row'
-
-let first = 10
-const getData = (store, self) => {
-  const params = {
-    operationName: '',
-    query: '',
-    variables: {
-      first: first,
-      after: '',
-      order: 'POPULAR'
-    },
-    extensions: {
-      query: {
-        id: '21207e9ddb1de777adeaca7a2fb38030'
+import Logo from "~/components/Logo.vue";
+import { getBlogList } from "~/api/articlelist";
+const getdata = () => {
+   return   getBlogList()
+    .then(res => {
+      if (res.resultCode == 1) {
+        return res.result.data;
       }
-    }
-  }
-  // return new Promise(resolve => {
-  //   store.dispatch('recommend', params).then(res => {
-  //     const { items } = res.data.articleFeed
-  //     resolve(items)
-  //   })
-  // })
-  return null
-}
-
+    })
+    .catch(err => {   
+    });
+};
 export default {
-  scrollToTop: true,
   components: {
-    ListItem,
-    TitleRow,
-    MetaRow
+    Logo
   },
-  data () {
+  data() {
     return {
-      scrollStatus: true,
-      recommends: []
+      activeIndex: "1",
+      blogList: []
+    };
+  },
+  async asyncData() {
+    const data = await getdata();
+    return { blogList: data };
+  },
+  mounted() {
+    if (process.browser) {
+      getdata().then(res => {
+        this.blogList = res.result.data;
+      });
     }
-  },
-  async asyncData ({ store, error }) {
-  //  const { edges } = await getData(store, this)
-    return {
-     // recommends: edges.map(item => { return item.node })
-      recommends: [
-        {
-          category: {name: "前端", id: "5562b415e4b00c57d9b94ac8"},
-          commentsCount: 5,
-          content: "hello~亲爱的观众老爷们大家好~最近一直沉迷于 GraphQL 的应用实践，正好公司黑客马拉松临近，就拉上了两位小伙伴，结合实际的业务场景，把 GraphQL 作为中间层的解决方案提上去~项目完成度还算不错，对 GraphQL 也有了更深入的理解，在此记下整个过程的收获。 …",
-          createdAt: "2019-04-20T01:54:20.218Z",
-          eventInfo: null,
-          hot: false,
-          hotIndex: 925.1856,
-          id: "5cba7bcc6fb9a068b367911e",
-          lastCommentTime: "2019-04-20T13:14:50.097Z",
-          likeCount: 29,
-          original: true,
-          originalUrl: "https://juejin.im/post/5cad64316fb9a068aa4b82c2",
-          rankIndex: 26.631819256332,
-          screenshot: "https://user-gold-cdn.xitu.io/2019/4/20/16a38723d6bef1d2?w=1564&h=647&f=png&s=528857",
-          summaryInfo: null,
-          tags: [{id: "555e9a77e4b00c57d9955d64", title: "Node.js"}, {id: "55cc4fb960b28da5fc3b791b", title: "GraphQL"}],
-          title: "基于 GraphQL 实践的一点思考",
-          type: "post",
-          updatedAt: "2019-04-20T07:12:46.215Z",
-          user: {id: "584a7760128fe1006c7b17f9", role: "editor", avatarHd: null, username: 'sea_ljf'},
-          viewerHasLiked: false
-        }
-      ]
-    }
-  },
-  mounted () {
-    this.getFullPageData()
-    window.addEventListener('scroll', this.handleScroll)
-  },
-  destroyed () {
-    window.removeEventListener('scroll', this.handleScroll)
   },
   methods: {
-    getFullPageData () {
-      if (document.body.offsetHeight < window.innerHeight) {
-        this.loadMoreData().then(res => {
-          this.getFullPageData()
-        })
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    // BolgDown(el) {
+    //   this.bolg.bolgListClick = el.currentTarget.getAttribute("hid");
+    //   // this.$router.push('/Article/'+el.currentTarget.getAttribute('hid'));
+    // },
+    // BolgUp(el) {
+    //   this.$router.push("/Article/" + el.currentTarget.getAttribute("hid"));
+    //   this.bolg.bolgListClick = "";
+    // }
+
+    text(str) {
+      str = str.replace(/<\/?[^>]*>/g, ""); //去除HTML tag
+      str = str.replace(/[ | ]*\n/g, "\n"); //去除行尾空白
+      str = str.replace(/\n[\s| | ]*\r/g, "\n"); //去除多余空行
+      str = str.replace(/&nbsp;/gi, ""); //去掉&nbsp;
+      str = str.replace(/\s/g, ""); //将空格去掉
+      return str;
+    },
+    parseTime(time, cFormat) {
+      if (arguments.length === 0) {
+        return null;
       }
-    },
-    handleScroll () {
-      this.timer && clearTimeout(this.timer)
-      this.timer = setTimeout(this.loadMoreData, 300)
-    },
-    loadMoreData () {
-      return new Promise((resolve) => {
-        const $el = document.documentElement
-        const $entry = this.$refs.entry
-        const clienHeight = $el.clientHeight
-        const style = window.getComputedStyle ? window.getComputedStyle($entry, null) : null || $entry.currentStyle
-        const containerHeight = ~~style.height.split('px')[0] + 140
-        // 设置【返回顶部】显示隐藏
-        document.querySelector('.to-top-btn').classList[$el.scrollTop > 120 ? 'add' : 'remove']('show')
-        // 滚动到一定高度，重新加载数据
-        if ($el.scrollTop + clienHeight > containerHeight - 10 && this.scrollStatus) {
-          first += 10
-          getData(this.$store, this).then(res => {
-            this.recommends = res.edges.map(item => { return item.node })
-            resolve(res)
-          })
+      const format = cFormat || "{y}-{m}-{d} {h}:{i}:{s}";
+      let date;
+      if (typeof time === "object") {
+        date = time;
+      } else {
+        if (typeof time === "string" && /^[0-9]+$/.test(time)) {
+          time = parseInt(time);
         }
-      })
+        if (typeof time === "number" && time.toString().length === 10) {
+          time = time * 1000;
+        }
+        date = new Date(time);
+      }
+      const formatObj = {
+        y: date.getFullYear(),
+        m: date.getMonth() + 1,
+        d: date.getDate(),
+        h: date.getHours(),
+        i: date.getMinutes(),
+        s: date.getSeconds(),
+        a: date.getDay()
+      };
+      const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
+        const value = formatObj[key];
+        // Note: getDay() returns 0 on Sunday
+        if (key === "a") {
+          return ["日", "一", "二", "三", "四", "五", "六"][value];
+        }
+        return value.toString().padStart(2, "0");
+      });
+      return time_str;
+    }
+  },
+  filters: {
+    FontFilter(val) {
+      return val.substr(0, 200) + "...";
     }
   }
-}
+};
 </script>
 
 <style lang="stylus" scoped>
-.entry-list {
-  width 100%
-  background #fff
+@import url('~/assets/pagecss/blogmain.css');
+
+.container {
+  nav {
+    left: 0;
+    background-color: #fff;
+    position: fixed;
+    top: 5rem;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+    transform: translateZ(0);
+
+    .el-menu-demo {
+      left: 38rem;
+    }
+  }
 }
 </style>

@@ -154,13 +154,10 @@ export default {
         }
     },
     mounted() {
-        this.Player();
-        
-        
+        this.Player();      
+        this._getMusicType(3);      
     },
     created() {
-        this._getMusicType(3);
-        this.DisAuthorInfo();//禁删~感谢配合
     },
     computed: {
         thisMusicList(){
@@ -184,9 +181,6 @@ export default {
         }
     },
     methods: {
-        //禁删~感谢配合
-        DisAuthorInfo(){
-        },
         MusicAlert(val){
             this.musicAlertState=true;
             this.musicAlertVal=val;

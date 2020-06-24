@@ -18,7 +18,8 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    
   },
   /*
   ** Global CSS
@@ -27,6 +28,7 @@ export default {
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/stylus/main.styl'
   ],
+
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
@@ -59,6 +61,10 @@ export default {
     '/api': {
       target: 'https://blogme.top:3000/',
       pathRewrite: { '^/api': '' }
+    },
+    '/lz': {
+      target: 'http://127.0.0.1:12937/blog/',
+      pathRewrite: { '^/lz': '' }
     },
   },
   /*

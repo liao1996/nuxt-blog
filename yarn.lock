@@ -1815,7 +1815,7 @@ axios-retry@^3.1.8:
   dependencies:
     is-retry-allowed "^1.1.0"
 
-axios@^0.19.0, axios@^0.19.2:
+axios@^0.19.2:
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
@@ -4800,7 +4800,7 @@ jiti@^0.1.11, jiti@^0.1.9:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-0.1.11.tgz#8b27b92e4c0866b3c8c91945c55a99a1db17a782"
   integrity sha512-zSPegl+ageMLSYcq1uAZa6V56pX2GbNl/eU3Or7PFHu10a2YhLAXj5fnHJGd6cHZTalSR8zXGH8WmyuyufMhLA==
 
-jquery@^3.4.1:
+jquery@^3.5.1:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
