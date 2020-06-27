@@ -401,6 +401,7 @@
     bottom: 0px;
     z-index: 101;
     cursor: pointer;
+    font-size: 25px;
 }
 .replay_active-enter,.replay_active-leave-to{
     opacity: 0;

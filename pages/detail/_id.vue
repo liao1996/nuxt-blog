@@ -127,7 +127,7 @@
               <a :href="item.href" target="_blank">{{ReHtmlEscape(item.name)}}</a>:
               <transition name="reply">
                 <span class="reply_button" @click="ReplyActive(item.id)" v-if="replyId==item.id">
-                  <Icon type="ios-chatbubbles-outline" />
+                  <i class="el-icon-chat-dot-round"></i>
                 </span>
               </transition>
             </p>
@@ -136,17 +136,17 @@
             <transition name="replay_active">
               <div class="replay_talk_box" v-if="replyActiveId==item.id">
                 <div class="reply_return" @click="ReplyReturn">
-                  <Icon type="ios-arrow-up" size="25" />
+                  <i class="el-icon-top" size="25"></i>
                 </div>
-                <Form ref="replyFormItem" :model="formItem" :label-width="80" :rules="ruleValidate">
-                  <FormItem label="评论内容" prop="talk">
-                    <Input
-                      v-model="formItem.talk"
-                      type="textarea"
-                      :autosize="{minRows: 6,maxRows: 6}"
-                      placeholder="200字以内"
-                      class="input"
-                    ></Input>
+                <el-form
+                  :model="formItem"
+                  :rules="ruleValidate"
+                  ref="replyFormItem"
+                  label-width="100px"
+                  class="demo-ruleForm"
+                >
+                  <el-form-item label="评论内容" prop="talk">
+                    <el-input v-model="formItem.talk" type="textarea" placeholder="200字以内"></el-input>
                     <p style="overflow: hidden;margin-top:5px;">
                       <span
                         style="cursor:pointer;display:block;float:left;height:20px;line-height:20px;text-align: center;user-select:none;"
@@ -155,39 +155,42 @@
                         @click="append(item)"
                       >{{item}}</span>
                     </p>
-                  </FormItem>
-                  <FormItem label="名称">
-                    <Input
+                  </el-form-item>
+                  <el-form-item label="名称" prop="talk">
+                    <el-input
                       type="text"
                       v-model="formItem.name"
                       placeholder="名称"
                       style="width: 300px"
-                      class="talk_name input"
-                    ></Input>
-                  </FormItem>
-                  <FormItem label="网址" prop="href">
-                    <Input
-                      v-model="formItem.href"
-                      placeholder="示例：www.blogme.top（ 可不填 ）"
                       class="talk_name"
-                      style="width: 300px;"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item label="网址" prop="href">
+                    <el-input
+                      placeholder="示例：www.eightythousand.com（ 可不填 ）"
+                      v-model="formItem.href"
+                      class="input-with-select"
                     >
-                      <Select v-model="formItem.head" slot="prepend" style="width: 80px">
-                        <Option value="0">http://</Option>
-                        <Option value="1">https://</Option>
-                      </Select>
-                    </Input>
-                  </FormItem>
-                  <FormItem>
-                    <Button
-                      type="primary"
-                      long
-                      ghost
+                      <el-select
+                        v-model="formItem.head"
+                        slot="prepend"
+                        placeholder="请选择"
+                        style="width: 100px"
+                      >
+                        <el-option label="http://" value="1"></el-option>
+                        <el-option label="https://" value="2"></el-option>
+                      </el-select>
+                    </el-input>
+                  </el-form-item>
+                  <el-form-item label="提交">
+                    <el-button
+                      type="success"
+                      plain
                       @click="TalkSubmit('replyFormItem',item.id,item.name,item.href)"
-                      style="width: 150px;"
-                    >Submit</Button>
-                  </FormItem>
-                </Form>
+                    >确认</el-button>
+                    <el-button type="info" plain>重置</el-button>
+                  </el-form-item>
+                </el-form>
               </div>
             </transition>
             <ul class="reply_talk">
@@ -206,7 +209,7 @@
                       @click="ReplyActive(reply.id)"
                       v-if="replyId==reply.id"
                     >
-                      <Icon type="ios-chatbubbles-outline" />
+                      <i class="el-icon-chat-dot-round"></i>
                     </span>
                   </transition>
                 </p>
@@ -219,22 +222,17 @@
                 <transition name="replay_active">
                   <div class="replay_talk_box" v-if="replyActiveId==reply.id">
                     <div class="reply_return" @click="ReplyReturn">
-                      <Icon type="ios-arrow-up" size="25" />
+                      <i class="el-icon-top" size="25"></i>
                     </div>
-                    <Form
-                      ref="replyFormItem"
+                    <el-form
                       :model="formItem"
-                      :label-width="80"
                       :rules="ruleValidate"
+                      ref="replyFormItem"
+                      label-width="100px"
+                      class="demo-ruleForm"
                     >
-                      <FormItem label="评论内容" prop="talk">
-                        <Input
-                          v-model="formItem.talk"
-                          type="textarea"
-                          :autosize="{minRows: 6,maxRows: 6}"
-                          placeholder="200字以内"
-                          class="input"
-                        ></Input>
+                      <el-form-item label="评论内容" prop="talk">
+                        <el-input v-model="formItem.talk" type="textarea" placeholder="200字以内"></el-input>
                         <p style="overflow: hidden;margin-top:5px;">
                           <span
                             style="cursor:pointer;display:block;float:left;height:20px;line-height:20px;text-align: center;user-select:none;"
@@ -243,39 +241,42 @@
                             @click="append(item)"
                           >{{item}}</span>
                         </p>
-                      </FormItem>
-                      <FormItem label="名称">
-                        <Input
+                      </el-form-item>
+                      <el-form-item label="名称" prop="talk">
+                        <el-input
                           type="text"
                           v-model="formItem.name"
                           placeholder="名称"
                           style="width: 300px"
-                          class="talk_name input"
-                        ></Input>
-                      </FormItem>
-                      <FormItem label="网址" prop="href">
-                        <Input
-                          v-model="formItem.href"
-                          placeholder="示例：www.blogme.top（ 可不填 ）"
                           class="talk_name"
-                          style="width: 300px;"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item label="网址" prop="href">
+                        <el-input
+                          placeholder="示例：www.eightythousand.com（ 可不填 ）"
+                          v-model="formItem.href"
+                          class="input-with-select"
                         >
-                          <Select v-model="formItem.head" slot="prepend" style="width: 80px">
-                            <Option value="0">http://</Option>
-                            <Option value="1">https://</Option>
-                          </Select>
-                        </Input>
-                      </FormItem>
-                      <FormItem>
-                        <Button
-                          type="primary"
-                          long
-                          ghost
-                          @click="TalkSubmit('replyFormItem',reply.tid,reply.name,reply.href)"
-                          style="width: 150px;"
-                        >Submit</Button>
-                      </FormItem>
-                    </Form>
+                          <el-select
+                            v-model="formItem.head"
+                            slot="prepend"
+                            placeholder="请选择"
+                            style="width: 100px"
+                          >
+                            <el-option label="http://" value="1"></el-option>
+                            <el-option label="https://" value="2"></el-option>
+                          </el-select>
+                        </el-input>
+                      </el-form-item>
+                      <el-form-item label="提交">
+                        <el-button
+                          type="success"
+                          plain
+                          @click="TalkSubmit('replyFormItem',item.id,item.name,item.href)"
+                        >确认</el-button>
+                        <el-button type="info" plain>重置</el-button>
+                      </el-form-item>
+                    </el-form>
                   </div>
                 </transition>
               </li>
@@ -305,7 +306,12 @@
 </template>
 <script>
 //import 'highlight.js/styles/atom-one-dark.css'
-import { addReadNum, addLoveNum, getThisArticle } from "~/api/articlelist";
+import {
+  addReadNum,
+  addLoveNum,
+  getThisArticle,
+  getTalkList
+} from "~/api/articlelist";
 //import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
 export default {
@@ -468,9 +474,9 @@ export default {
       this.pointArr = [];
       this.nameArr = [];
       this.$store.commit("global/updateReadNum");
-      // GetTalk(this.$route.params.id).then((data)=>{
-      //     this.talkList=data.data;
-      // })
+      getTalkList(this.$route.query.id).then(res => {
+        this.talkList = res.result.data;
+      });
       getThisArticle(this.$route.query.id).then(res => {
         this.thisArticle = res.result.this;
         //全局保存阅读和点赞数

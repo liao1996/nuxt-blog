@@ -15,7 +15,11 @@ export const addReadNum = (id) => {
 
 export const addLoveNum = (id) => {
     return request.get(`lz/index/updateLoveNum.htm?id=${id}`);
-  }
+}
+
+export const getTalkList = (id) => {
+  return request.get(`lz/index/findTalkList.htm?id=${id}`);
+}
 
 export const GetArticle = (k, f, t) => {
   //return axios.post('lz/index/findArticleList.html',{keyword:k,fromNum:f,toNum:t});
