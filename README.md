@@ -1,4 +1,4 @@
-# lz-blog
+# lzblog
 
 ## Build Setup
 

@@ -29,7 +29,7 @@
     </nav>
     <transition-group name="bolgList" tag="ul" class="bolg_list">
       <li v-for="(item,index) in blogList" :key="item.id" :hid="item.id" :data-index="index">
-        <nuxt-link :to="{ name: 'index-detail-id', path:'/index/detail' ,query: {id: '1'}}">
+        <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: '1'}}">
           <!-- :class="{bolg_click:bolg.bolgListClick==item.id}"
          @mousedown="BolgDown"
           @mouseup="BolgUp"-->
@@ -65,8 +65,8 @@
               <div class="list_tag">
                 <div class="tag">
                   <i
-                    :class="$store.state.tag[item.tag].style"
-                    :style="{color:$store.state.tag[item.tag].color}"
+                    :class="$store.state.style.tag[item.tag].style"
+                    :style="{color:$store.state.style.tag[item.tag].color}"
                   >&nbsp;{{item.tag}}</i>
                 </div>
               </div>
@@ -84,7 +84,7 @@
 import Logo from "~/components/Logo.vue";
 import { getBlogList } from "~/api/articlelist";
 const getdata = () => {
-   return   getBlogList()
+   return   getBlogList("")
     .then(res => {
       if (res.resultCode == 1) {
         return res.result.data;

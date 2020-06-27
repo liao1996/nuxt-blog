@@ -9,10 +9,10 @@
             <img :src="ArticleInfo.imgUrl" alt="" class="box_img2">
     </div>-->
     <div class="back">
-      <Icon type="md-arrow-round-back" size="40" @click="Back" />
+      <i class="el-icon-back" size="40" @click="Back"></i>
     </div>
     <div class="love" @mouseover="LoveOver" @mouseout="LoveOut" @click="LoveClick">
-      <Icon type="md-heart" size="40" class="love_ico" />
+      <i class="el-icon-star-off love_ico" size="40"></i>
     </div>
     <Icon
       type="md-list-box"
@@ -24,22 +24,27 @@
     <div :class="{catalog:true,catalog_open:catalogOpen}" v-if="thisArticle.point">
       <Icon type="md-close-circle" class="catalog_close" size="20" @click="CatalogClose()" />
       <p class="catalog_name">目录</p>
-      <p v-for="(item,index) in nameArr" @click="To(pointArr[index])" class="catalog_li">{{item}}</p>
+      <p
+        v-for="(item,index) in nameArr"
+        @click="To(pointArr[index])"
+        class="catalog_li"
+        :key="index"
+      >{{item}}</p>
     </div>
 
     <div class="article">
       <p class="article_title">{{thisArticle.title}}</p>
       <div class="article_record">
         <span style="margin-left: 0px;">日期：&nbsp;{{thisArticle.time}}</span>
-        <span>阅读数：&nbsp;{{thisArticle.readNum}}</span>
-        <span>喜爱：&nbsp;{{thisArticle.loveNum}}</span>
+        <span>阅读数：&nbsp;{{this.$store.state.global.readNum}}</span>
+        <span>点赞：&nbsp;{{this.$store.state.global.loveNum}}</span>
         <span>字数：&nbsp;{{thisArticle.leaveNum}}</span>
       </div>
       <div class="tags">
         <div v-for="tag in thisArticle.tags" :key="tag" class="tag">
           <Icon
-            :type="$store.state.tag[tag].style"
-            :color="$store.state.tag[tag].color"
+            :type="$store.state.style.tag[tag].style"
+            :color="$store.state.style.tag[tag].color"
             size="18"
             style="line-height: 1px;"
           />
@@ -300,7 +305,7 @@
 </template>
 <script>
 //import 'highlight.js/styles/atom-one-dark.css'
-import { AddReadNum, AddLoveNum, GetThisArticle } from "~/api/articlelist";
+import { addReadNum, addLoveNum, getThisArticle } from "~/api/articlelist";
 //import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
 export default {
@@ -449,9 +454,8 @@ export default {
     // {
     //     sessionStorage.setItem('nowPage',index);
     // }\
-    
   },
-  mounted(){
+  mounted() {
     this._getArticle();
   },
   computed: {},
@@ -460,43 +464,37 @@ export default {
       this.formItem.talk = this.formItem.talk + emoji;
     },
     _getArticle() {
-      this.formItem.id = this.$route.params.id;
+      this.formItem.id = this.$route.query.id;
       this.pointArr = [];
       this.nameArr = [];
-      AddReadNum(this.$route.params.id);
+      this.$store.commit("global/updateReadNum");
       // GetTalk(this.$route.params.id).then((data)=>{
       //     this.talkList=data.data;
       // })
-      GetThisArticle(this.$route.params.id).then(res => {
-        // this.thisArticle = res.data.this;
-        // this.lastArticle = res.data.last;
-        // this.nextArticle = res.data.next;
-        // if (this.thisArticle.point) {
-        //   let point = this.thisArticle.point;
-        //   point = point.split(",");
-        //   point.forEach((el, index) => {
-        //     if (index % 2 == 0) {
-        //       this.pointArr.push(el);
-        //     } else {
-        //       this.nameArr.push(el);
-        //     }
-        //   });
-        // }
-        // console.log(this.thisArticle);
-        this.thisArticle = {
-          content:
-            '<p><br></p><div class="block_light">由于最近学业较重，很少更新文章了～～<br><p></p><p>在某一天我产生了一个想法，想知道我女朋友实时的位置信息，并显示在地图上，可以查看她的路径和当前速度等信息；就像微信里面的位置共享一样，但是我想要全天候共享位置。我在网上找了很多app，很多都不能达到我的要求，大部分都是不能用或者有病毒的。我寻思着要不自己做一个？经历了两三周平常挤出来的时间，做出了这样的一个微信小程序。和女朋友测试了一周后感觉还不错，就决定挂在平台上，大家有想用的可以微信小程序搜索：“寻寻Ta”。对于异地恋的情侣再好不过了（滑稽）。</p></div><br><p></p><p></p><div id="point_1" class="catalog_title">小程序介绍</div><p></p><p>名称：</p><p><br></p><div class="block_light">寻寻Ta</div><br><p></p><p>简介：</p><p><br></p><div class="block_light">双方实时监测对方的位置等信息，适合情侣之间使用</div><br><p></p><p>功能：</p><p><br></p><div class="block_light"><p></p><p>· 实时获取（监测）对方位置</p><p>· 查看对方经过的路径</p><p>· 查看对方手机电量</p><p>· 情侣打卡记录</p><p><span style="color: rgb(192, 0, 0);">（3月30号）即将新增功能：</span></p><p><span style="color:#c00000">· 可以通过分享链接进行邀请</span></p><p><span style="color:#c00000">· 查看对方在线还是离线<br></span></p><p><span style="color:#c00000">· 实时获取对方的环境录音（录像）</span></p><p><br></p><p></p></div><br><p></p><p>小程序截图：</p><p><img src="../../img/1207328440278192128.jpg" title="" alt="qq_pic_merged_1576684069589.jpg">&nbsp; &nbsp; &nbsp; &nbsp;<img src="../../img/1207328536273227776.jpg" title="" alt="qq_pic_merged_1576684085531.jpg"></p><p><br></p><p><img src="../../img/1207328753286516736.jpg" title="" alt="qq_pic_merged_1576684092403.jpg"></p><p><br></p><p>下载地址：</p><p><br></p><div class="block_light">微信小程序搜索：“寻寻Ta”</div><br><p></p><p><br></p><p>小程序二维码：</p><p><img src="../../img/1207507623977553920.jpg" title="" alt="gh_694272aba684_430.jpg"></p><p><br></p><p></p><div id="point_2" class="catalog_title">未完待续</div><p></p><p>.......（太晚了，文章明天写）</p><p><br></p><p></p><div id="point_3" class="catalog_title">结语</div><p></p><p>有什么新奇的想法小伙伴可以提出来，我尽力去实现，让这个小程序为情侣之间或者朋友之间带来更多有趣或者更实用的功能，谢谢大家。对于这个位置共享小程序如果很多人感兴趣我会不断地维护下去。</p><p>服务器负载变大了，目前用的还是最便宜的服务器，手头还较宽裕的朋友，打赏下博主吧！用来换个服务器，感激不尽。<img src="http://img.baidu.com/hi/bobo/B_0011.gif"></p><p><br></p><p>支付宝：</p><p style="text-align:center"><img src="../../img/1207332981258194944.jpg" title="" alt="qq_pic_merged_15766854.jpg"></p><p><br></p>',
-          leaveNum: 635,
-          id: 58,
-          loveNum: 3,
-          point: "point_1,小程序介绍,point_2,未完待续,point_3,结语",
-          readNum: 259,
-          realContent:
-            '<p>|||由于最近学业较重，很少更新文章了～～<br/></p><p>在某一天我产生了一个想法，想知道我女朋友实时的位置信息，并显示在地图上，可以查看她的路径和当前速度等信息；就像微信里面的位置共享一样，但是我想要全天候共享位置。我在网上找了很多app，很多都不能达到我的要求，大部分都是不能用或者有病毒的。我寻思着要不自己做一个？经历了两三周平常挤出来的时间，做出了这样的一个微信小程序。和女朋友测试了一周后感觉还不错，就决定挂在平台上，大家有想用的可以微信小程序搜索：“寻寻Ta”。对于异地恋的情侣再好不过了（滑稽）。|||</p><p>^^^小程序介绍^^^</p><p>名称：</p><p>|||寻寻Ta|||</p><p>简介：</p><p>|||双方实时监测对方的位置等信息，适合情侣之间使用|||</p><p>功能：</p><p>|||</p><p>· 实时获取（监测）对方位置</p><p>· 查看对方经过的路径</p><p>· 查看对方手机电量</p><p>· 情侣打卡记录</p><p><span style="color: rgb(192, 0, 0);">（3月30号）即将新增功能：</span></p><p><span style="color:#c00000">· 可以通过分享链接进行邀请</span></p><p><span style="color:#c00000">· 查看对方在线还是离线<br/></span></p><p><span style="color:#c00000">· 实时获取对方的环境录音（录像）</span></p><p><br/></p><p>|||</p><p>小程序截图：</p><p><img src="../../img/1207328440278192128.jpg" title="" alt="qq_pic_merged_1576684069589.jpg"/>&nbsp; &nbsp; &nbsp; &nbsp;<img src="../../img/1207328536273227776.jpg" title="" alt="qq_pic_merged_1576684085531.jpg"/></p><p><br/></p><p><img src="../../img/1207328753286516736.jpg" title="" alt="qq_pic_merged_1576684092403.jpg"/></p><p><br/></p><p>下载地址：</p><p>|||微信小程序搜索：“寻寻Ta”|||</p><p><br/></p><p>小程序二维码：</p><p><img src="../../img/1207507623977553920.jpg" title="" alt="gh_694272aba684_430.jpg"/></p><p><br/></p><p>^^^未完待续^^^</p><p>.......（太晚了，文章明天写）</p><p><br/></p><p>^^^结语^^^</p><p>有什么新奇的想法小伙伴可以提出来，我尽力去实现，让这个小程序为情侣之间或者朋友之间带来更多有趣或者更实用的功能，谢谢大家。对于这个位置共享小程序如果很多人感兴趣我会不断地维护下去。</p><p>服务器负载变大了，目前用的还是最便宜的服务器，手头还较宽裕的朋友，打赏下博主吧！用来换个服务器，感激不尽。<img src="http://img.baidu.com/hi/bobo/B_0011.gif"/></p><p><br/></p><p>支付宝：</p><p style="text-align:center"><img src="../../img/1207332981258194944.jpg" title="" alt="qq_pic_merged_15766854.jpg"/></p><p><br/></p>',
-          tags: ["算法", "其它"],
-          time: "2019-12-19",
-          title: "位置实时共享app（微信小程序）（3.31更新已上线）"
-        };
+      getThisArticle(this.$route.query.id).then(res => {
+        this.thisArticle = res.result.this;
+        //全局保存阅读和点赞数
+        this.$store.commit("global/updateReadNum", this.thisArticle.readNum);
+        this.$store.commit("global/updateLoveNum", this.thisArticle.loveNum);
+        //此次点击阅读数加一
+        addReadNum(this.$route.query.id).then(res => {
+          if (res.result.msg) {
+            this.$store.commit("global/updateReadNum");
+          }
+        });
+        this.lastArticle = res.result.last;
+        this.nextArticle = res.result.next;
+        if (this.thisArticle.point) {
+          let point = this.thisArticle.point;
+          point = point.split(",");
+          point.forEach((el, index) => {
+            if (index % 2 == 0) {
+              this.pointArr.push(el);
+            } else {
+              this.nameArr.push(el);
+            }
+          });
+        }
       });
     },
     ReplyReturn() {
@@ -538,11 +536,18 @@ export default {
       this.loveHover = false;
     },
     LoveClick() {
-      AddLoveNum(this.$route.params.id).then(data => {
-        if (data.status == 200) {
-          this.$Message.success("感谢您点赞👍");
+      addLoveNum(this.$route.query.id).then(res => {
+        if (res.result.msg) {
+          this.$message({
+            message: "感谢您点赞👍",
+            type: "success"
+          });
+          this.$store.commit("global/updateLoveNum");
         } else {
-          this.$Message.error("点赞失败了");
+          this.$message({
+            message: "点赞失败,请稍后重试",
+            type: "warning"
+          });
         }
       });
     },

@@ -63,7 +63,7 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      target: 'http://127.0.0.1:12937/blog/',
+      target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },
