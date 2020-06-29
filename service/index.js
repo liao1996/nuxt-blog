@@ -30,3 +30,35 @@ service.interceptors.response.use(
 )
 
 export default service
+
+export const get = (url, params, config = {}) => {
+  return new Promise((resolve, reject) => {
+    service({
+      method: 'get',
+      url,
+      params,
+      ...config
+    }).then(response => {
+      resolve(response)
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}
+
+/* 统一封装post请求  */
+export const post = (url, data, config = {}) => {
+  return new Promise((resolve, reject) => {
+    service({
+      method: 'post',
+      url,
+      data,
+      ...config
+    }).then(response => {
+      resolve(response)
+
+    }).catch(error => {
+      reject(error)
+    })
+  })
+}

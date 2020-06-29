@@ -19,7 +19,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ],
-    
+
   },
   /*
   ** Global CSS
@@ -34,7 +34,8 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/cookie'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -63,7 +64,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      target: 'http://localhost:12937/blog/',
+      target: 'http://www.eightythousand.com:12937/blog/',
+      // target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },

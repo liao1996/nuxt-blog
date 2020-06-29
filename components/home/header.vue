@@ -60,9 +60,9 @@ export default {
     const self = this;
     document.body.onresize = () => {
       if (document.body.clientWidth > self.maxClientWidth) {
-        self.$store.commit("PCORPHONE", false);
+        self.$store.commit("isPhone/PCORPHONE", false);
       } else {
-        self.$store.commit("PCORPHONE", true);
+        self.$store.commit("isPhone/PCORPHONE", true);
       }
     };
   }

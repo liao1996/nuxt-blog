@@ -1,8 +1,8 @@
 import axios from 'axios'
 import request from '@/service'
 
-export const getBlogList = (id) => {
-  return request.get(`lz/index/findArticleList.htm?id=${id}`);
+export const getBlogList = (id,falge) => {
+  return request.get(`lz/index/findArticleList.htm?falge=${falge}&id=${id}`);
 }
 
 export const getThisArticle = (id) => {
@@ -19,6 +19,10 @@ export const addLoveNum = (id) => {
 
 export const getTalkList = (id) => {
   return request.get(`lz/index/findTalkList.htm?id=${id}`);
+}
+
+export const insertTalk = (talkJson) => {
+  return request.get(`lz/index/insertTalk.htm?talkJson=${talkJson}`);
 }
 
 export const GetArticle = (k, f, t) => {

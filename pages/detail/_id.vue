@@ -14,23 +14,24 @@
     <div class="love" @mouseover="LoveOver" @mouseout="LoveOut" @click="LoveClick">
       <i class="el-icon-star-off love_ico" size="40"></i>
     </div>
-    <Icon
-      type="md-list-box"
-      size="40"
-      :class="{catalog_icon:true,catalog_icon_open:catalogOpen}"
-      @click="CatalogOpen()"
+    <i
+      v-show="!catalogOpen"
+      class="el-icon-download catalog"
+      @click="catalogOpen = !catalogOpen"
       v-if="thisArticle.point"
-    />
-    <div :class="{catalog:true,catalog_open:catalogOpen}" v-if="thisArticle.point">
-      <Icon type="md-close-circle" class="catalog_close" size="20" @click="CatalogClose()" />
-      <p class="catalog_name">目录</p>
-      <p
-        v-for="(item,index) in nameArr"
-        @click="To(pointArr[index])"
-        class="catalog_li"
-        :key="index"
-      >{{item}}</p>
-    </div>
+    ></i>
+    <transition name="el-zoom-in-top">
+      <div class="catalog" v-show="catalogOpen" v-if="thisArticle.point">
+        <i class="el-icon-upload2" @click="catalogOpen = !catalogOpen" />
+        <p class="catalog_name">目录</p>
+        <p
+          v-for="(item,index) in nameArr"
+          @click="To(pointArr[index])"
+          class="catalog_li"
+          :key="index"
+        >{{item}}</p>
+      </div>
+    </transition>
 
     <div class="article">
       <p class="article_title">{{thisArticle.title}}</p>
@@ -38,7 +39,7 @@
         <span style="margin-left: 0px;">日期：&nbsp;{{thisArticle.time}}</span>
         <span>阅读数：&nbsp;{{this.$store.state.global.readNum}}</span>
         <span>点赞：&nbsp;{{this.$store.state.global.loveNum}}</span>
-        <span>字数：&nbsp;{{thisArticle.leaveNum}}</span>
+        <span>留言数：&nbsp;{{this.talkList.length}}</span>
       </div>
       <div class="tags">
         <div v-for="tag in thisArticle.tags" :key="tag" class="tag">
@@ -51,7 +52,7 @@
           &nbsp;{{tag}}
         </div>
       </div>
-      <Divider />
+      <el-divider></el-divider>
       <div class="article_content" v-html="thisArticle.content"></div>
     </div>
     <div class="talk">
@@ -60,7 +61,7 @@
         <el-form
           :model="formItem"
           :rules="ruleValidate"
-          ref="replyFormItem"
+          ref="formItem"
           label-width="100px"
           class="demo-ruleForm"
         >
@@ -102,11 +103,7 @@
             </el-input>
           </el-form-item>
           <el-form-item label="提交">
-            <el-button
-              type="success"
-              plain
-              @click="TalkSubmit('replyFormItem',item.id,item.name,item.href)"
-            >确认</el-button>
+            <el-button type="success" plain @click="TalkSubmit('formItem')">确认</el-button>
             <el-button type="info" plain>重置</el-button>
           </el-form-item>
         </el-form>
@@ -118,13 +115,17 @@
         <transition-group name="talklist" tag="ul" class="talk_list" v-if="talkList.length!=0">
           <li v-for="item in talkList" :key="item.id" class="li">
             <div class="talk_head">
-              <Badge dot v-if="(new Date()-new Date(item.time))/86400000<=newTime">
-                <Avatar icon="ios-person" size="small" />
-              </Badge>
-              <Avatar icon="ios-person" size="small" v-else />
+              <el-badge
+                is-dot
+                class="item"
+                v-if="(new Date()-new Date(item.time))/86400000<=newTime"
+              >
+                <i class="el-icon-s-custom"></i>
+              </el-badge>
+              <i class="el-icon-s-custom" v-else></i>
             </div>
             <p class="talk_p1" @mouseover="ReplyIndex(item.id)">
-              <a :href="item.href" target="_blank">{{ReHtmlEscape(item.name)}}</a>:
+              <a :href="item.href" target="_blank">{{item.name}}</a>:
               <transition name="reply">
                 <span class="reply_button" @click="ReplyActive(item.id)" v-if="replyId==item.id">
                   <i class="el-icon-chat-dot-round"></i>
@@ -132,7 +133,7 @@
               </transition>
             </p>
             <p class="talk_time">{{item.time}}</p>
-            <p class="talk_p2">{{ReHtmlEscape(item.talk)}}</p>
+            <p class="talk_p2">{{item.talk}}</p>
             <transition name="replay_active">
               <div class="replay_talk_box" v-if="replyActiveId==item.id">
                 <div class="reply_return" @click="ReplyReturn">
@@ -196,13 +197,17 @@
             <ul class="reply_talk">
               <li v-for="reply in item.replyTalk" :key="reply.id">
                 <div class="talk_head">
-                  <Badge dot v-if="(new Date()-new Date(reply.time))/86400000<=newTime">
-                    <Avatar icon="ios-person" size="small" />
-                  </Badge>
-                  <Avatar icon="ios-person" size="small" v-else />
+                  <el-badge
+                    is-dot
+                    class="item"
+                    v-if="(new Date()-new Date(item.time))/86400000<=newTime"
+                  >
+                    <i class="el-icon-s-custom"></i>
+                  </el-badge>
+                  <i class="el-icon-s-custom" v-else></i>
                 </div>
                 <p class="talk_p1 talk_p1_2" @mouseover="ReplyIndex(reply.id)">
-                  <a :href="reply.href" target="_blank">{{ReHtmlEscape(reply.name)}}</a>:
+                  <a :href="reply.href" target="_blank">{{reply.name}}</a>:
                   <transition name="reply">
                     <span
                       class="reply_button"
@@ -216,8 +221,8 @@
                 <p class="talk_time talk_time_2" style="width: 160px;">{{reply.time}}</p>
                 <p class="talk_p2">
                   @
-                  <a :href="reply.toHref" target="_blank">{{ReHtmlEscape(reply.toName)}}</a>
-                  &nbsp;&nbsp;{{ReHtmlEscape(reply.talk)}}
+                  <a :href="reply.toHref" target="_blank">{{reply.toName}}</a>
+                  &nbsp;&nbsp;{{reply.talk}}
                 </p>
                 <transition name="replay_active">
                   <div class="replay_talk_box" v-if="replyActiveId==reply.id">
@@ -272,7 +277,7 @@
                         <el-button
                           type="success"
                           plain
-                          @click="TalkSubmit('replyFormItem',item.id,item.name,item.href)"
+                          @click="TalkSubmit('replyFormItem',reply.tid,reply.name,reply.href)"
                         >确认</el-button>
                         <el-button type="info" plain>重置</el-button>
                       </el-form-item>
@@ -290,14 +295,14 @@
       <div class="bottom_box">
         <div class="last" v-if="JSON.stringify(lastArticle)!='{}'">
           <div class="bottom_title_box">
-            <!-- <div class="last_title" @click="Last(lastArticle.id)">上一篇</div>
-            <div class="bottom_title">{{lastArticle.title}}</div>-->
+            <div class="last_title" @click="Last(lastArticle.id)">上一篇</div>
+            <div class="bottom_title">{{lastArticle.title}}</div>
           </div>
         </div>
         <div class="next" v-if="JSON.stringify(nextArticle)!='{}'">
           <div class="bottom_title_box">
-            <!-- <div class="last_title" @click="Next(nextArticle.id)">下一篇</div>
-            <div class="bottom_title">{{nextArticle.title}}</div>-->
+            <div class="last_title" @click="Next(nextArticle.id)">下一篇</div>
+            <div class="bottom_title">{{nextArticle.title}}</div>
           </div>
         </div>
       </div>
@@ -310,7 +315,8 @@ import {
   addReadNum,
   addLoveNum,
   getThisArticle,
-  getTalkList
+  getTalkList,
+  insertTalk
 } from "~/api/articlelist";
 //import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
@@ -333,7 +339,7 @@ export default {
       replyActiveId: 0,
       replyId: 0,
       newTime: 5,
-      catalogOpen: false,
+      catalogOpen: true,
       pointArr: [],
       nameArr: [],
       formItem: {
@@ -527,14 +533,7 @@ export default {
         behavior: "smooth"
       });
     },
-    HtmlEscape(sHtml) {
-      return sHtml.replace(/[']/g, function(c) {
-        return { "'": "&apos;" }[c];
-      });
-    },
-    ReHtmlEscape(sHtml) {
-      return sHtml.replace(/&apos;/g, "'");
-    },
+
     LoveOver() {
       this.loveHover = true;
     },
@@ -558,10 +557,18 @@ export default {
       });
     },
     Last(id) {
-      this.$router.push({ name: "Article", params: { id: parseInt(id) } });
+      this.$router.push({
+        name: "detail-id",
+        path: "/detail",
+        query: { id: parseInt(id) }
+      });
     },
     Next(id) {
-      this.$router.push({ name: "Article", params: { id: parseInt(id) } });
+      this.$router.push({
+        name: "detail-id",
+        path: "/detail",
+        query: { id: parseInt(id) }
+      });
     },
     Back() {
       // if(sessionStorage.getItem('nowPage'))
@@ -575,24 +582,20 @@ export default {
     //     this.formItem.sex=val;
     // },
     TalkSubmit(name, tid = 0, toname = "", tohref = "") {
+      const that = this;
       let ref = this.$refs[name];
+      console.log(ref);
       if (tid != 0) {
         ref = this.$refs[name][0]; //解决iview的表单循环机制
       }
-      if (document.cookie.indexOf("name=blogtalk") == -1) {
+      if (!that.$cookie.get("name")) {
         ref.validate(valid => {
           if (valid) {
             //表单验证通过
             this.formItem.tid = tid;
-            this.formItem.toName = this.HtmlEscape(toname);
+            this.formItem.toName = toname;
             this.formItem.toHref = tohref;
-            if (this.formItem.name == "") {
-              this.formItem.name = "匿名";
-            }
-            // if(this.formItem.sex=='')
-            // {
-            //     this.formItem.sex='不知名性别';
-            // }
+
             if (this.formItem.href == "") {
               this.formItem.href = "javascript:;";
               this.formItem.head = "";
@@ -602,40 +605,55 @@ export default {
             ) {
               this.formItem.head = "0";
             }
-
             if (this.formItem.talk == "") {
-              this.$Message.warning("请先填写评论");
+              this.$notify.error({
+                title: "错误",
+                message: "请先填写评论"
+              });
             } else {
               //提交上去
-              this.formItem.name = this.HtmlEscape(this.formItem.name);
-              this.formItem.talk = this.HtmlEscape(this.formItem.talk);
-              // AddTalk(this.formItem).then((data)=>{
-              //     if(data.data.code)
-              //     {
-              //         this.formItem.talk='';
-              //         this.$Message.success(data.data.msg);
-              //         var date=new Date();
-              //         date.setTime(date.getTime()+1*60*1000); //设置date为当前时间+30分
-              //         document.cookie="name=blogtalk; expires="+date.toGMTString(); //将date赋值给expires
-              //     }else{
-              //         this.$Message.warning(data.data.msg);
-              //     }
-              //     GetTalk(this.$route.params.id).then((data)=>{
-              //         this.talkList=data.data;
-              //     })
-              // })
-              this.formItem.name = this.ReHtmlEscape(this.formItem.name);
-              this.formItem.talk = this.ReHtmlEscape(this.formItem.talk);
+              // this.formItem.name = this.HtmlEscape(this.formItem.name);
+              // this.formItem.talk = this.HtmlEscape(this.formItem.talk);
+              insertTalk(encodeURI(JSON.stringify(this.formItem))).then(res => {
+                if (res.result.msg) {
+                  this.$message({
+                    message: "评论成功，感谢你的来过",
+                    type: "success"
+                  });
+                  this.formItem.talk = "";
+                  this.formItem.name = "";
+                  const date = new Date();
+                  const expiresTime = date.setTime(
+                    date.getTime() + 60 * 1000 * 5
+                  ); //设置date为当前时间+30分
+                  that.$cookie.set("name", "blogtalk", 1);
+                } else {
+                  this.$message({
+                    message: "评论失败，请稍后再试",
+                    type: "warning"
+                  });
+                }
+                getTalkList(this.$route.query.id).then(res => {
+                  this.talkList = res.result.data;
+                });
+              });
               if (this.formItem.href == "javascript:;") {
                 this.formItem.href = "";
               }
             }
           } else {
-            this.$Message.error("填写有误");
+            this.$notify({
+              title: "警告",
+              message: "填写有误",
+              type: "warning"
+            });
           }
         });
       } else {
-        this.$Message.warning("请一分钟后再评论");
+        this.$notify.info({
+          title: "提示",
+          message: "谢谢！一天后再来吧！"
+        });
       }
     },
     text(str) {
