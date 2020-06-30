@@ -27,56 +27,73 @@
       </el-menu>
       <div class="line"></div>
     </nav>
-    <transition-group name="bolgList" tag="ul" class="bolg_list">
-      <li v-for="(item,index) in blogList" :key="item.id" :hid="item.id" :data-index="index">
-        <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: item.id}}">
-          <!-- :class="{bolg_click:bolg.bolgListClick==item.id}"
-         @mousedown="BolgDown"
-          @mouseup="BolgUp"-->
-          <div class="list_img_box">
-            <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
-            <div class="list_title_box">
-              <div class="list_title">
-                <i class="el-icon-d-arrow-left" size="20"></i>
-                {{item.title}}
-                <i class="el-icon-d-arrow-right" size="20"></i>
+    <div>
+      <transition-group
+        name="bolgList"
+        tag="ul"
+        class="bolg_list"
+        v-infinite-scroll="loadMore"
+        infinite-scroll-disabled="disabled "
+        infinite-scroll-distance="10"
+      >
+        <li
+          v-for="(item,index) in blogList"
+          :key="item.title"
+          :hid="item.id"
+          :data-index="index"
+          :class="{bolg_click:bolgListClick==item.id}"
+          @mousedown="BolgDown"
+          @mouseup="BolgUp"
+        >
+          <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: item.id}}">
+            <div class="list_img_box">
+              <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
+              <div class="list_title_box">
+                <div class="list_title">
+                  <i class="el-icon-d-arrow-left" size="20"></i>
+                  {{item.title}}
+                  <i class="el-icon-d-arrow-right" size="20"></i>
+                </div>
+                <p
+                  style="text-align: center;color: rgba(92,107,119,0.8);"
+                  class="list_time"
+                >发布日期：&nbsp;&nbsp;&nbsp;{{item.time}}</p>
               </div>
-              <p
-                style="text-align: center;color: rgba(92,107,119,0.8);"
-                class="list_time"
-              >发布日期：&nbsp;&nbsp;&nbsp;{{item.time}}</p>
             </div>
-          </div>
-          <div class="list_info">
-            <p class="list_content" v-html>{{text(item.content) | FontFilter}}</p>
-            <div class="list_record">
-              <span class="list_record_span" style="margin-left: 0px;">
-                <i class="el-icon-view" size="15"></i>
-                &nbsp;&nbsp;&nbsp;{{item.readNum}}
-              </span>
-              <span class="list_record_span">
-                <i class="el-icon-star-on" size="15"></i>
-                &nbsp;&nbsp;&nbsp;{{item.loveNum}}
-              </span>
-              <span class="list_record_span">
-                <i class="el-icon-chat-line-round" size="15"></i>
-                &nbsp;&nbsp;{{item.fontNum}}
-              </span>
-              <div class="list_tag">
-                <div class="tag">
-                  <i
-                    :class="$store.state.style.tag[item.tag].style"
-                    :style="{color:$store.state.style.tag[item.tag].color}"
-                  >&nbsp;{{item.tag}}</i>
+            <div class="list_info">
+              <p class="list_content" v-html>{{text(item.content) | FontFilter}}</p>
+              <div class="list_record">
+                <span class="list_record_span" style="margin-left: 0px;">
+                  <i class="el-icon-view" size="15"></i>
+                  &nbsp;&nbsp;&nbsp;{{item.readNum}}
+                </span>
+                <span class="list_record_span">
+                  <i class="el-icon-star-on" size="15"></i>
+                  &nbsp;&nbsp;&nbsp;{{item.loveNum}}
+                </span>
+                <span class="list_record_span">
+                  <i class="el-icon-chat-line-round" size="15"></i>
+                  &nbsp;&nbsp;{{item.fontNum}}
+                </span>
+                <div class="list_tag">
+                  <div class="tag">
+                    <i
+                      :class="$store.state.style.tag[item.tag].style"
+                      :style="{color:$store.state.style.tag[item.tag].color}"
+                    >&nbsp;{{item.tag}}</i>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
-          <!-- <div class="hr"></div> -->
-        </nuxt-link>
-      </li>
-    </transition-group>
+            <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
+            <!-- <div class="hr"></div> -->
+          </nuxt-link>
+        </li>
+      </transition-group>
+
+      <el-alert v-if="loading" title="加载中" type="info" :closable="false" center show-icon></el-alert>
+      <el-alert v-if="noMore" title="没有更多了" type="success" :closable="false" center show-icon></el-alert>
+    </div>
 
     <div class="head_left" :style="{top:headTop+'px',left:headLeft_2+'px'}">
       <div class="head_left_box">
@@ -100,7 +117,7 @@
         </div>
       </div>
     </div>
-    <div class="head_right" :style="{top:headTop+'%',left:headLeft+'px'}">
+    <div class="head_right" :style="{top:headTop+'px',left:headLeft+'px'}">
       <!-- <Tooltip
         max-width="200"
         :always="tipStatus"
@@ -123,73 +140,119 @@
 import headImg from "~/assets/img/header.jpg";
 import Logo from "~/components/Logo.vue";
 import { getBlogList } from "~/api/articlelist";
-const getdata = (id = 0, falge = 0) => {
-  return getBlogList(id, falge)
+import $ from "jquery";
+const getdata = (id = 0, falge = 0, size = 3) => {
+  return getBlogList(id, falge, size)
     .then(res => {
       if (res.resultCode == 1) {
-        return res.result.data;
+        return res.result;
       }
     })
     .catch(err => {});
 };
 export default {
+   name:"Index",
   components: {
     Logo
   },
   data() {
+    
     return {
       headImg: headImg,
       headTop: 0,
       headLeft: 1070,
       headLeft_2: -220,
       activeIndex: "1",
-      blogList: [],
       notice: [
         {
           id: 12,
-          time: "2020-06-26",
-          content: "第一"
+          time: "2020-06-30",
+          content: "增加了分类、搜索功能、文章无限滚动"
         },
         {
           id: 11,
-          time: "2020-02-04",
-          content: "第二"
+          time: "2020-06-29",
+          content: "增加公告栏，上一篇，下一篇"
         },
-        { id: 10, time: "2019-09-15", content: "第四" },
+        { id: 10, time: "2019-09-27", content: "评论功能" },
         {
           id: 9,
-          time: "2019-08-12",
-          content: "第三"
+          time: "2019-06-25",
+          content: "搭建项目，开发首页，详情页"
         }
-      ]
+      ],
+      bolgListClick: "",
+      loading: false,
+      falge: 0, //文章类型
+      size: 3
     };
   },
-  async asyncData() {
-    const data = await getdata();
-    return { blogList: data };
-  },
-  mounted() {
-    if (process.browser) {
-      getdata().then(res => {
-        this.blogList = res;
-      });
+  computed: {
+    blogList() {
+      return this.$store.state.global.blogList;
+    },
+    disabled() {
+      return this.loading || this.noMore;
+    },
+    noMore() {
+      return this.blogList.length <= this.count;
+    },
+    count() {
+      return this.$store.state.global.count;
     }
   },
+  async asyncData({ store }) {
+    const data = await getdata();
+    store.commit("global/updateBlogList", data.data);
+    store.commit("global/updateCount", data.count);
+  },
+  mounted() {
+    this.BindEvent();
+    // if (process.browser) {
+    //   getdata().then(res => {
+    //     this.blogList = res;
+    //   });
+    // }
+  },
   methods: {
+    loadMore() {
+      if (this.noMore && this.size <=this.count) {
+        this.loading = true;
+        this.size += 2;
+        getdata(0, this.falge, this.size).then(res => {
+          this.$store.commit("global/updateBlogList", res.data);
+          this.loading = false;
+        });
+      }
+    },
     handleSelect(key) {
-       getdata(0,key).then(res => {
-        this.blogList = res;
+      this.falge = key;
+      this.size = 3
+      getdata(0, this.falge).then(res => {
+        this.$store.commit("global/updateBlogList", res.data);
       });
     },
-    // BolgDown(el) {
-    //   this.bolg.bolgListClick = el.currentTarget.getAttribute("hid");
-    //   // this.$router.push('/Article/'+el.currentTarget.getAttribute('hid'));
-    // },
-    // BolgUp(el) {
-    //   this.$router.push("/Article/" + el.currentTarget.getAttribute("hid"));
-    //   this.bolg.bolgListClick = "";
-    // }
-
+    BolgDown(el) {
+      this.bolgListClick = el.currentTarget.getAttribute("hid");
+    },
+    BolgUp(el) {
+      this.bolgListClick = "";
+    },
+    BindEvent() {
+      // this.headLeft=$('.bolg_list').width()+$('.bolg_list').offset().left+50+40;
+      // this.headLeft_2=$('.bolg_list').offset().left-40-$('.head_left').width()+50;
+      $(document).on("scroll", ev => {
+        if (this.$route.path == "/") {
+          this.headTop = $(document).scrollTop();
+        }
+      });
+      // $(window).on('resize',(ev)=>{
+      //     if(this.$route.path=='/'){
+      //         this.headLeft=$('.bolg_list').width()+$('.bolg_list').offset().left+40;
+      //         this.headLeft_2=$('.bolg_list').offset().left-40-$('.head_left').width();
+      //     }
+      // })
+    },
     text(str) {
       str = str.replace(/<\/?[^>]*>/g, ""); //去除HTML tag
       str = str.replace(/[ | ]*\n/g, "\n"); //去除行尾空白
@@ -217,7 +280,7 @@ export default {
     position: fixed;
     top: 5rem;
     width: 100%;
-    z-index: 100;
+    z-index: 102;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     transition: all 0.2s;
     transform: translateZ(0);

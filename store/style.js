@@ -26,22 +26,18 @@ export const state = () => ({
       color: 'rgb(246,196,1)'
     },
     '架构': {
-      style: 'md-map',
+      style: 'el-icon-printer',
       color: 'rgb(128,168,225)'
     },
     '算法': {
       style: 'el-icon-edit',
       color: 'rgb(240,57,65)'
     },
-    '其它': {
-      style: 'ios-more',
-      color: '#ff9900'
-    },
     //干货页标签
-    '游戏': 'error',
-    '效果': 'success',
-    '页面': 'primary',
-    '功能': 'rgb(138,45,226)',
-    '情侣': '#FFA2D3'
+    // '游戏': 'error',
+    // '效果': 'success',
+    // '页面': 'primary',
+    // '功能': 'rgb(138,45,226)',
+    // '情侣': '#FFA2D3'
   }
 })

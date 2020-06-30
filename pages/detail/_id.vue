@@ -321,6 +321,7 @@ import {
 //import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
 export default {
+  name:"DetailId",
   data() {
     return {
       lastArticle: {},

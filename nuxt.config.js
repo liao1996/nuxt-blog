@@ -35,7 +35,8 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
-    '@/plugins/cookie'
+    '@/plugins/cookie',
+    { src: '@/plugins/infinite-scroll', ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -64,8 +65,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      target: 'http://www.eightythousand.com:12937/blog/',
-      // target: 'http://localhost:12937/blog/',
+      // target: 'http://www.eightythousand.com:12937/blog/',
+       target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },

@@ -1,110 +1,81 @@
 <template>
-  <div 
-    class="search-from"
-    :class="{
-      'focus': focused
-    }">
-    <input
-      v-model="currentValue"
-      class="search-input"
-      :type="type"
-      :placeholder="placeholder"
-      :maxlength="~~maxlength"
-      @keyup.enter="search"
-      @change="handleChange"
-      @input="handleInput"
-      @focus="handleFocus"
-      @blur="handleBlur">
-    <img v-show="type === 'search'" class="search-icon" :src="searchImg" alt="搜索">
-  </div>
+  <el-autocomplete
+    popper-class="my-autocomplete"
+    v-model="state"
+    :fetch-suggestions="querySearch"
+    placeholder="搜索文章"
+    @select="handleSelect"
+  >
+    <i class="el-icon-search el-input__icon" slot="suffix" @click="handleIconClick"></i>
+    <template slot-scope="{ item }">
+      <div class="name">{{ item.title }}</div>
+      <span class="addr">{{ text(item.content )}}</span>
+    </template>
+  </el-autocomplete>
 </template>
 
-<script>
-export default {
-  name: 'VInput',
-  props: {
-    type: {
-      type: String,
-      default: 'search'
-    },
-    placeholder: {
-      type: String,
-      default: '搜索文章'
-    },
-    maxlength: {
-      type: [Number, String],
-      default: 20
-    },
-    value: {
-      type: String,
-      default: ''
-    }
-  },
-  data () {
-    return {
-      currentValue: this.value,
-      focused: false,
-      searchImg: require('@/assets/img/search.svg')
-    }
-  },
-  watch: {
-    focused (val) {
-      if (val) {
-        this.searchImg = require('@/assets/img/active-search.svg')
-      } else {
-        this.searchImg = require('@/assets/img/search.svg')
-      }
-    }
-  },
-  methods: {
-    search () {
-      this.$emit('search', this.currentValue)
-    },
-    handleChange () {
-      this.$emit('change', this.currentValue)
-    },
-    handleInput () {
-      this.$emit('input', this.currentValue)
-    },
-    handleFocus (event) {
-      this.focused = true
-      this.$emit('focus', event)
-    },
-    handleBlur (event) {
-      this.focused = false
-      this.$emit('blur', event)
-    }
-  }
-}
-</script>
+<style lang="stylus">
+.my-autocomplete {
+  li {
+    line-height: normal;
+    padding: 7px;
 
-<style lang="stylus" scoped>
-.search-from {
-  display flex
-  align-items center
-  -webkit-box-pack justify
-  -ms-flex-pack justify
-  justify-content space-between
-  border 1px solid hsla(0, 0%, 59%, .2)
-  border-radius 2px
-  background-color rgba(227, 231, 236, .2)
-  .search-input {
-    border none
-    width 10rem
-    padding .6rem 1rem
-    box-shadow none
-    outline none
-    font-size 1.1rem
-    color #666
-    background-color transparent
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .addr {
+      font-size: 12px;
+      color: #b4b4b4;
+    }
+
+    .highlighted .addr {
+      color: #ddd;
+    }
   }
-  .search-icon {
-    padding 0 .5rem
-    cursor pointer  
-  }
-}
-.search-from.focus {
-  background #fff
-  border 1px solid #007fff  
 }
 </style>
+
+<script>
+import { getQueryString, getQueryBlogList } from "~/api/articlelist";
+export default {
+  data() {
+    return {
+      state: ""
+    };
+  },
+  methods: {
+    querySearch(queryString, cb) {
+     // if (queryString.length > 0) {
+        getQueryString(queryString).then(res => {
+          cb(res.result.data);
+        });
+     // }
+    },
+    text(str) {
+      str = str.replace(/<\/?[^>]*>/g, ""); //去除HTML tag
+      str = str.replace(/[ | ]*\n/g, "\n"); //去除行尾空白
+      str = str.replace(/\n[\s| | ]*\r/g, "\n"); //去除多余空行
+      str = str.replace(/&nbsp;/gi, ""); //去掉&nbsp;
+      str = str.replace(/\s/g, ""); //将空格去掉
+      return str;
+    },
+    handleSelect(item) {
+      const title = item.title;
+      getQueryBlogList(title).then(res => {
+        const data = res.result.data;
+        //this.$store.commit("global/updateBlogList",data)
+        this.$router.push({
+          name: "detail-id",
+          path: "/detail",
+          query: { id: parseInt(data[0].id) }
+        });
+      });
+    },
+    handleIconClick(ev) {
+      console.log(ev);
+    }
+  }
+};
+</script>
