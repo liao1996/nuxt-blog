@@ -2,7 +2,7 @@
   <header class="v-header">
     <div class="header-container">
       <nuxt-link to="/">
-        <img src="~/assets/img/lzLogo.png" alt="掘金" class="logo-img" />
+        <img src="~/assets/img/lzLogo.png" class="logo-img" />
       </nuxt-link>
       <nav class="main-nav">
         <ul class="nav-list">
@@ -24,11 +24,11 @@
     src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
     pic: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.jpg'
   }"
-          /> -->
-          <li class="nav-item auth">
+          />-->
+          <!-- <li class="nav-item auth">
             <span class="login">登录</span>
             <span class="register">注册</span>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
@@ -77,7 +77,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 99;
+  z-index: 103;
   height: 5rem;
   background: #fff;
   color: #909090;
@@ -92,8 +92,8 @@ export default {
     position: relative;
 
     .logo-img {
-      width: 20rem;
-      height: 20rem;
+      width: 10rem;
+      height: 4rem;
     }
   }
 

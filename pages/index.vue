@@ -22,7 +22,7 @@
         </el-submenu>
         <el-menu-item index="3" disabled title="登陆后才能查看">消息中心</el-menu-item>
         <el-menu-item index="4">
-          <a href="http://www.eightythousand.com" target="_blank">小喵八万</a>
+          <a href="http://www.eightythousand.com:518" target="_blank">小喵八万</a>
         </el-menu-item>
       </el-menu>
       <div class="line"></div>
@@ -33,7 +33,7 @@
         tag="ul"
         class="bolg_list"
         v-infinite-scroll="loadMore"
-        infinite-scroll-disabled="disabled "
+        :infinite-scroll-disabled="disabled "
         infinite-scroll-distance="10"
       >
         <li
@@ -128,7 +128,7 @@
       >
       </Tooltip>-->
       <div class="head_img_box">
-        <img :src="headImg" alt />
+        <img :src="headImg"  />
         <!-- <Icon type="ios-contact" size="60"/> -->
       </div>
       <p class="head_intro">一只小透明的窝</p>
@@ -138,7 +138,6 @@
 
 <script>
 import headImg from "~/assets/img/header.jpg";
-import Logo from "~/components/Logo.vue";
 import { getBlogList } from "~/api/articlelist";
 import $ from "jquery";
 const getdata = (id = 0, falge = 0, size = 3) => {
@@ -151,10 +150,7 @@ const getdata = (id = 0, falge = 0, size = 3) => {
     .catch(err => {});
 };
 export default {
-   name:"Index",
-  components: {
-    Logo
-  },
+  name:"Index",
   data() {
     
     return {
@@ -288,6 +284,9 @@ export default {
     .el-menu-demo {
       left: 38rem;
     }
+  }
+  /deep/ .el-alert--success.is-light {
+    left :5%
   }
 }
 </style>

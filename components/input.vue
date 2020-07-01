@@ -48,7 +48,7 @@ export default {
   methods: {
     querySearch(queryString, cb) {
      // if (queryString.length > 0) {
-        getQueryString(queryString).then(res => {
+        getQueryString(queryString?queryString:"").then(res => {
           cb(res.result.data);
         });
      // }
