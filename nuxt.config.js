@@ -17,8 +17,12 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {rel:"stylesheet" , href : '/css/font-awesome.min.css'}
     ],
+    script:[{
+      src:"http://www.eightythousand.com:520/autoload.js"
+    }]
 
   },
   /*
@@ -26,7 +30,8 @@ export default {
   */
   css: [
     'element-ui/lib/theme-chalk/index.css',
-    '@/assets/stylus/main.styl'
+    '@/assets/stylus/main.styl',
+   
   ],
 
   /*
