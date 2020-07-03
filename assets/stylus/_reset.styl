@@ -22,6 +22,19 @@ body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, fo
   margin: 0;
   padding: 0;
 }
+::-webkit-scrollbar { /* 滚动条宽 */
+  width: 6px;
+  height: 4px;
+}
+::-webkit-scrollbar-thumb { /* 滚动条 拖动条 */
+  background-color: rgba(0,0,0,.2);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-track { /* 滚动条背景槽 */
+  background-color: #eee;
+  border-radius: 6px;
+}
+
 
 img, article, aside, details, figcaption, figure, footer, header, menu, nav, section, summary, time, mark, audio, video {
   display: block;

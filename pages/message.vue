@@ -1,5 +1,9 @@
 <template>
   <div class="page"> 
+    <figure>
+  <p>黄浦江上的的卢浦大桥</p>
+  <img src="shanghai_lupu_bridge.jpg" width="350" height="234" />
+</figure>
   </div>
 </template>
 

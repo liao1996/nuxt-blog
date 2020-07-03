@@ -1,9 +1,11 @@
 <template>
   <div @click="blackgroundFont">
     <v-header></v-header>
+    
     <main ref="container" class="content-container">
-      <nuxt />
+        <nuxt />
     </main>
+   
     <player></player>
   </div>
 </template>
@@ -90,11 +92,9 @@ export default {
 
 <style lang="stylus" scoped>
 .content-container {
-  position: relative;
-  margin: 0 auto;
+  margin: 90px auto;
   width: 100%;
   max-width: 960px;
-  top: 5rem;
 
   &::after {
     display: table;

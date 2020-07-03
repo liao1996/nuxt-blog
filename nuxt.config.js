@@ -10,7 +10,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: "努力努力再努力",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -18,10 +18,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {rel:"stylesheet" , href : '/css/font-awesome.min.css'}
+      { rel: "stylesheet", href: '/css/font-awesome.min.css' }
     ],
-    script:[{
-      src:"http://www.eightythousand.com:520/autoload.js"
+    script: [{
+      src: "http://www.eightythousand.com:520/autoload.js"
     }]
 
   },
@@ -31,7 +31,7 @@ export default {
   css: [
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/stylus/main.styl',
-   
+
   ],
 
   /*
@@ -41,7 +41,7 @@ export default {
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/cookie',
-    { src: '@/plugins/infinite-scroll', ssr: false }
+    { src: '@/plugins/infinite-scroll', ssr: false },
   ],
   /*
   ** Nuxt.js dev-modules
@@ -52,9 +52,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://github.com/nuxt/content
     '@nuxt/content',
   ],
   /*
@@ -70,8 +68,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      // target: 'http://www.eightythousand.com:12937/blog/',
-       target: 'http://localhost:12937/blog/',
+      target: 'http://www.eightythousand.com:12937/blog/',
+      //target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },

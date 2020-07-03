@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+
     <nav>
       <el-menu
         :default-active="activeIndex"
@@ -27,6 +28,28 @@
       </el-menu>
       <div class="line"></div>
     </nav>
+    <div class="head_left" :style="{top:headTop+'px',left:headLeft+'px'}">
+      <div class="head_left_box">
+        <div class="notice_box">
+          <p class="notice_title">
+            <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>最新公告
+          </p>
+          <transition-group name="noticeList" tag="ul" class="notice_list">
+            <li v-for="item in notice" :key="item.id">
+              <!-- <Icon
+                type="md-radio-button-on"
+                color="rgb(138,43,226)"
+                size="10"
+                style="line-height: 1px;"
+                class="notice_icon"
+              />-->
+              <span class="notice_time">{{item.time}}</span>
+              <p class="notice_content">{{item.content}}</p>
+            </li>
+          </transition-group>
+        </div>
+      </div>
+    </div>
     <div>
       <transition-group
         name="bolgList"
@@ -86,38 +109,17 @@
               </div>
             </div>
             <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
-            <!-- <div class="hr"></div> -->
+            <!-- <div class="hr"></div>  -->
           </nuxt-link>
         </li>
       </transition-group>
 
-      <el-alert v-if="loading" title="加载中" type="info" :closable="false" center show-icon></el-alert>
+      <el-alert  v-if="loading" title="加载中..." type="info" :closable="false" center show-icon></el-alert>
       <el-alert v-if="noMore" title="没有更多了" type="success" :closable="false" center show-icon></el-alert>
     </div>
 
-    <div class="head_left" :style="{top:headTop+'px',left:headLeft_2+'px'}">
-      <div class="head_left_box">
-        <div class="notice_box">
-          <p class="notice_title">
-            <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>最新公告
-          </p>
-          <transition-group name="noticeList" tag="ul" class="notice_list">
-            <li v-for="item in notice" :key="item.id">
-              <!-- <Icon
-                type="md-radio-button-on"
-                color="rgb(138,43,226)"
-                size="10"
-                style="line-height: 1px;"
-                class="notice_icon"
-              />-->
-              <span class="notice_time">{{item.time}}</span>
-              <p class="notice_content">{{item.content}}</p>
-            </li>
-          </transition-group>
-        </div>
-      </div>
-    </div>
-    <div class="head_right" :style="{top:headTop+'px',left:headLeft+'px'}">
+    
+    <div class="head_right" :style="{top:headTop+'px',right:headRight+'px'}">
       <!-- <Tooltip
         max-width="200"
         :always="tipStatus"
@@ -132,6 +134,7 @@
         <!-- <Icon type="ios-contact" size="60"/> -->
       </div>
       <p class="head_intro">一只小透明的窝</p>
+    <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
   </div>
 </template>
@@ -155,9 +158,9 @@ export default {
     
     return {
       headImg: headImg,
-      headTop: 0,
-      headLeft: 1070,
-      headLeft_2: -220,
+      headTop: 150,
+      headRight: 157,
+      headLeft: 250,
       activeIndex: "1",
       notice: [
         {
@@ -235,19 +238,11 @@ export default {
       this.bolgListClick = "";
     },
     BindEvent() {
-      // this.headLeft=$('.bolg_list').width()+$('.bolg_list').offset().left+50+40;
-      // this.headLeft_2=$('.bolg_list').offset().left-40-$('.head_left').width()+50;
       $(document).on("scroll", ev => {
         if (this.$route.path == "/") {
-          this.headTop = $(document).scrollTop();
+          this.headTop = $(document).scrollTop()+150;
         }
       });
-      // $(window).on('resize',(ev)=>{
-      //     if(this.$route.path=='/'){
-      //         this.headLeft=$('.bolg_list').width()+$('.bolg_list').offset().left+40;
-      //         this.headLeft_2=$('.bolg_list').offset().left-40-$('.head_left').width();
-      //     }
-      // })
     },
     text(str) {
       str = str.replace(/<\/?[^>]*>/g, ""); //去除HTML tag
@@ -285,8 +280,9 @@ export default {
       left: 38rem;
     }
   }
-  /deep/ .el-alert--success.is-light {
-    left :5%
+  /deep/ .el-alert--success , .el-alert--info {
+    left :5%;
+    top: 25px;
   }
 }
 </style>
