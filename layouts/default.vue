@@ -92,9 +92,9 @@ export default {
 
 <style lang="stylus" scoped>
 .content-container {
-  margin: 90px auto;
+  // margin: 90px auto;
   width: 100%;
-  max-width: 960px;
+ // max-width: 960px;
 
   &::after {
     display: table;

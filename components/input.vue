@@ -40,6 +40,7 @@
 <script>
 import { getQueryString, getQueryBlogList } from "~/api/articlelist";
 export default {
+  name:"VInput",
   data() {
     return {
       state: ""

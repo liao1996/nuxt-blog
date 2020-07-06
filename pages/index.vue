@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-
     <nav>
       <el-menu
         :default-active="activeIndex"
@@ -28,7 +27,7 @@
       </el-menu>
       <div class="line"></div>
     </nav>
-    <div class="head_left" :style="{top:headTop+'px',left:headLeft+'px'}">
+    <div class="head_left" :style="{top:headTop+'px',left:headLeft+'%'}">
       <div class="head_left_box">
         <div class="notice_box">
           <p class="notice_title">
@@ -114,12 +113,11 @@
         </li>
       </transition-group>
 
-      <el-alert  v-if="loading" title="加载中..." type="info" :closable="false" center show-icon></el-alert>
+      <el-alert v-if="loading" title="加载中..." type="info" :closable="false" center show-icon></el-alert>
       <el-alert v-if="noMore" title="没有更多了" type="success" :closable="false" center show-icon></el-alert>
     </div>
 
-    
-    <div class="head_right" :style="{top:headTop+'px',right:headRight+'px'}">
+    <div class="head_right" :style="{top:headTop+'px',right:headRight+'%'}">
       <!-- <Tooltip
         max-width="200"
         :always="tipStatus"
@@ -130,11 +128,11 @@
       >
       </Tooltip>-->
       <div class="head_img_box">
-        <img :src="headImg"  />
+        <img :src="headImg" />
         <!-- <Icon type="ios-contact" size="60"/> -->
       </div>
       <p class="head_intro">一只小透明的窝</p>
-    <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
+      <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
   </div>
 </template>
@@ -153,14 +151,13 @@ const getdata = (id = 0, falge = 0, size = 3) => {
     .catch(err => {});
 };
 export default {
-  name:"Index",
+  name: "Index",
   data() {
-    
     return {
       headImg: headImg,
       headTop: 150,
-      headRight: 157,
-      headLeft: 250,
+      headRight: 5,
+      headLeft: 5,
       activeIndex: "1",
       notice: [
         {
@@ -194,7 +191,7 @@ export default {
       return this.loading || this.noMore;
     },
     noMore() {
-      return this.blogList.length <= this.count;
+      return this.blogList.length >= this.count;
     },
     count() {
       return this.$store.state.global.count;
@@ -215,20 +212,22 @@ export default {
   },
   methods: {
     loadMore() {
-      if (this.noMore && this.size <=this.count) {
+      if (!this.noMore) {
         this.loading = true;
         this.size += 2;
         getdata(0, this.falge, this.size).then(res => {
           this.$store.commit("global/updateBlogList", res.data);
+          this.$store.commit("global/updateCount", res.count);
           this.loading = false;
         });
       }
     },
     handleSelect(key) {
       this.falge = key;
-      this.size = 3
+      this.size = 3;
       getdata(0, this.falge).then(res => {
         this.$store.commit("global/updateBlogList", res.data);
+        this.$store.commit("global/updateCount", res.count);
       });
     },
     BolgDown(el) {
@@ -240,7 +239,7 @@ export default {
     BindEvent() {
       $(document).on("scroll", ev => {
         if (this.$route.path == "/") {
-          this.headTop = $(document).scrollTop()+150;
+          this.headTop = $(document).scrollTop() + 150;
         }
       });
     },
@@ -280,8 +279,10 @@ export default {
       left: 38rem;
     }
   }
-  /deep/ .el-alert--success , .el-alert--info {
-    left :5%;
+
+  /deep/ .el-alert--success, .el-alert--info {
+    width: 90rem;
+    margin: auto;
     top: 25px;
   }
 }

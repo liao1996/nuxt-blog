@@ -33,24 +33,19 @@ export const getQueryString = (title) => {
   return request.get(`lz/index/findQueryString.htm?title=${title}`);
 }
 
-
-export const GetArticleNum = (k) => {
-  return axios.post('lz/users/articleNum', {
-    keyword: k
-  });
+//留言板
+export const getMessageList = () => {
+  return request.get(`lz/index/findMessageList.htm`);
+}
+//增加留言
+export const insertMessage = (content) => {
+  return request.get(`lz/index/insertMessage.htm?content=${content}`);
 }
 
 
 
 
 
-export const GetNotice = (f, t) => {
-  return axios.post('lz/users/notice', {
-    fromNum: f,
-    toNum: t
-  });
-}
 
-export const GetFri = () => {
-  return axios.get('lz/knowledge/fri.json');
-}
+
+

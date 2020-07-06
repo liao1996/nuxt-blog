@@ -73,6 +73,7 @@ export default {
 <style scoped lang="scss" rel="stylesheet/stylus">
 .page {
   font-family: "微软雅黑";
+  margin: 15rem 20rem;
   .el-row {
     margin-top: 20px;
     margin-bottom: 20px;
