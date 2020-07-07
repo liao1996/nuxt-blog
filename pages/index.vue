@@ -118,20 +118,23 @@
     </div>
 
     <div class="head_right" :style="{top:headTop+'px',right:headRight+'%'}">
-      <!-- <Tooltip
-        max-width="200"
-        :always="tipStatus"
-        :delay="tipDelay"
-        placement="top"
-        class="head_img_content_box"
-        :content="tipContent"
-      >
-      </Tooltip>-->
-      <div class="head_img_box">
-        <img :src="headImg" />
-        <!-- <Icon type="ios-contact" size="60"/> -->
-      </div>
-      <p class="head_intro">一只小透明的窝</p>
+       <el-card shadow="hover">
+          <div slot="header">
+            <span>仿佛有人在说我帅</span>
+            <el-button
+              style="float: right; padding: 3px 0;"
+              type="text"
+              @click="handleProfile"
+              icon="el-icon-refresh-right"
+              >
+            </el-button>
+          </div>
+          <vab-profile
+            v-if="profileShow"
+            :avatar="headImg"
+            user-name="一只小透明的窝"
+          ></vab-profile>
+           </el-card>
       <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
   </div>
@@ -139,6 +142,7 @@
 
 <script>
 import headImg from "~/assets/img/header.jpg";
+import VabProfile from "~/components/VabProfile";
 import { getBlogList } from "~/api/articlelist";
 import $ from "jquery";
 const getdata = (id = 0, falge = 0, size = 3) => {
@@ -152,8 +156,12 @@ const getdata = (id = 0, falge = 0, size = 3) => {
 };
 export default {
   name: "Index",
+  components: {
+    VabProfile
+  },
   data() {
     return {
+      profileShow: true,
       headImg: headImg,
       headTop: 150,
       headRight: 5,
@@ -204,13 +212,15 @@ export default {
   },
   mounted() {
     this.BindEvent();
-    // if (process.browser) {
-    //   getdata().then(res => {
-    //     this.blogList = res;
-    //   });
-    // }
+     this.handleProfile();
   },
   methods: {
+    handleProfile() {
+      this.profileShow = false;
+      setTimeout(() => {
+        this.profileShow = true;
+      });
+    },
     loadMore() {
       if (!this.noMore) {
         this.loading = true;

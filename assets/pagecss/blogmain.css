@@ -329,7 +329,7 @@
 }
 
 .head_right {
-  width: 200px;
+  width: 280px;
   height: 200px;
   position: absolute;
   transition: all .3s;
@@ -342,12 +342,11 @@
 
 .head_right a {
   position: absolute;
-  top: 210px;
-  left: 45px;
+  left: 90px;
 }
 
 .head_left {
-  width: 200px;
+  width: 280px;
   height: auto;
   position: absolute;
   transition: all .3s;

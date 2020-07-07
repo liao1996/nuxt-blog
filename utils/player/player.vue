@@ -9,7 +9,7 @@
                 <div class="music_list">
                     <div class="list_l">
                         <ul class="music_type">
-                            <li v-for="item in musicTypeList" @click="_getMusicType(item.id)" :class="{type_active:item.id==thisMusicType}">{{item.name}}</li>
+                            <li v-for="item in musicTypeList" @click="_getMusicType(item.id)" :class="{type_active:item.id==thisMusicType}" :key="item.id">{{item.name}}</li>
                         </ul>
                         <div class="list_title">
                             <span style="font-size: 14px;">歌曲列表</span>
@@ -18,7 +18,7 @@
                                 <input type="text" class="music_search" v-model="musicSearchVal" placeholder="搜索歌曲">
                                 <transition name="music_search">
                                     <ul  class="search_list" v-if="musicSearchVal!=''">
-                                        <li v-for="item in musicSearchList" @click="ListAdd(item)">
+                                        <li v-for="item in musicSearchList" @click="ListAdd(item)" :key="item.name">
                                             <span class="music_search_name">{{item.name}}</span>
                                             <span class="music_search_ar">{{item.artists[0].name}}</span>
                                         </li>
@@ -30,7 +30,7 @@
                             <span>歌曲</span><span>歌手</span><span>专辑</span>
                         </div>
                         <ul class="list">
-                            <li v-for="(item,index) in thisMusicList" @mouseover="ButtonActive(index)" @dblclick="ListPlay((thisListPage-1)*10+index)">
+                            <li v-for="(item,index) in thisMusicList" @mouseover="ButtonActive(index)" @dblclick="ListPlay((thisListPage-1)*10+index)" :key="index">
                                 <div class="this_music_shlter" v-if="(thisListPage-1)*10+index==thisMusicIndex"></div>
                                 <span>{{item.name}}</span><span>{{item.ar[0].name}}</span><span>{{item.al.name}}</span>
                                 <transition name="list_button">
@@ -42,12 +42,12 @@
                             </li>
                         </ul>
                         <div class="list_page">
-                            <div class="page_last" v-if="thisListPage!=1"  @click="ListChange(true)"><</div>
-                            <div class="page_next"  v-if="thisListPage!=Math.ceil(musicList.length/10)" @click="ListChange(false)">></div>
+                            <div class="page_last" v-if="thisListPage!=1"  @click="ListChange(true)"><i class="el-icon-d-arrow-left"></i></div>
+                            <div class="page_next"  v-if="thisListPage!=Math.ceil(musicList.length/10)" @click="ListChange(false)"><i class="el-icon-d-arrow-right"></i></div>
                         </div>
                     </div>
                     <div class="list_r">
-                        <img class="music_list_bg" :src="musicImg"></img>
+                        <img class="music_list_bg" :src="musicImg" />
                         <div class="music_list_shlter" :style="{backgroundImage:'url('+shlter+')'}"></div>
                         
                     </div>
@@ -67,7 +67,7 @@
                     <p class="music_intro">歌手: {{musicName}}</p>
                     <ul class="music_words">
                         <div class="music_words_box" :style="{top:wordsTop+'px'}">  
-                            <li v-for="(item,index) in musicWords" class="music_word" :class="{word_highlight:wordIndex==index}">{{item}}</li>
+                            <li v-for="(item,index) in musicWords" class="music_word" :class="{word_highlight:wordIndex==index}" :key="index">{{item}}</li>
                         </div>
                     </ul>
                 </div>
@@ -136,10 +136,10 @@ export default {
             listButtonActiveIndex:-1,
             thisListPage:1,
             musicTypeList:[
-                {name:'热歌榜',id:1},
-                {name:'新歌榜',id:0},
-                {name:'飙升榜',id:3},
-                {name:'嘻哈榜',id:18},
+                {name:'热歌榜',id:3778678},
+                {name:'新歌榜',id:3779629},
+                {name:'飙升榜',id:19723756},
+                {name:'个人爱听',id:3194482794},
                 {name:'My Songs',id:-1}
             ],
             thisMusicType:-1,
@@ -155,7 +155,7 @@ export default {
     },
     mounted() {
         this.Player();      
-        this._getMusicType(3);      
+        this._getMusicType(3778678);      
     },
     created() {
     },

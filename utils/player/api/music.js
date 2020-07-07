@@ -13,7 +13,7 @@ export const getMusicUrl=(id)=>{
 }
 //获取热门歌曲
 export const getHotMusic=(id)=>{
-    return axios.get(`api/top/list?idx=${id}`);
+    return axios.get(`api/playlist/detail?id=${id}`);
 }
 //获取搜索建议
 export const getSearchSuggest=(key)=>{

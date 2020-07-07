@@ -66,7 +66,7 @@ export default {
   },
   proxy: {
     '/api': {
-      target: 'https://blogme.top:3000/',
+      target: 'http://www.eightythousand.com:4000/',
       pathRewrite: { '^/api': '' }
     },
     '/lz': {

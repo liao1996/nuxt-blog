@@ -142,9 +142,7 @@ export default {
     };
   },
   created() {
-    if (process.client) {
-      this._getMessageList();
-    }
+    this._getMessageList();
   },
   mounted() {
     this.setCanvasSize();
@@ -154,7 +152,6 @@ export default {
     messageList() {
       this.$nextTick(() => {
         var aShowList = document.querySelectorAll(".s_show div"); //获取元素 H5
-        console.log(aShowList);
         for (var i = 0; i < aShowList.length; i++) {
           this.initMessage(aShowList[i]); //执行初始化函数
         }
@@ -192,7 +189,8 @@ export default {
               type: "success"
             });
             this._getMessageList();
-            this.message = "";
+            this.message = ""; 
+            //不能实时加入留言，后面还需优化
             // this.messageList.push
             // var oShow = document.querySelector('.s_show');
             // var oDiv = document.createElement("div"); //创建div
@@ -288,7 +286,7 @@ export default {
       if (id == 0 || id - stepback < 0) return false;
       if (typeof this.dots[id - stepback] != "undefined")
         return this.dots[id - stepback];
-      else return false; //getPreviousDot(id - stepback);
+      else return false; 
     },
     //留言移动
     moveMessage(k, obj, maxLeft) {
@@ -315,20 +313,16 @@ export default {
     },
     initMessage(obj) {
       //确定top值的随机区间
-
-      // var oSend = document.querySelector('.send');
+      var header = document.querySelector('.v-header');   //获取头部
       var screenHeight = document.documentElement.clientHeight; //获取屏幕可视高度
-      var maxTop = screenHeight - obj.offsetHeight; //高度差范围
+      var maxTop = screenHeight - header.offsetHeight- obj.offsetHeight; //高度差范围
       obj.style.top = maxTop * Math.random() + "px";
       //控制left值
       var screenWidth = document.documentElement.clientWidth; //获取可视宽度
       var maxLeft = screenWidth - obj.offsetWidth; /* - Math.random() * 800 */ //随机宽度差
       obj.style.left = maxLeft + "px";
-
-      obj.style.color = this.randomColor(); //普通定时器
-      /*setInterval(function(){
-		move(obj,maxLeft);
-	},1000);*/ this.moveMessage(
+      obj.style.color = this.randomColor(); 
+      this.moveMessage(
         Math.random() * 5 + 1,
         obj,
         maxLeft

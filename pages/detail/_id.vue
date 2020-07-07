@@ -76,7 +76,7 @@
               >{{item}}</span>
             </p>
           </el-form-item>
-          <el-form-item label="名称" prop="talk">
+          <el-form-item label="名称" prop="name">
             <el-input
               type="text"
               v-model="formItem.name"
@@ -104,7 +104,7 @@
           </el-form-item>
           <el-form-item label="提交">
             <el-button type="success" plain @click="TalkSubmit('formItem')">确认</el-button>
-            <el-button type="info" plain>重置</el-button>
+            <el-button type="info" plain @click="resetForm('formItem')">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -157,7 +157,7 @@
                       >{{item}}</span>
                     </p>
                   </el-form-item>
-                  <el-form-item label="名称" prop="talk">
+                  <el-form-item label="名称" prop="name">
                     <el-input
                       type="text"
                       v-model="formItem.name"
@@ -189,7 +189,7 @@
                       plain
                       @click="TalkSubmit('replyFormItem',item.id,item.name,item.href)"
                     >确认</el-button>
-                    <el-button type="info" plain>重置</el-button>
+                    <el-button type="info" plain @click="resetForm('replyFormItem')">重置</el-button>
                   </el-form-item>
                 </el-form>
               </div>
@@ -247,13 +247,13 @@
                           >{{item}}</span>
                         </p>
                       </el-form-item>
-                      <el-form-item label="名称" prop="talk">
+                      <el-form-item label="名称" prop="name">
                         <el-input
                           type="text"
                           v-model="formItem.name"
                           placeholder="名称"
                           style="width: 300px"
-                          class="talk_name"
+                          
                         ></el-input>
                       </el-form-item>
                       <el-form-item label="网址" prop="href">
@@ -279,7 +279,7 @@
                           plain
                           @click="TalkSubmit('replyFormItem',reply.tid,reply.name,reply.href)"
                         >确认</el-button>
-                        <el-button type="info" plain>重置</el-button>
+                        <el-button type="info" plain @click="resetForm('replyFormItem')">重置</el-button>
                       </el-form-item>
                     </el-form>
                   </div>
@@ -321,7 +321,7 @@ import {
 //import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
 export default {
-  name:"DetailId",
+  name: "DetailId",
   data() {
     return {
       lastArticle: {},
@@ -364,6 +364,8 @@ export default {
             trigger: "blur"
           }
         ],
+        name: [
+          { required: true, message: "名称不能为空", trigger: "blur" }],
         href: [
           {
             type: "string",
@@ -473,6 +475,14 @@ export default {
   },
   computed: {},
   methods: {
+    //重置
+    resetForm(formName) {
+      let ref = this.$refs[formName];
+      if (formName == "replyFormItem") {
+        ref = this.$refs[formName][0]; //解决的表单循环机制
+      }
+      ref.resetFields();
+    },
     append(emoji) {
       this.formItem.talk = this.formItem.talk + emoji;
     },
@@ -572,22 +582,14 @@ export default {
       });
     },
     Back() {
-      // if(sessionStorage.getItem('nowPage'))
-      // {
-      //     sessionStorage.setItem('nowPage',1);
-      // }
       this.$router.push("/");
     },
-    // SexActive(val){
-    //     this.sexActive=val;
-    //     this.formItem.sex=val;
-    // },
     TalkSubmit(name, tid = 0, toname = "", tohref = "") {
       const that = this;
       let ref = this.$refs[name];
       console.log(ref);
       if (tid != 0) {
-        ref = this.$refs[name][0]; //解决iview的表单循环机制
+        ref = this.$refs[name][0]; //解决的表单循环机制
       }
       if (!that.$cookie.get("name")) {
         ref.validate(valid => {
@@ -612,9 +614,6 @@ export default {
                 message: "请先填写评论"
               });
             } else {
-              //提交上去
-              // this.formItem.name = this.HtmlEscape(this.formItem.name);
-              // this.formItem.talk = this.HtmlEscape(this.formItem.talk);
               insertTalk(encodeURI(JSON.stringify(this.formItem))).then(res => {
                 if (res.result.msg) {
                   this.$message({
@@ -669,11 +668,6 @@ export default {
   filters: {
     FontFilter(val) {
       return val.substr(0, 200) + "...";
-    }
-  },
-  watch: {
-    $route(to, from) {
-      this._getArticle();
     }
   }
 };
