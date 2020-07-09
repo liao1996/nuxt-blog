@@ -58,6 +58,7 @@
         :infinite-scroll-disabled="disabled "
         infinite-scroll-distance="10"
       >
+
         <li
           v-for="(item,index) in blogList"
           :key="item.title"
@@ -69,6 +70,7 @@
         >
           <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: item.id}}">
             <div class="list_img_box">
+      <span v-if="item.isTop===1" class="isTop"> 置顶</span>
               <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
               <div class="list_title_box">
                 <div class="list_title">
@@ -110,6 +112,7 @@
             <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
             <!-- <div class="hr"></div>  -->
           </nuxt-link>
+    
         </li>
       </transition-group>
 
@@ -155,6 +158,7 @@ const getdata = (id = 0, falge = 0, size = 3) => {
     .catch(err => {});
 };
 export default {
+ 
   name: "Index",
   components: {
     VabProfile

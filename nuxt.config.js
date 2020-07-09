@@ -10,7 +10,7 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: "江家大小姐",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -70,8 +70,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      target: 'http://www.eightythousand.com:12937/blog/',
-       //target: 'http://localhost:12937/blog/',
+      //target: 'http://www.eightythousand.com:12937/blog/',
+      target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },

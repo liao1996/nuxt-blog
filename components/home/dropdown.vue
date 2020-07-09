@@ -36,8 +36,8 @@ export default {
       title: "首页",
       items: [
         { name: "index", title: "首页" },
-        { name: "comment", title: "评论区" },
-        { name: "knowledge", title: "知识点" },
+        { name: "pigeonhole", title: "归档" },
+        { name: "happy", title: "娱乐中心" },
         { name: "message", title: "留言板" },
         { name: "aboutme", title: "关于我" }
       ]

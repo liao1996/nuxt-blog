@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" id="rollback">
     <!-- <div class="box_img_box1">
         <div class="box_img_shelter1"></div>
         <img :src="ArticleInfo.imgUrl" alt="" class="box_img1">
@@ -97,8 +97,8 @@
                 placeholder="请选择"
                 style="width: 100px"
               >
-                <el-option label="http://" value="1"></el-option>
-                <el-option label="https://" value="2"></el-option>
+                <el-option label="http://" value="http://"></el-option>
+                <el-option label="https://" value="https://"></el-option>
               </el-select>
             </el-input>
           </el-form-item>
@@ -178,8 +178,8 @@
                         placeholder="请选择"
                         style="width: 100px"
                       >
-                        <el-option label="http://" value="1"></el-option>
-                        <el-option label="https://" value="2"></el-option>
+                        <el-option label="http://" value="http://"></el-option>
+                        <el-option label="https://" value="https://"></el-option>
                       </el-select>
                     </el-input>
                   </el-form-item>
@@ -253,7 +253,6 @@
                           v-model="formItem.name"
                           placeholder="名称"
                           style="width: 300px"
-                          
                         ></el-input>
                       </el-form-item>
                       <el-form-item label="网址" prop="href">
@@ -268,8 +267,8 @@
                             placeholder="请选择"
                             style="width: 100px"
                           >
-                            <el-option label="http://" value="1"></el-option>
-                            <el-option label="https://" value="2"></el-option>
+                            <el-option label="http://" value="http://"></el-option>
+                            <el-option label="https://" value="https://"></el-option>
                           </el-select>
                         </el-input>
                       </el-form-item>
@@ -364,8 +363,7 @@ export default {
             trigger: "blur"
           }
         ],
-        name: [
-          { required: true, message: "名称不能为空", trigger: "blur" }],
+        name: [{ required: true, message: "名称不能为空", trigger: "blur" }],
         href: [
           {
             type: "string",
@@ -464,11 +462,13 @@ export default {
       // sexActive:0
     };
   },
-  created() {
-    // if(!sessionStorage.getItem('nowPage'))
-    // {
-    //     sessionStorage.setItem('nowPage',index);
-    // }\
+  watch: {
+    $route(to, from) {
+      this._getArticle();
+      document.getElementById("rollback").scrollIntoView({
+        behavior: "smooth"
+      });
+    }
   },
   mounted() {
     this._getArticle();
@@ -568,6 +568,7 @@ export default {
       });
     },
     Last(id) {
+      console.log(111);
       this.$router.push({
         name: "detail-id",
         path: "/detail",
@@ -606,7 +607,12 @@ export default {
               this.formItem.head == "" ||
               this.formItem.head == undefined
             ) {
-              this.formItem.head = "0";
+              this.$notify.error({
+                title: "错误",
+                message:
+                  "您必须选择协议，否则点击头像时无法正常跳转！或者您可以不填写您的网站！"
+              });
+              return ; 
             }
             if (this.formItem.talk == "") {
               this.$notify.error({

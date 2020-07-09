@@ -19,6 +19,7 @@ export default {
     VHeader,
     Player
   },
+  name:"Default",
   data() {
     return {
       fqIndex: 0,

@@ -1,43 +1,34 @@
 export const state = () => ({
   tag: {
-
-    HTML: {
-      style: 'logo-html5',
-      color: 'rgb(45,140,240)'
-    },
-    CSS: {
-      style: 'logo-css3',
-      color: 'rgb(255,162,211)'
-    },
-    JS: {
-      style: 'logo-nodejs',
-      color: 'rgb(138,43,226)'
-    },
-    VUE: {
-      style: 'md-disc',
-      color: 'rgb(25,190,107)'
-    },
-    NODEJS: {
-      style: 'logo-nodejs',
-      color: 'rgb(221,17,68)'
-    },
-    ES6: {
-      style: 'md-egg',
-      color: 'rgb(246,196,1)'
-    },
     '架构': {
       style: 'el-icon-printer',
-      color: 'rgb(128,168,225)'
+      color: '#F73809'
     },
     '算法': {
       style: 'el-icon-edit',
-      color: 'rgb(240,57,65)'
+      color: '#33CCCC'
+    },
+    '前端': {
+      style: 'el-icon-s-platform',
+      color: '#C43CC4'
+    },
+    '心灵鸡汤': {
+      style: 'el-icon-hot-water',
+      color: '#BB448C'
+    },
+    '生活琐事': {
+      style: 'el-icon-camera',
+      color: '#0033FF'
+    },
+    '天马行空': {
+      style: 'el-icon-reading',
+      color: '#F4C6D0'
     },
     //干货页标签
-    // '游戏': 'error',
-    // '效果': 'success',
-    // '页面': 'primary',
-    // '功能': 'rgb(138,45,226)',
-    // '情侣': '#FFA2D3'
+    '益智': '#11C2EE',
+    '休闲': '#1AE642',
+    '页面': 'primary',
+    '功能': 'rgb(138,45,226)',
+    '情侣': '#FFA2D3'
   }
 })
