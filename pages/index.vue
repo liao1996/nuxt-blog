@@ -209,7 +209,7 @@ export default {
       return this.$store.state.global.count;
     }
   },
-  async asyncData({ store }) {
+  async fetch ({ store }) {
     const data = await getdata();
     store.commit("global/updateBlogList", data.data);
     store.commit("global/updateCount", data.count);

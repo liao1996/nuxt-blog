@@ -58,7 +58,7 @@ export default {
     height: 100%;
     ::v-deep {
       img {
-        border-radius: $base-border-radius;
+        border-radius: 2px;       
       }
     }
     &__small {
@@ -67,22 +67,22 @@ export default {
       right: 0;
       width: 80px;
       height: 100px;
-      border-bottom: 1px solid $base-color-white;
-      border-left: 1px solid $base-color-white;
-      border-radius: $base-border-radius;
+      border-bottom: 1px solid #fff;
+      border-left: 1px solid #fff;
+      border-radius:2px;
     }
     &__percent {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      display: inline-block;
-      min-width: 50px;
-      height: 25px;
-      line-height: 25px;
-      color: $base-color-white;
-      text-align: center;
-      background-color: $base-color-red;
-      border-radius: $base-border-radius;
+     position: absolute;
+    right: 0;
+    bottom: 0;
+    display: inline-block;
+    min-width: 50px;
+    height: 25px;
+    line-height: 25px;
+    color: #fff;
+    text-align: center;
+    background-color: #ff4d4f;
+    border-radius: 2px;
     }
   }
 }

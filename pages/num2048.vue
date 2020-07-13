@@ -7,12 +7,14 @@
     </header>
     <div class="all-container">
       <div class="background">
-        <span v-for="list in 16"></span>
+        <span v-for="list in 16" :key="list"></span>
       </div>
       <div class="container">
+        <template   v-for="(e,index) in rocks">
+
         <span
           class="list"
-          v-for="(e,index) in rocks"
+         
           v-if="e"
           :key="index"
           :style="`
@@ -26,6 +28,7 @@
             {{e? e.num:''}}
           </span>
         </span>
+        </template>
       </div>
     </div>
   </div>
@@ -360,7 +363,6 @@
     align-items: center;
     height: 100%;
     overflow: auto;
-    margin-top: 6rem;
     header {
       display: flex;
       max-width: 600px;

@@ -41,6 +41,15 @@ export const getMessageList = () => {
 export const insertMessage = (content) => {
   return request.get(`lz/index/insertMessage.htm?content=${content}`);
 }
+//查询充电站学习资料
+export const getRecharge = () => {
+  return request.get(`lz/index/findRecharge.htm`);
+}
+
+//口令是否正确
+export const isPassword = (webPassword) => {
+  return request.get(`lz/index/isPassword.htm?webPassword=${webPassword}`);
+}
 
 
 

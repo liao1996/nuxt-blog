@@ -93,7 +93,7 @@ export default {
 
 <style lang="stylus" scoped>
 .content-container {
-  // margin: 90px auto;
+  margin-top : 5rem;
   width: 100%;
  // max-width: 960px;
 

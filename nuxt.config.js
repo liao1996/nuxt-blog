@@ -21,7 +21,7 @@ export default {
       {rel:"stylesheet" , href : '/css/font-awesome.min.css'}
     ],
     script:[{
-      src:"http://www.eightythousand.com:520/autoload.js"
+      src:"http://www.eightythousand.com:520/autoload.js?"+Math.random()
     }]
 
   },
@@ -70,8 +70,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      //target: 'http://www.eightythousand.com:12937/blog/',
-      target: 'http://localhost:12937/blog/',
+      target: 'http://www.eightythousand.com:12937/blog/',
+      //target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },

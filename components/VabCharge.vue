@@ -60,12 +60,13 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  position: relative;
+  position: fixed;
   display: flex;
   align-items: center; /* 垂直居中 */
   justify-content: center; /* 水平居中 */
   width: 100%;
   background: #000;
+  bottom:0px;
   .g-number {
     position: absolute;
     top: 27%;

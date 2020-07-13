@@ -1,5 +1,8 @@
 <template>
   <div class="wuziqi">
+    <div class="star">
+      <button @click="reStar">开始新的游戏</button>
+    </div>
     <canvas ref="canvas" width="450" height="450" @click="chessClick"></canvas>
   </div>
 </template>
@@ -26,13 +29,30 @@ export default {
     });
   },
   methods: {
+    //重开
+    reStar() {
+      //清空画布
+      this.context.clearRect(0, 0, this.chess.width, this.chess.height);
+      this.context.beginPath();
+      //所有变量清0     
+      this.count = 0;
+      this.chessBoard = [];
+      this.wins = [];
+      this.myWin = [];
+      this.computerWin = [];
+      this.me = true;
+      this.over = false;
+      setTimeout(_ => {
+        // this.init();
+        this.drawChessBoard();
+        this.fillArray();
+      });
+    },
     // 初始化
     init() {
       this.chess = this.$refs.canvas;
       this.context = this.chess.getContext("2d");
-      //this.drawImage(_ => {
       this.drawChessBoard();
-      //});
       this.fillArray();
     },
     // 填充数组
@@ -93,26 +113,10 @@ export default {
         this.computerWin[i] = 0;
       }
     },
-    // 绘制水印
-    // drawImage(callback) {
-    //   const { context } = this;
-    //   const img = new Image();
-    //   img.src = "/images/logo.svg";
-    //   img.onload = _ => {
-    //     context.drawImage(
-    //       img,
-    //       (450 - img.width) / 2,
-    //       (450 - img.height) / 2,
-    //       img.width,
-    //       img.height
-    //     );
-    //     callback();
-    //   };
-    // },
     // 绘制棋盘
     drawChessBoard() {
       const { context } = this;
-      context.strokeStyle = "#bfbfbf";
+      // context.strokeStyle = "#bfbfbf";
       for (let i = 0; i < 15; i++) {
         context.moveTo(15 + i * 30, 15);
         context.lineTo(15 + i * 30, 435);
@@ -271,23 +275,27 @@ export default {
       }
     }
   }
-  // head() {
-  //   return {
-  //     title: "五子棋 | 娱乐",
-  //     meta: [
-  //       { hid: "keywords", name: "keywords", content: "AI五子棋" },
-  //       { hid: "description", name: "description", content: "AI五子棋" }
-  //     ]
-  //   };
-  // }
 };
 </script>
 
 <style lang="scss" scoped>
 .wuziqi {
   position: fixed;
-  margin-top: 6rem;
   margin-left: 35%;
+  .star {
+    width: 40%;
+    margin: 30px auto;
+
+    button {
+      border: none;
+      background: #000;
+      color: #fff;
+      font-size: 20px;
+      padding: 10px 30px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+  }
   canvas {
     border: 1px solid #ddd;
     margin: 20px auto;
