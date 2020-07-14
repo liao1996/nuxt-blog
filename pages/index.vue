@@ -34,14 +34,8 @@
             <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>最新公告
           </p>
           <transition-group name="noticeList" tag="ul" class="notice_list">
-            <li v-for="item in notice" :key="item.id">
-              <!-- <Icon
-                type="md-radio-button-on"
-                color="rgb(138,43,226)"
-                size="10"
-                style="line-height: 1px;"
-                class="notice_icon"
-              />-->
+            <li v-for="(item,index) in notice" :key="item.id">
+              <i v-if="index===0 || index===1" class="iconfont icon-remen" style="color:red"></i>
               <span class="notice_time">{{item.time}}</span>
               <p class="notice_content">{{item.content}}</p>
             </li>
@@ -123,7 +117,7 @@
     <div class="head_right" :style="{top:headTop+'px',right:headRight+'%'}">
        <el-card shadow="hover">
           <div slot="header">
-            <span>仿佛有人在说我帅</span>
+            <span>做一只小透明</span>
             <el-button
               style="float: right; padding: 3px 0;"
               type="text"
@@ -174,18 +168,18 @@ export default {
       notice: [
         {
           id: 12,
-          time: "2020-06-30",
-          content: "增加了分类、搜索功能、文章无限滚动"
+          time: "2020-07-14",
+          content: "完成了第一期的所有功能"
         },
         {
           id: 11,
-          time: "2020-06-29",
-          content: "增加公告栏，上一篇，下一篇"
+          time: "2020-07-07",
+          content: "写了第一篇博客"
         },
-        { id: 10, time: "2019-09-27", content: "评论功能" },
+        { id: 10, time: "2020-06-30", content: "增加了网易云音乐，看板娘" },
         {
           id: 9,
-          time: "2019-06-25",
+          time: "2020-06-25",
           content: "搭建项目，开发首页，详情页"
         }
       ],
@@ -216,14 +210,17 @@ export default {
   },
   mounted() {
     this.BindEvent();
-     this.handleProfile();
+    this.handleProfile();
+    if (process.client) {
+      document.documentElement.style.overflow='scroll';
+    }
   },
   methods: {
     handleProfile() {
       this.profileShow = false;
       setTimeout(() => {
         this.profileShow = true;
-      });
+      },100);
     },
     loadMore() {
       if (!this.noMore) {

@@ -12,7 +12,7 @@
               :percent="item.percent"
               :small-src="item.smallImg"
               @clickBig="bigClick(item.toBig)"
-              @clickSmall="smallClick(item.toSmaill)"
+              @clickSmall="smallClick(item.toSmall)"
             ></vab-img>
           </el-card>
         </el-carousel-item>

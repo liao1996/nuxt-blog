@@ -84,7 +84,7 @@ export default {
       position: absolute;
       height: 40px;
       width: 40px;
-      color: #2BB0BF;
+      color: #fff;
       text-align: center;
       font-size: 10px;
       line-height: 20px;

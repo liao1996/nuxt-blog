@@ -129,20 +129,20 @@
 		"selector": ".need-share-button_qqzone",
 		"text": ["QQ 空间，一键转发，耶～"]
 	}, {
-		"selector": ".need-share-button_twitter",
-		"text": ["Twitter？好像是不存在的东西？"]
+		"selector": ".icon-QQkongjian",
+		"text": ["QQ 空间，一键转发，耶～"]
 	}, {
-		"selector": ".need-share-button_facebook",
-		"text": ["emmm…FB 好像也是不存在的东西？"]
+		"selector": ".icon-weibo",
+		"text": ["分享到微博好像也不错！"]
 	}, {
-		"selector": ".extend.next",
+		"selector": ".last_title",
 		"text": ["去下一页看看吧。", "点它可以前进哦！", "要翻到下一页吗？"]
 	}, {
-		"selector": ".extend.prev",
+		"selector": ".last_title",
 		"text": ["去上一页看看吧。", "点它可以后退哦！", "要翻到上一页吗？"]
 	}, {
-		"selector": ".vmail",
-		"text": ["留下你的邮箱，不然就是无头像人士了！", "记得设置好 Gravatar 头像哦！", "为了方便通知你最新消息，一定要留下邮箱！"]
+		"selector": ".icon-weixin",
+		"text": ["点击分享到微信吧！", "还需要扫描哦"]
 	}, {
 		"selector": ".head_left_box",
 		"text": ["这是公告栏","主人想告诉你的都在这里啦","记得这些事项哦"]

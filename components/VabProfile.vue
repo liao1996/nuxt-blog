@@ -11,13 +11,14 @@
       <div class="username">{{ userName }}</div>
       <div class="social-icons">
         <a
-          v-for="(item, index) in iconArray"
+          v-for="(social, index) in socials"
           :key="index"
+          rel="nofollow noopener"
           class="social-icon"
-          :href="item.url"
-          target="_blank"
+          :title="'分享到' + social.name"
+          @click.prevent="shareWindow(social.name, social.url)"
         >
-          <i :class="item.icon"></i>
+          <i class="iconfont" :class="`icon-${social.icon || social.class || social.name}`"></i>
         </a>
       </div>
     </div>
@@ -41,24 +42,90 @@ export default {
     avatar: {
       type: String,
       default: ""
-    },
-    iconArray: {
-      type: Array,
-      default: () => {
-        return [
-          { icon: "el-icon-message", url: "" },
-          { icon: "el-icon-message", url: "" },
-          { icon: "el-icon-message", url: "" }
-        ];
-      }
     }
   },
   data() {
-    return {};
+    return {
+      socials: [
+        {
+          name: "微信",
+          class: "weixin",
+          url: () => `/iframe/qrcode.html?url=${this.url}`
+        },
+        {
+          name: "微博",
+          class: "weibo",
+          url: () =>
+            `https://service.weibo.com/share/share.php?url=${
+              this.url
+            }&title=${this.title()}&source=${this.url}&sourceUrl=${
+              this.url
+            }&content=${this.description()}`
+        },
+        {
+          name: "QQ空间",
+          class: "QQkongjian",
+          url: () =>
+            `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${
+              this.url
+            }&title=${this.title()}&summary=${this.description()}&site=${
+              this.url
+            }`
+        }
+      ]
+    };
   },
-  created() {},
-  mounted() {},
-  methods: {}
+  computed: {
+    url() {
+      return window.location.href;
+    }
+  },
+  methods: {
+    description() {
+      try {
+        if (document) {
+          return document
+            .getElementsByName("description")[0]
+            .getAttribute("content");
+        }
+      } catch (error) {
+        return "";
+      }
+    },
+    title() {
+      try {
+        if (document) {
+          return document.title;
+        }
+      } catch (error) {
+        return appConfig.meta.title;
+      }
+    },
+    shareWindow(social, url) {
+      const targetUrl = url().includes("mailto")
+        ? url().replace(/\s|\||Surmon.me/g, "")
+        : encodeURI(url());
+      // 给打开的窗口命名
+      const windowName = `分享 `;
+      // 窗口宽度,需要设置
+      const awidth = (screen.availWidth / 6) * 2;
+      // 窗口高度,需要设置
+      const aheight = (screen.availHeight / 5) * 2;
+      // 窗口顶部位置,一般不需要改
+      const atop = (screen.availHeight - aheight) / 2;
+      // 窗口放中央,一般不需要改
+      const aleft = (screen.availWidth - awidth) / 2;
+      // 新窗口的参数
+      const baseParam =
+        "scrollbars=0,status=0,menubar=0,resizable=2,location=0";
+      // 新窗口的左部位置，顶部位置，宽度，高度
+      const params = `top=${atop},left=${aleft},width=${awidth},height=${aheight},${baseParam}`;
+      // 打开新窗口
+      const _window = window.open(targetUrl, windowName, params);
+      // 新窗口获得焦点
+      _window.focus();
+    }
+  }
 };
 </script>
 
@@ -189,6 +256,10 @@ export default {
             }
           }
         }
+        :hover{
+           color: rgb(181, 196, 186);
+          cursor: pointer;
+        }
         &::before,
         &::after {
           position: absolute;
@@ -205,13 +276,22 @@ export default {
           animation: scale-in 0.5s cubic-bezier(0.75, 0, 0, 1) forwards;
         }
         &::after {
-          background: #2c3e50;
+          background: #1873ce;
           animation: scale-in 0.5s cubic-bezier(0.75, 0, 0, 1) forwards;
         }
         i {
           z-index: 99;
           transform: scale(0);
           animation: scale-in 0.5s cubic-bezier(0.75, 0, 0, 1) forwards;
+        }
+        .icon,
+        .iconfont {
+          font-family: "iconfont" !important;
+          font-size: 25px;
+          font-style: normal;
+          -webkit-font-smoothing: antialiased;
+          -webkit-text-stroke-width: 0.2px;
+          -moz-osx-font-smoothing: grayscale;
         }
       }
     }

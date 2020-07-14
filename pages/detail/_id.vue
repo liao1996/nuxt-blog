@@ -309,7 +309,6 @@
   </div>
 </template>
 <script>
-//import 'highlight.js/styles/atom-one-dark.css'
 import {
   addReadNum,
   addLoveNum,
@@ -317,7 +316,6 @@ import {
   getTalkList,
   insertTalk
 } from "~/api/articlelist";
-//import { AddTalk,GetTalk } from '~/api/talk'
 import "~/assets/pagecss/handleimg.css";
 export default {
   name: "DetailId",

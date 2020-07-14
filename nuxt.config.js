@@ -18,12 +18,13 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {rel:"stylesheet" , href : '/css/font-awesome.min.css'}
-    ],
-    script:[{
-      src:"http://www.eightythousand.com:520/autoload.js?"+Math.random()
-    }]
+      { rel: "stylesheet", href: '/css/font-awesome.min.css' },
+      { rel: "stylesheet", href: '/icon/iconfont.css' }
 
+    ],
+    script: [{
+      src: "http://www.eightythousand.com:520/autoload.js"
+    }]
   },
   /*
   ** Global CSS
@@ -31,7 +32,7 @@ export default {
   css: [
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/stylus/main.styl',
-   
+
   ],
 
   /*

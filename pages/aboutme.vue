@@ -49,7 +49,10 @@
     <span>
       <i class="el-icon-office-building"></i>HTML5, CSS3, JavaScript, Java, Vue, Nuxt, Egg, Koa, MySql,Linux
     </span>
-    <clock-home />
+    <clock-home class="clock" />
+    <div class="about-map">
+      <iframe class="iframe" src="/iframe/map.html" />
+    </div>
   </div>
 </template>
 
@@ -57,6 +60,7 @@
 import fontImg from "~/assets/img/font.png";
 import { isPassword } from "~/api/articlelist";
 import ClockHome from "~/components/clock/ClockHome";
+
 export default {
   name: "Aboutme",
   data() {
@@ -67,6 +71,7 @@ export default {
   components: {
     ClockHome
   },
+  mounted() {},
   methods: {
     open() {
       this.$prompt("请输入正确的口令", "提示", {
@@ -111,7 +116,7 @@ export default {
 <style scoped lang="scss" rel="stylesheet/stylus">
 .page {
   font-family: "微软雅黑";
-  margin: 15rem 20rem;
+  margin: 0 30rem;
   .el-row {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -150,7 +155,23 @@ export default {
     position: relative;
   }
   button {
+    z-index: 99;
     margin-left: 10px;
+  }
+  .clock {
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    bottom: 0px;
+    margin: auto;
+  }
+  .about-map {
+    .iframe {
+      z-index: 99;
+      width: 100%;
+      height: 25rem;
+    }
   }
 }
 </style>
