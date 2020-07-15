@@ -39,7 +39,8 @@ export default {
         { name: "recharge", title: "充电站" },
         { name: "happy", title: "娱乐中心" },
         { name: "message", title: "留言板" },
-        { name: "aboutme", title: "关于我" }
+        { name: "aboutme", title: "关于我" },
+         { name: "user", title: "用户中心" }
       ]
     };
   },

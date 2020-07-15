@@ -62,6 +62,7 @@ import { isPassword } from "~/api/articlelist";
 import ClockHome from "~/components/clock/ClockHome";
 
 export default {
+
   name: "Aboutme",
   data() {
     return {

@@ -12,43 +12,34 @@
           <li class="nav-item search">
             <v-input />
           </li>
-          <!-- <li class="nav-item submit">
-            <img src="~/assets/img/write.svg" />
-            <span>写文章</span>
-          </li>-->
-          <!-- <aplayer
-            autoplay
-            :music="{
-    title: 'secret base~君がくれたもの~',
-    artist: 'Silent Siren',
-    src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
-    pic: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.jpg'
-  }"
-          />-->
-          <!-- <li class="nav-item auth">
-            <span class="login">登录</span>
-            <span class="register">注册</span>
-          </li> -->
+          <li class="nav-item auth">
+            <span class="login" @click="openLogin">登录</span>
+            <!-- <span class="register"   href="https://github.com/login/oauth/authorize?client_id=7135f14d37cfed92845d&redirect_uri=http://localhost:3000/gitCallback" >注册</span> -->
+          </li>
         </ul>
       </nav>
     </div>
+    <login v-show="loginShow"  @changeLoginShow="getChild" />
   </header>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import VDropdown from "./dropdown";
+import Login from "@/components/Login";
 import VInput from "@/components/input";
 
 export default {
   name: "VHeader",
   components: {
     VDropdown,
-    VInput
+    VInput,
+    Login
   },
   data() {
     return {
-      maxClientWidth: 980
+      maxClientWidth: 980,
+      loginShow:false
     };
   },
   computed: {
@@ -65,6 +56,15 @@ export default {
         self.$store.commit("isPhone/PCORPHONE", true);
       }
     };
+  },
+  methods:{
+    openLogin(){
+      this.loginShow=true
+
+    },
+    getChild(v){
+      this.loginShow = v
+    }
   }
 };
 </script>
@@ -101,6 +101,7 @@ export default {
     height: 100%;
     flex: 1 0 auto;
   }
+  
 }
 
 @media (max-width: 960px) {

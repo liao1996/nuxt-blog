@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+        <el-backtop></el-backtop>
     <nav>
       <el-menu
         :default-active="activeIndex"
@@ -134,6 +135,7 @@
            </el-card>
       <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
+
   </div>
 </template>
 
@@ -211,9 +213,9 @@ export default {
   mounted() {
     this.BindEvent();
     this.handleProfile();
-    if (process.client) {
-      document.documentElement.style.overflow='scroll';
-    }
+    // if (process.client) {
+    //   document.documentElement.style.overflow='scroll';
+    // }
   },
   methods: {
     handleProfile() {
@@ -295,6 +297,9 @@ export default {
     width: 90rem;
     margin: auto;
     top: 25px;
+  }
+  /deep/ .el-backtop{
+        bottom: 10px !important ;
   }
 }
 </style>

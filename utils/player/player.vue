@@ -428,10 +428,10 @@ export default {
       let player = $("#music")[0];
       let playerTimer = setInterval(timer, 1000);
       //定时器函数
-      $("body").on("click", () => {
-        player.play();
-        $("body").unbind("click");
-      });
+      // $("body").on("click", () => {
+      //   player.play();
+      //   $("body").unbind("click");
+      // });
       function timer() {
         self.currentProgress = `${(player.currentTime / player.duration) *
           100}%`;

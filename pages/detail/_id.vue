@@ -590,7 +590,7 @@ export default {
       if (tid != 0) {
         ref = this.$refs[name][0]; //解决的表单循环机制
       }
-      if (!that.$cookie.get("name")) {
+      if (document.cookie.indexOf("name=blogtalk")==-1) {
         ref.validate(valid => {
           if (valid) {
             //表单验证通过
@@ -610,7 +610,7 @@ export default {
                 message:
                   "您必须选择协议，否则点击头像时无法正常跳转！或者您可以不填写您的网站！"
               });
-              return ; 
+              return;
             }
             if (this.formItem.talk == "") {
               this.$notify.error({
@@ -626,11 +626,15 @@ export default {
                   });
                   this.formItem.talk = "";
                   this.formItem.name = "";
+                  // const date = new Date();
+                  // const expiresTime = date.setTime(
+                  //   date.getTime() + 60 * 1000 * 5
+                  // ); //设置date为当前时间+30分
+                  // that.$cookie.set("name", "blogtalk", 1);
                   const date = new Date();
-                  const expiresTime = date.setTime(
-                    date.getTime() + 60 * 1000 * 5
-                  ); //设置date为当前时间+30分
-                  that.$cookie.set("name", "blogtalk", 1);
+                  date.setTime(date.getTime() + 1 * 60 * 1000); //设置date为当前时间+30分
+                  document.cookie =
+                    "name=blogtalk; expires=" + date.toUTCString(); //将date赋值给expires
                 } else {
                   this.$message({
                     message: "评论失败，请稍后再试",
@@ -656,7 +660,7 @@ export default {
       } else {
         this.$notify.info({
           title: "提示",
-          message: "谢谢！一天后再来吧！"
+          message: "谢谢！一分钟后再来吧！"
         });
       }
     },

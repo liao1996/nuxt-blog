@@ -370,7 +370,6 @@
   height: auto;
   position: absolute;
   transition: all .3s;
-  z-index: 103;
 }
 
 .head_left_box {

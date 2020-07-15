@@ -58,13 +58,10 @@ export default {
         }
     },
     methods: {
-
         seeThis(id){
-          console.log(11)
             this.shareHoverId=id;
         },
         seeOver(){
-          console.log(22)
             this.shareHoverId=0;
         }
     },
