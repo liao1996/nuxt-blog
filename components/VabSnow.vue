@@ -27,9 +27,9 @@ export default {
 
 <style lang="scss" scoped>
 .content {
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 100%;
+  height: 93.6%;
   overflow: hidden;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   filter: drop-shadow(0 0 10px white);
