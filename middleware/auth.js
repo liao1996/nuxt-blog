@@ -1,5 +1,5 @@
 export default function ({ store, redirect }) {
-    if (!store.state.userName) {
+    if (!store.state.user.userName) {      
       return redirect('/')
     }
   }

@@ -3,7 +3,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-const LOGOUT_RUL = process.env.LOGOUT_RUL;
 import { getUserInfo } from "~/api/user";
 export default {
   data() {
@@ -27,16 +26,25 @@ export default {
             });
             const userName = JSON.parse(res.result.data).login;
             this.$store.commit("user/setUser", userName);
-            alert(userName)
+            setTimeout(() => {
+              this.$router.push("/user");
+            }, 1000);
+            console.log(userName);
           } else {
             this.$message({
               type: "error",
               message: "登录失败"
             });
+            setTimeout(() => {
+              this.$router.push("/");
+            }, 1000);
           }
-          	window.location.href = 'http://localhost:3000/'
         })
-        .catch(err => {});
+        .catch(err => {
+          setTimeout(() => {
+            this.$router.push("/");
+          }, 1000);
+        });
     }
   },
   components: {}

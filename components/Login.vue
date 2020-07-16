@@ -18,7 +18,7 @@
           class="blindfold"
         />
       </div>
-      <i title="关闭" class="close-btn ion-close-round" @click="loginClose"></i>
+      <i title="关闭" class="close-btn el-icon-circle-close" @click="loginClose"></i>
       <div class="panel">
         <h1 class="title">登录</h1>
         <div class="input-group">
@@ -27,7 +27,7 @@
               name="loginPhoneOrEmail"
               maxlength="64"
               @click="secondShow"
-              placeholder="请输入手机号或邮箱"
+              placeholder="当前登陆无意义，只是能进入用户界面"
               class="input"
             />
           </div>
@@ -37,7 +37,7 @@
               name="loginPassword"
               type="password"
               maxlength="64"
-              placeholder="请输入密码"
+              placeholder="只做了GitHub第三方登录"
               class="input"
             />
           </div>
@@ -105,7 +105,7 @@ export default {
   mounted() {},
   methods: {
     githubLogin(){
-      window.open('https://github.com/login/oauth/authorize?client_id=7135f14d37cfed92845d&redirect_uri=http://localhost:3000/gitCallback')
+      window.open('https://github.com/login/oauth/authorize?client_id=64466896abdc4ee6f609&redirect_uri=http://eightythousand.com:80/gitCallback','_self')
     },
     loginClose() {
       this.$emit("changeLoginShow", false);

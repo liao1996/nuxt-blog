@@ -21,8 +21,8 @@
             <el-menu-item index="9">天马行空</el-menu-item>
           </el-submenu>
         </el-submenu>
-        <el-menu-item index="3" disabled title="登陆后才能查看">消息中心</el-menu-item>
-        <el-menu-item index="4">
+        <!-- <el-menu-item index="3" disabled title="登陆后才能查看">消息中心</el-menu-item> -->
+        <el-menu-item index="0">
           <a href="http://www.eightythousand.com:518" target="_blank">小喵八万</a>
         </el-menu-item>
       </el-menu>

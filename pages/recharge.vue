@@ -42,48 +42,7 @@ export default {
       startVal: 0,
       endVal: 20,
       timeInterval: null,
-      // list: [
-      //   {
-      //     title: "React",
-      //     img: "http://eightythousand.com:520/assets/react.jpg",
-      //     percent: 5,
-      //     toBig: "https://react.docschina.org/",
-      //     toSmaill: "http://huziketang.mangojuice.top/books/react/",
-      //     smallImg: "http://eightythousand.com:520/assets/reactBook.jpg"
-      //   },
-      //   {
-      //     title: "Vue",
-      //     img: "http://eightythousand.com:520/assets/vue.jpg",
-      //     percent: 5,
-      //     toBig: "https://cn.vuejs.org/",
-      //     toSmaill: "",
-      //     smallImg: "http://eightythousand.com:520/assets/bbb.jpg"
-      //   },
-      //   {
-      //     title: "划水摸鱼",
-      //     img: "http://eightythousand.com:520/assets/bilibili.jpg",
-      //     percent: 5,
-      //     toBig: "https://www.bilibili.com/",
-      //     toSmaill: "https://juejin.im/",
-      //     smallImg: "http://eightythousand.com:520/assets/bbb.jpg"
-      //   },
-      //   {
-      //     title: "算法",
-      //     img: "http://eightythousand.com:520/assets/arithmetic.jpg",
-      //     percent: 5,
-      //     smallImg: "http://eightythousand.com:520/assets/bbb.jpg",
-      //     toBig: "https://algorithm.yuanbin.me/zh-hans/", 
-      //     toSmaill: "https://leetcode-cn.com/"
-      //   },
-      //   {
-      //     title: "前端面试",
-      //     img: "http://eightythousand.com:520/assets/web.png",
-      //     percent: 5,
-      //     smallImg: "http://eightythousand.com:520/assets/web1.jpg",
-      //     toBig: "https://coffe1891.gitbook.io/frontend-hard-mode-interview/",
-      //     toSmaill: "http://caibaojian.com/interview-map/frontend/"
-      //   }
-      // ]
+
     };
   },
   mounted() {

@@ -13,8 +13,7 @@
             <v-input />
           </li>
           <li class="nav-item auth">
-            <span class="login" @click="openLogin">登录</span>
-            <!-- <span class="register"   href="https://github.com/login/oauth/authorize?client_id=7135f14d37cfed92845d&redirect_uri=http://localhost:3000/gitCallback" >注册</span> -->
+            <span class="login" @click="openLogin">登录</span>           
           </li>
         </ul>
       </nav>

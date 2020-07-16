@@ -71,8 +71,8 @@ export default {
       pathRewrite: { '^/api': '' }
     },
     '/lz': {
-      //target: 'http://www.eightythousand.com:12937/blog/',
-      target: 'http://localhost:12937/blog/',
+      target: 'http://www.eightythousand.com:12937/blog/',
+      //target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },
