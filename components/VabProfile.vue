@@ -212,7 +212,7 @@ export default {
       position: relative;
       margin-top: 20px;
       margin-bottom: 20px;
-      font-size: 26px;
+      font-size: 20px;
       color: transparent;
       letter-spacing: 2px;
       animation: fill-text-white 1.2s 2s forwards;

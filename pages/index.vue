@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-        <el-backtop></el-backtop>
+    <el-backtop></el-backtop>
     <nav>
       <el-menu
         :default-active="activeIndex"
@@ -25,6 +25,16 @@
         <el-menu-item index="0">
           <a href="http://www.eightythousand.com:518" target="_blank">小喵八万</a>
         </el-menu-item>
+        <el-submenu index="10">
+          <template slot="title">👭🔗</template>
+          <el-menu-item index="10-1">
+            <a
+              href="https://wangjinxu.top"
+              target="_blank"
+              style="width: 100%;display: block;"
+            >霜寒</a>
+          </el-menu-item>
+        </el-submenu>
       </el-menu>
       <div class="line"></div>
     </nav>
@@ -53,7 +63,6 @@
         :infinite-scroll-disabled="disabled "
         infinite-scroll-distance="10"
       >
-
         <li
           v-for="(item,index) in blogList"
           :key="item.title"
@@ -65,7 +74,7 @@
         >
           <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: item.id}}">
             <div class="list_img_box">
-      <span v-if="item.isTop===1" class="isTop"> 置顶</span>
+              <span v-if="item.isTop===1" class="isTop">置顶</span>
               <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
               <div class="list_title_box">
                 <div class="list_title">
@@ -107,7 +116,6 @@
             <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
             <!-- <div class="hr"></div>  -->
           </nuxt-link>
-    
         </li>
       </transition-group>
 
@@ -116,26 +124,20 @@
     </div>
 
     <div class="head_right" :style="{top:headTop+'px',right:headRight+'%'}">
-       <el-card shadow="hover">
-          <div slot="header">
-            <span>做一只小透明</span>
-            <el-button
-              style="float: right; padding: 3px 0;"
-              type="text"
-              @click="handleProfile"
-              icon="el-icon-refresh-right"
-              >
-            </el-button>
-          </div>
-          <vab-profile
-            v-if="profileShow"
-            :avatar="headImg"
-            user-name="一只小透明的窝"
-          ></vab-profile>
-           </el-card>
+      <el-card shadow="hover">
+        <div slot="header">
+          <span>做一只小透明</span>
+          <el-button
+            style="float: right; padding: 3px 0;"
+            type="text"
+            @click="handleProfile"
+            icon="el-icon-refresh-right"
+          ></el-button>
+        </div>
+        <vab-profile v-if="profileShow" :avatar="headImg" user-name="一只小透明的窝"></vab-profile>
+      </el-card>
       <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
-
   </div>
 </template>
 
@@ -154,7 +156,6 @@ const getdata = (id = 0, falge = 0, size = 3) => {
     .catch(err => {});
 };
 export default {
- 
   name: "Index",
   components: {
     VabProfile
@@ -205,7 +206,7 @@ export default {
       return this.$store.state.global.count;
     }
   },
-  async fetch ({ store }) {
+  async fetch({ store }) {
     const data = await getdata();
     store.commit("global/updateBlogList", data.data);
     store.commit("global/updateCount", data.count);
@@ -222,7 +223,7 @@ export default {
       this.profileShow = false;
       setTimeout(() => {
         this.profileShow = true;
-      },100);
+      }, 100);
     },
     loadMore() {
       if (!this.noMore) {
@@ -236,12 +237,14 @@ export default {
       }
     },
     handleSelect(key) {
-      this.falge = key;
-      this.size = 3;
-      getdata(0, this.falge).then(res => {
-        this.$store.commit("global/updateBlogList", res.data);
-        this.$store.commit("global/updateCount", res.count);
-      });
+      if (!isNaN(key)) {
+        this.falge = key;
+        this.size = 3;
+        getdata(0, this.falge).then(res => {
+          this.$store.commit("global/updateBlogList", res.data);
+          this.$store.commit("global/updateCount", res.count);
+        });
+      }
     },
     BolgDown(el) {
       this.bolgListClick = el.currentTarget.getAttribute("hid");
@@ -298,8 +301,9 @@ export default {
     margin: auto;
     top: 25px;
   }
-  /deep/ .el-backtop{
-        bottom: 10px !important ;
+
+  /deep/ .el-backtop {
+    bottom: 10px !important;
   }
 }
 </style>

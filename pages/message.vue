@@ -216,7 +216,7 @@ export default {
     },
     setCanvasSize() {
       this.WIDTH = document.documentElement.clientWidth;
-      this.HEIGHT = document.documentElement.clientHeight * 0.933;
+      this.HEIGHT = document.documentElement.clientHeight * 0.938;
 
       this.canvas.setAttribute("width", this.WIDTH);
       this.canvas.setAttribute("height", this.HEIGHT);

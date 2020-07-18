@@ -141,7 +141,7 @@
 }
 
 .bolg_list {
-  width: 90rem;
+  width: 55vw;
   height: auto;
   margin: auto;
   position: relative;
@@ -235,7 +235,6 @@
 }
 
 .list_title_box {
-  width: 950px;
   height: auto;
   margin: auto;
   overflow: hidden;
@@ -349,7 +348,7 @@
 }
 
 .head_right {
-  width: 280px;
+  width: 15vw;
   height: 200px;
   position: absolute;
   transition: all .3s;
@@ -366,7 +365,7 @@
 }
 
 .head_left {
-  width: 280px;
+  width: 15vw;
   height: auto;
   position: absolute;
   transition: all .3s;
