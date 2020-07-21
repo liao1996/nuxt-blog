@@ -1,18 +1,308 @@
 <template>
-  <div class="page">
-    欢迎你:{{this.$store.state.user.userName}}<br/>
-    该页面登陆后才可以进入，用作后续鉴权处理
+  <div class="user-container" @click="onClick">
+    <i id="bubbleradius"></i>
+    <span v-for=" c in circles" :style="style(c)" :key="c.key" :class="{ popped: c.popped }">&nbsp;</span>
+    
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
+var globalID = null;
+const rotate = (x, y, sin, cos, reverse) => {
+  return reverse
+    ? {
+        x: cos * x + sin * y,
+        y: cos * y - sin * x
+      }
+    : {
+        x: cos * x - sin * y,
+        y: cos * y + sin * x
+      };
+};
+const flatten = arr =>
+  arr.reduce((a, b) => a.concat(Array.isArray(b) ? flatten(b) : b), []);
 export default {
-  middleware: "auth",
+  //middleware:"auth",
+  name: "User",
   data() {
-    return {};
+    return {
+      tabPosition: "left",
+      circles: [],
+      lastExec: null,
+      hue: 250,
+      lastCollisions: [],
+      hiddenProperty: null,
+      visibilityChangeEvent: null,
+      moving: true
+    };
   },
-  components: {}
+  created() {},
+  methods: {
+    style(c) {
+      return `top:${c.y}px;left:${c.x}px;box-shadow:0 0 2rem hsl(${c.hue}, 75%, 50%) inset`;
+    },
+    update(tm) {
+      if (!this.moving) {
+        return;
+      }
+      if (this.lastExec && this.circles.length) {
+        var diff = tm - this.lastExec;
+        // var huediff = (this.hue + diff/30) % 360
+        var box = this.$el.getBoundingClientRect();
+        var radius = this.$el
+          .querySelector("#bubbleradius")
+          .getBoundingClientRect().width;
+
+        var couples = [];
+        this.circles
+          .filter(cc => !cc.popped)
+          .forEach(c1 => {
+            this.circles
+              .filter(cc => !cc.popped)
+              .forEach(c2 => {
+                if (c1 !== c2) {
+                  couples.push([c1, c2]);
+                }
+              });
+          });
+
+        var collisions = couples.filter(couple => {
+          var dist = Math.sqrt(
+            Math.pow(couple[0].y - couple[1].y, 2) +
+              Math.pow(couple[0].x - couple[1].x, 2)
+          );
+          return dist < radius * 2;
+        });
+
+        var newcollisions = collisions.filter(couple => {
+          var key = couple[0].key + couple[1].key;
+          return this.lastCollisions.indexOf(key) < 0;
+        });
+
+        newcollisions.forEach(couple => {
+          var a = couple[0];
+          var b = couple[1];
+
+          if (a.collisionFree && b.collisionFree) {
+            if (false) {
+              a.new_vx =
+                (a.vx * (a.mass - b.mass) + 2 * b.mass * b.vx) /
+                (a.mass + b.mass);
+              a.new_vy =
+                (a.vy * (a.mass - b.mass) + 2 * b.mass * b.vy) /
+                (a.mass + b.mass);
+            } else {
+              var dx = b.x - a.x;
+              var dy = b.y - a.y;
+              var collisionAngle = Math.atan2(dy, dx);
+              var sin = Math.sin(collisionAngle);
+              var cos = Math.cos(collisionAngle);
+              var pos_a = { x: 0, y: 0 };
+              var pos_b = rotate(dx, dy, sin, cos, true);
+              var vel_a = rotate(a.vx, a.vy, sin, cos, true);
+              var vel_b = rotate(b.vx, b.vy, sin, cos, true);
+              var vxTotal = vel_a.x - vel_b.x;
+              vel_a.x =
+                ((a.mass - b.mass) * vel_a.x + 2 * b.mass * vel_b.x) /
+                (a.mass + b.mass);
+              vel_b.x = vxTotal + vel_a.x;
+              pos_a.x += vel_a.x;
+              pos_b.x += vel_b.x;
+
+              var pos_a_final = rotate(pos_a.x, pos_a.y, sin, cos, false);
+              var vel_a_final = rotate(vel_a.x, vel_a.y, sin, cos, false);
+              a.new_x = a.x + pos_a_final.x;
+              a.new_y = a.y + pos_a_final.y;
+              a.new_vx = vel_a_final.x;
+              a.new_vy = vel_a_final.y;
+            }
+          }
+        });
+
+        newcollisions.forEach(couple => {
+          var a = couple[0];
+          var b = couple[1];
+          if (a.new_vy) {
+            a.vx = a.new_vx;
+            a.vy = a.new_vy;
+            a.x = a.new_x;
+            a.y = a.new_y;
+            a.hue += 20;
+          }
+        });
+
+        this.lastCollisions = collisions.map(couple => {
+          return couple[0].key + couple[1].key;
+        });
+
+        var collided = [...new Set(flatten(newcollisions))];
+        var collidedKeys = collided.map(c => c.key);
+
+        this.circles.forEach(c => {
+          c.collisionFree = c.collisionFree || collidedKeys.indexOf(c.key) < 0;
+          if (c.y < 0) {
+            c.vy = Math.abs(c.vy);
+          } else if (c.y > box.height) {
+            c.vy = -Math.abs(c.vy);
+          }
+          if (c.x < 0) {
+            c.vx = Math.abs(c.vx);
+          } else if (c.x > box.width) {
+            c.vx = -Math.abs(c.vx);
+          }
+
+          c.y += c.vy * diff;
+          c.x += c.vx * diff;
+        });
+      }
+      this.lastExec = tm;
+      globalID = requestAnimationFrame(this.update);
+    },
+    handleVisibilityChange() {
+      if (!document[this.hiddenProperty]) {
+        globalID = requestAnimationFrame(this.update);
+        this.moving = true;
+      } else {
+        cancelAnimationFrame(globalID);
+        this.moving = false;
+      }
+    },
+    onClick(evt) {
+      let m = {
+        x: evt.pageX,
+        y: evt.pageY
+      };
+      let nearest = null;
+      let nearest_distsq = Infinity;
+      let dx, dy, distsq;
+      var radius = this.$el
+        .querySelector("#bubbleradius")
+        .getBoundingClientRect().width;
+      this.circles.forEach(c => {
+        dx = m.x - c.x;
+        dy = m.y - c.y;
+        distsq = dx * dx + dy * dy;
+        if (distsq < nearest_distsq && distsq < c.radius * c.radius) {
+          nearest = c;
+          nearest_distsq = distsq;
+        }
+      });
+      if (nearest) {
+        // let idx = this.circles.indexOf(nearest)
+        // this.circles.splice(idx, 1)
+        nearest.popped = true;
+      }
+    }
+  },
+  mounted() {
+    var box = this.$el.getBoundingClientRect();
+    var radius = this.$el.querySelector("#bubbleradius").getBoundingClientRect()
+      .width;
+    var max = (box.width * box.height) / 300 / Math.pow(radius, 1.2);
+    for (var i = 0; i < max; i++) {
+      this.circles.push({
+        key: Math.random(),
+        y: Math.random() * box.height,
+        x: Math.random() * box.width,
+        vx: Math.random() / 5,
+        vy: Math.random() / 5,
+        hue: Math.random() * 360,
+        collisionFree: false,
+        mass: 1,
+        radius: radius,
+        popped: false
+      });
+    }
+    globalID = requestAnimationFrame(this.update);
+
+    var hidden, visibilityChange;
+    if (typeof document.hidden !== "undefined") {
+      // Opera 12.10 and Firefox 18 and later support
+      hidden = "hidden";
+      visibilityChange = "visibilitychange";
+    } else if (typeof document.msHidden !== "undefined") {
+      hidden = "msHidden";
+      visibilityChange = "msvisibilitychange";
+    } else if (typeof document.webkitHidden !== "undefined") {
+      hidden = "webkitHidden";
+      visibilityChange = "webkitvisibilitychange";
+    }
+    this.hiddenProperty = hidden;
+    this.visibilityChangeEvent = visibilityChange;
+    document.addEventListener(
+      this.visibilityChangeEvent,
+      this.handleVisibilityChange,
+      false
+    );
+  },
+  beforeDestroy() {
+    document.removeEventListener(
+      this.visibilityChangeEvent,
+      this.handleVisibilityChange,
+      false
+    );
+  }
 };
 </script>
+<style scoped lang="scss" rel="stylesheet/stylus">
+.user-container {
+  margin-top: 5rem;
+  list-style: none;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: -webkit-linear-gradient(left, red, blue);
+  /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, red, blue); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, red, blue); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, rgb(97, 40, 141), rgb(45, 191, 155));
+  /* 标准的语法 */
+  color: white;
+  .user-info {
+    width: 55vw;
+    height: auto;
+    margin: auto;
+    position: relative;
+    margin-bottom: 50px;
+  }
 
-<style scoped lang="stylus" rel="stylesheet/stylus"></style>
+  #bubbleradius {
+    width: 4.5rem;
+    height: 1px;
+    opacity: 0;
+    z-index: -1;
+    display: block;
+  }
+      span {
+        transform: translate(-50%, -50%);
+        border-radius: 9rem;
+        height: 9rem;
+        width: 9rem;
+        display: block;
+        position: absolute;
+        opacity: 1;
+        transition: box-shadow 0.5s ease-in-out, transform 0.07s ease-out,
+          opacity 0.04s ease-in;
+      }
+  
+      span.popped {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+      }
+  
+      span:after {
+        content: "";
+        position: absolute;
+        top: 18%;
+        left: 18%;
+        background-color: rgba(191, 255, 255, 0.6);
+        width: 0.6428571429rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        transform: rotate(45deg) scale(0.8);
+      }
+}
+</style>

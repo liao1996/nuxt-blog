@@ -40,7 +40,7 @@ export default {
         { name: "happy", title: "娱乐中心" },
         { name: "message", title: "留言板" },
         { name: "aboutme", title: "关于我" },
-         { name: "user", title: "用户中心" }
+        { name: "user", title: "用户中心" }
       ]
     };
   },
@@ -56,6 +56,10 @@ export default {
     handleItemClick(title) {
       this.show = false;
       this.title = title;
+      //点击的是用户中心弹出登录框
+      if (!this.$store.state.user.userName&&this.title == "用户中心"){
+        this.$emit("changeLoginShow", true);
+      }
     },
     hide() {
       this.show = false;

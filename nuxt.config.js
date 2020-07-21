@@ -10,14 +10,14 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title: "江家大小姐",
+    title:"江家大小姐",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/lzfavicon.ico' },
       { rel: "stylesheet", href: '/css/font-awesome.min.css' },
       { rel: "stylesheet", href: '/icon/iconfont.css' }
 

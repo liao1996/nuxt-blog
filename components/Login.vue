@@ -46,13 +46,13 @@
         <div class="prompt-box">
           没有账号？
           <span class="clickable">注册</span>
-          <a href="/" class="right clickable">忘记密码</a>
+          <span class="right clickable">忘记密码</span>
         </div>
       </div>
       <div class="agreement-box">
         注册登录即表示同意
-        <a href="/" target="_blank">用户协议</a>、
-        <a href="/" target="_blank">隐私政策</a>
+        <a href="/protocol.html" target="_blank">用户协议</a>、
+        <a href="/privacy.html" target="_blank">隐私政策</a>
       </div>
 
       <div class="oauth-box">
@@ -99,16 +99,20 @@ export default {
       thirdly: false,
       username: "",
       userpassword: "",
-      isOther:true
+      isOther: true
     };
   },
   mounted() {},
   methods: {
-    githubLogin(){
-      window.open('https://github.com/login/oauth/authorize?client_id=64466896abdc4ee6f609&redirect_uri=http://eightythousand.com:80/gitCallback','_self')
+    githubLogin() {
+      window.open(
+        "https://github.com/login/oauth/authorize?client_id=64466896abdc4ee6f609&redirect_uri=http://eightythousand.com:80/gitCallback",
+        "_self"
+      );
     },
     loginClose() {
       this.$emit("changeLoginShow", false);
+      this.isOther = true;
     },
     firstShow(e) {
       if (e.target.className != "input") {

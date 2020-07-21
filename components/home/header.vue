@@ -7,7 +7,7 @@
       <nav class="main-nav">
         <ul class="nav-list">
           <li class="main-nav-list">
-            <v-dropdown />
+            <v-dropdown   @changeLoginShow="getChild"/>
           </li>
           <li class="nav-item search">
             <v-input />
