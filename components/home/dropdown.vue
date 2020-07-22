@@ -2,7 +2,8 @@
   <div v-clickoutside="hide" class="drop-down">
     <div class="phone-show-menu" @click="handleMenuClick">
       <span>{{ title }}</span>
-      <v-icon name="arrow-down-b"></v-icon>
+      <!-- <v-icon name="arrow-down-b"></v-icon> -->
+      <i class="el-icon-caret-bottom"></i>
     </div>
     <ul class="phone-hide" :class="{
         'show': show
@@ -22,13 +23,10 @@
 <script>
 import { mapState } from "vuex";
 import Clickoutside from "@/utils/dom/clickoutside";
-import VIcon from "@/components/icon";
+
 
 export default {
   name: "VDropdown",
-  components: {
-    VIcon
-  },
   directives: { Clickoutside },
   data() {
     return {

@@ -3,7 +3,7 @@
     <div class="star">
       <button @click="reStar">开始新的游戏</button>
     </div>
-    <canvas ref="canvas" width="450" height="450" @click="chessClick"></canvas>
+    <canvas ref="canvas" width="450" height="450" @click="chessClick" class="wuziqican"></canvas>
   </div>
 </template>
 

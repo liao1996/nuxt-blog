@@ -21,18 +21,13 @@
             <el-menu-item index="9">天马行空</el-menu-item>
           </el-submenu>
         </el-submenu>
-        <!-- <el-menu-item index="3" disabled title="登陆后才能查看">消息中心</el-menu-item> -->
         <el-menu-item index="0">
           <a href="http://www.eightythousand.com:518" target="_blank">小喵八万</a>
         </el-menu-item>
         <el-submenu index="10">
           <template slot="title">👭🔗</template>
           <el-menu-item index="10-1">
-            <a
-              href="https://wangjinxu.top"
-              target="_blank"
-              style="width: 100%;display: block;"
-            >霜寒</a>
+            <a href="https://wangjinxu.top" target="_blank" style="width: 100%;display: block;">霜寒</a>
           </el-menu-item>
         </el-submenu>
       </el-menu>
@@ -75,7 +70,6 @@
           <nuxt-link :to="{ name: 'detail-id', path:'/detail' ,query: {id: item.id}}">
             <div class="list_img_box">
               <span v-if="item.isTop===1" class="isTop">置顶</span>
-              <!-- <img :src="item.imgUrl" alt="" class="list_img"> -->
               <div class="list_title_box">
                 <div class="list_title">
                   <i class="el-icon-d-arrow-left" size="20"></i>
@@ -89,7 +83,7 @@
               </div>
             </div>
             <div class="list_info">
-              <p class="list_content" v-html>{{text(item.content) | FontFilter}}</p>
+              <p class="list_content">{{text(item.content) | FontFilter}}</p>
               <div class="list_record">
                 <span class="list_record_span" style="margin-left: 0px;">
                   <i class="el-icon-view" size="15"></i>
@@ -112,9 +106,7 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <!-- <div class="new" v-if="(new Date()-new Date(item.time))/86400000<=newTime">new</div> -->
-            <!-- <div class="hr"></div>  -->
+            </div>           
           </nuxt-link>
         </li>
       </transition-group>
@@ -126,7 +118,7 @@
     <div class="head_right" :style="{top:headTop+'px',right:headRight+'%'}">
       <el-card shadow="hover">
         <div slot="header">
-          <span>做一只小透明</span>
+          <span>我在人间凑数，在尘世漫步</span>
           <el-button
             style="float: right; padding: 3px 0;"
             type="text"
@@ -134,7 +126,7 @@
             icon="el-icon-refresh-right"
           ></el-button>
         </div>
-        <vab-profile v-if="profileShow" :avatar="headImg" user-name="一只小透明的窝"></vab-profile>
+        <vab-profile v-if="profileShow" :avatar="headImg" user-name="小透明手辰"></vab-profile>
       </el-card>
       <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
@@ -214,9 +206,6 @@ export default {
   mounted() {
     this.BindEvent();
     this.handleProfile();
-    // if (process.client) {
-    //   document.documentElement.style.overflow='scroll';
-    // }
   },
   methods: {
     handleProfile() {
@@ -291,8 +280,10 @@ export default {
     transition: all 0.2s;
     transform: translateZ(0);
 
-    .el-menu-demo {
-      left: 38rem;
+    @media screen and (min-width: 960px) {
+      .el-menu-demo {
+        left: 38rem;
+      }
     }
   }
 
