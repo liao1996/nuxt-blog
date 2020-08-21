@@ -19,8 +19,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/lzfavicon.ico' },
       { rel: "stylesheet", href: '/css/font-awesome.min.css' },
-      { rel: "stylesheet", href: '/icon/iconfont.css' }
-
+      { rel: "stylesheet", href: '/icon/iconfont.css' },   
     ],
     script: [{
       src: "http://www.eightythousand.com:520/autoload.js"
@@ -32,7 +31,6 @@ export default {
   css: [
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/stylus/main.styl',
-
   ],
 
   /*

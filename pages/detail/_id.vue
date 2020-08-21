@@ -1,5 +1,5 @@
 <template>
-  <div class="box" id="rollback">
+  <div class="wikistyle" id="rollback">
     <!-- <div class="box_img_box1">
         <div class="box_img_shelter1"></div>
         <img :src="ArticleInfo.imgUrl" alt="" class="box_img1">
@@ -680,7 +680,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 @import url("~/assets/pagecss/detail.css");
 @import url("~/assets/pagecss/detailmobile.css");
 </style>
