@@ -27,12 +27,13 @@
     <strong>名称：</strong>
     <span>
       <i class="el-icon-user"></i>手辰
-      <el-button type="primary" icon="el-icon-download" round @click="open">简历</el-button>
+      <el-button type="primary" icon="el-icon-download" class="callme" round @click="open">简历</el-button>
     </span>
     <div class="bloghr" />
     <strong>电话：</strong>
     <span>
       <i class="el-icon-phone-outline"></i>1303127695
+      <el-button type="primary" icon="el-icon-chat-line-square" class="callme" round @click="sendPhoto">短信</el-button>
     </span>
     <div class="bloghr" />
     <strong>邮件：</strong>
@@ -53,12 +54,13 @@
     <div class="about-map">
       <iframe class="iframe" src="/iframe/map.html" />
     </div>
+    
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import fontImg from "~/assets/img/font.png";
-import { isPassword } from "~/api/articlelist";
+import { isPassword , sendtelPhoto} from "~/api/articlelist";
 import ClockHome from "~/components/clock/ClockHome";
 
 export default {
@@ -75,18 +77,19 @@ export default {
   mounted() {},
   methods: {
     open() {
-      this.$prompt("请输入正确的口令", "提示", {
+      this.$prompt("请输入正确的验证码", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
-        inputErrorMessage: "口令格式不正确"
+        inputPlaceholder:"可以使用短信功能，系统会将验证码发送给您",
+        inputPattern: /^\d{6}$/,
+        inputErrorMessage: "验证码格式不正确"
       })
         .then(({ value }) => {
           isPassword(value).then(res => {
             if (res.result.data) {
               this.$message({
                 type: "success",
-                message: "口令正确，正在为您打开下载链接"
+                message: "验证码正确，正在为您打开下载链接"
               });
               t1 = window.setTimeout(
                 window.open(
@@ -97,8 +100,37 @@ export default {
               window.clearTimeout(t1); //去掉定时器
             } else {
               this.$message({
-                type: "erroe",
-                message: "口令错误"
+                type: "error",
+                message: "验证码错误"
+              });
+            }
+          });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "取消输入"
+          });
+        });
+    },
+    sendPhoto() {
+      this.$prompt("请输入您的手机号，系统将把下载验证码发送给您", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        inputPattern: /^1[3456789]\d{9}$/,
+        inputErrorMessage: "手机号格式不正确"
+      })
+        .then(({ value }) => {
+          sendtelPhoto(value).then(res => {           
+            if (res.result.code) {
+              this.$message({
+                type: "success",
+                message: "发送成功，请查收"
+              });              
+            } else {
+              this.$message({
+                type: "error",
+                message: "发送失败,失败原因:"+res.result.message
               });
             }
           });
@@ -173,6 +205,9 @@ export default {
       width: 100%;
       height: 25rem;
     }
+  }
+  /deep/ .callme{
+    padding: 5px 10px;
   }
 }
 </style>

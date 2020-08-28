@@ -8,6 +8,9 @@
 }
 
 @media screen and (max-device-width: 460px) {
+    .bolg_list{
+        width:95vw;
+    }
 /* 搜索 */
 .head_right{
     display: none;
@@ -49,10 +52,6 @@
 .no_list{
     width: 350px;
 }
-.bolg_list{
-    width: 350px;
-    margin-top: 98px;
-}
 .bolg_list li{
     height:auto;
     margin-top: 30px;
@@ -81,7 +80,7 @@
 }
 .list_title{
     width: 100%;
-    font-size: 14px;
+    font-size: 10px;
     height:20px;
     line-height: 20px;
 }

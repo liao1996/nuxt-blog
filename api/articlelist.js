@@ -50,6 +50,11 @@ export const isPassword = (webPassword) => {
   return request.get(`lz/index/isPassword.htm?webPassword=${webPassword}`);
 }
 
+//发送短信
+export const sendtelPhoto = (telPhoto) => {
+  return request.get(`lz/index/sendtelPhoto.htm?telPhoto=${telPhoto}`);
+}
+
 
 
 
