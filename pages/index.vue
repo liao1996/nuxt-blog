@@ -136,7 +136,7 @@
 <script>
 import headImg from "~/assets/img/header.jpg";
 import VabProfile from "~/components/VabProfile";
-import { getBlogList } from "~/api/articlelist";
+import { getBlogList  , getAnnouncement} from "~/api/articlelist";
 import $ from "jquery";
 const getdata = (id = 0, falge = 0, size = 3) => {
   return getBlogList(id, falge, size)
@@ -161,22 +161,22 @@ export default {
       headLeft: 5,
       activeIndex: "1",
       notice: [
-        {
-          id: 12,
-          time: "2020-07-14",
-          content: "完成了第一期的所有功能"
-        },
-        {
-          id: 11,
-          time: "2020-07-07",
-          content: "写了第一篇博客"
-        },
-        { id: 10, time: "2020-06-30", content: "增加了网易云音乐，看板娘" },
-        {
-          id: 9,
-          time: "2020-06-25",
-          content: "搭建项目，开发首页，详情页"
-        }
+        // {
+        //   id: 12,
+        //   time: "2020-07-14",
+        //   content: "完成了第一期的所有功能"
+        // },
+        // {
+        //   id: 11,
+        //   time: "2020-07-07",
+        //   content: "写了第一篇博客"
+        // },
+        // { id: 10, time: "2020-06-30", content: "增加了网易云音乐，看板娘" },
+        // {
+        //   id: 9,
+        //   time: "2020-06-25",
+        //   content: "搭建项目，开发首页，详情页"
+        // }
       ],
       bolgListClick: "",
       loading: false,
@@ -206,8 +206,15 @@ export default {
   mounted() {
     this.BindEvent();
     this.handleProfile();
+    this.getAnnouncementData();
   },
   methods: {
+  //公告栏
+    getAnnouncementData(){
+      getAnnouncement().then(res =>{
+        this.notice = res.result.announcement
+      })
+    },
     handleProfile() {
       this.profileShow = false;
       setTimeout(() => {
@@ -267,7 +274,7 @@ export default {
 
 <style lang="stylus" scoped>
 @import url('~/assets/pagecss/blogmain.css');
-
+@import url('~/assets/pagecss/blogmainmobile.css');
 .container {
   nav {
     left: 0;

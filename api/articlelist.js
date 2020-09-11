@@ -55,6 +55,11 @@ export const sendtelPhoto = (telPhoto) => {
   return request.get(`lz/index/sendtelPhoto.htm?telPhoto=${telPhoto}`);
 }
 
+//公告栏
+export const getAnnouncement = () => {
+  return request.get(`lz/index/findAnnouncement.htm`);
+}
+
 
 
 

@@ -70,7 +70,7 @@ export default {
     },
     '/lz': {
       target: 'http://www.eightythousand.com:12937/blog/',
-      //target: 'http://localhost:12936/blog/',
+      //target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
     },
   },
