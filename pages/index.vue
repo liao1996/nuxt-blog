@@ -37,7 +37,7 @@
       <div class="head_left_box">
         <div class="notice_box">
           <p class="notice_title">
-            <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>最新公告
+            <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>择一隅孤独终老
           </p>
           <transition-group name="noticeList" tag="ul" class="notice_list">
             <li v-for="(item,index) in notice" :key="item.id">

@@ -41,7 +41,7 @@
         <span>点赞：&nbsp;{{this.$store.state.global.loveNum}}</span>
         <span>留言数：&nbsp;{{this.talkList.length}}</span>
       </div>
-      <div class="tags">
+      <!-- <div class="tags">
         <div v-for="tag in thisArticle.tags" :key="tag" class="tag">
           <Icon
             :type="$store.state.style.tag[tag].style"
@@ -51,7 +51,7 @@
           />
           &nbsp;{{tag}}
         </div>
-      </div>
+      </div> -->
       <el-divider></el-divider>
       <div class="article_content" v-html="thisArticle.content"></div>
     </div>

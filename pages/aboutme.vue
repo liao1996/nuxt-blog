@@ -48,7 +48,7 @@
     <div class="bloghr" />
     <strong>技术：</strong>
     <span>
-      <i class="el-icon-office-building"></i>HTML5, CSS3, JavaScript, Java, Vue, Nuxt, Egg, Koa, MySql,Linux
+      <i class="el-icon-office-building"></i>HTML5, CSS3, JS,Ts, Java, Vue, Nuxt, React, Umi, MySql,Linux
     </span>
     <clock-home class="clock" />
     <div class="about-map">

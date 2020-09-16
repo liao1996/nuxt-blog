@@ -4,17 +4,17 @@
       <div class="panfish">
         <img
           v-show="first"
-          src="http://eightythousand.com:520/assets/normal.0447fe9.png"
+          src="~/assets/img/login/normal.0447fe9.png"
           class="normal"
         />
         <img
           v-show="second"
-          src="http://eightythousand.com:520/assets/greeting.1415c1c.png"
+          src="~/assets/img/login/greeting.1415c1c.png"
           class="greeting"
         />
         <img
           v-show="thirdly"
-          src="http://eightythousand.com:520/assets/blindfold.58ce423.png"
+          src="~/assets/img/login/blindfold.58ce423.png"
           class="blindfold"
         />
       </div>

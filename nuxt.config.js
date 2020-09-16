@@ -22,7 +22,7 @@ export default {
       { rel: "stylesheet", href: '/icon/iconfont.css' },   
     ],
     script: [{
-      src: "http://www.eightythousand.com:520/autoload.js"
+      src: "/waifu/autoload.js"
     }]
   },
   /*
