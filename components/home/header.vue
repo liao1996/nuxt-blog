@@ -48,13 +48,13 @@ export default {
   },
   mounted() {
     const self = this;
-    document.body.onresize = () => {
+    // document.body.onresize = () => {
       if (document.body.clientWidth > self.maxClientWidth) {
         self.$store.commit("isPhone/PCORPHONE", false);
       } else {
         self.$store.commit("isPhone/PCORPHONE", true);
       }
-    };
+    //};
   },
   methods:{
     openLogin(){

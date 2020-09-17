@@ -50,7 +50,7 @@
     <span>
       <i class="el-icon-office-building"></i>HTML5, CSS3, JS,Ts, Java, Vue, Nuxt, React, Umi, MySql,Linux
     </span>
-    <clock-home class="clock" />
+    <clock-home class="clock" v-show="!isphone"/>
     <div class="about-map">
       <iframe class="iframe" src="/iframe/map.html" />
     </div>
@@ -70,6 +70,11 @@ export default {
     return {
       fontImg: fontImg
     };
+  },
+  computed: {
+    isphone() {
+      return this.$store.state.isPhone.isPhone;
+    },
   },
   components: {
     ClockHome
@@ -208,6 +213,11 @@ export default {
   }
   /deep/ .callme{
     padding: 5px 10px;
+  }
+}
+@media screen and (max-device-width: 460px) {
+  .page {
+    margin: 0;
   }
 }
 </style>

@@ -33,7 +33,7 @@ function Star(id, x, y, ctx) {
   this.color = "rgba(255,255,255," + alpha + ")";
 }
 
-Star.prototype.draw = function() {
+Star.prototype.draw = function () {
   this.ctx.fillStyle = this.color;
   this.ctx.shadowBlur = this.r * 2;
   this.ctx.beginPath();
@@ -42,13 +42,13 @@ Star.prototype.draw = function() {
   this.ctx.fill();
 };
 
-Star.prototype.move = function() {
+Star.prototype.move = function () {
   this.y -= 0.15;
   if (this.y <= -10) this.y = this.height + 10;
   this.draw();
 };
 
-Star.prototype.die = function() {
+Star.prototype.die = function () {
   stars[this.id] = null;
   delete stars[this.id];
 };
@@ -70,7 +70,7 @@ function Dot(id, x, y, ctx, dots) {
   this.dir = Math.floor(Math.random() * 140) + 200;
 }
 //线条类
-Dot.prototype.draw = function() {
+Dot.prototype.draw = function () {
   this.ctx.fillStyle = this.color;
   this.ctx.shadowBlur = this.r * 2;
   this.ctx.beginPath();
@@ -79,7 +79,7 @@ Dot.prototype.draw = function() {
   this.ctx.fill();
 };
 
-Dot.prototype.link = function() {
+Dot.prototype.link = function () {
   if (this.id == 0) return;
   var previousDot1 = getPreviousDot(this.dots, this.id, 1);
   var previousDot2 = getPreviousDot(this.dots, this.id, 2);
@@ -94,7 +94,7 @@ Dot.prototype.link = function() {
   this.ctx.stroke();
   this.ctx.closePath();
 };
-Dot.prototype.move = function() {
+Dot.prototype.move = function () {
   this.a -= this.aReduction;
   if (this.a <= 0) {
     this.die();
@@ -109,7 +109,7 @@ Dot.prototype.move = function() {
   this.link();
 };
 
-Dot.prototype.die = function() {
+Dot.prototype.die = function () {
   this.dots[this.id] = null;
   delete this.dots[this.id];
 };
@@ -138,7 +138,7 @@ export default {
       dots: [],
       dotsMinDist: 2,
       maxDistFromCursor: 50,
-      messageList: []
+      messageList: [],
     };
   },
   created() {
@@ -156,7 +156,7 @@ export default {
           this.initMessage(aShowList[i]); //执行初始化函数
         }
       });
-    }
+    },
   },
   computed: {
     canvas() {
@@ -164,12 +164,12 @@ export default {
     },
     ctx() {
       return canvas.getContext("2d");
-    }
+    },
   },
   methods: {
     //获取留言
     _getMessageList() {
-      getMessageList().then(res => {
+      getMessageList().then((res) => {
         this.messageList = res.result.data;
       });
     },
@@ -178,18 +178,18 @@ export default {
       if (this.message.length == 0 || this.message.length > 50) {
         this.$message({
           message: "留言不能为空且最多50字！",
-          type: "warning"
+          type: "warning",
         });
         return;
       } else {
-        insertMessage(this.message).then(res => {
+        insertMessage(this.message).then((res) => {
           if (res.result.msg) {
             this.$message({
               message: "感谢你宝贵的意见！",
-              type: "success"
+              type: "success",
             });
             this._getMessageList();
-            this.message = ""; 
+            this.message = "";
             //不能实时加入留言，后面还需优化
             // this.messageList.push
             // var oShow = document.querySelector('.s_show');
@@ -210,7 +210,7 @@ export default {
       this.mouseX = e.clientX;
       this.mouseY = e.clientY;
       clearInterval(this.mouseMoveChecker);
-      this.mouseMoveChecker = setTimeout(function() {
+      this.mouseMoveChecker = setTimeout(function () {
         this.mouseMoving = false;
       }, 100);
     },
@@ -286,7 +286,7 @@ export default {
       if (id == 0 || id - stepback < 0) return false;
       if (typeof this.dots[id - stepback] != "undefined")
         return this.dots[id - stepback];
-      else return false; 
+      else return false;
     },
     //留言移动
     moveMessage(k, obj, maxLeft) {
@@ -295,7 +295,7 @@ export default {
       const that = this;
       if (maxLeft > -obj.offsetWidth) {
         obj.style.left = maxLeft + "px";
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
           that.moveMessage(k, obj, maxLeft);
         }); //H5新增的动画函数
       } else {
@@ -304,31 +304,22 @@ export default {
     },
     //随机颜色
     randomColor() {
-      return (
-        "#" +
-        Math.random()
-          .toString(16)
-          .slice(-6)
-      ); //一行简化版截取后六位
+      return "#" + Math.random().toString(16).slice(-6); //一行简化版截取后六位
     },
     initMessage(obj) {
       //确定top值的随机区间
-      var header = document.querySelector('.v-header');   //获取头部
+      var header = document.querySelector(".v-header"); //获取头部
       var screenHeight = document.documentElement.clientHeight; //获取屏幕可视高度
-      var maxTop = screenHeight - header.offsetHeight- obj.offsetHeight; //高度差范围
+      var maxTop = screenHeight - header.offsetHeight - obj.offsetHeight; //高度差范围
       obj.style.top = maxTop * Math.random() + "px";
       //控制left值
       var screenWidth = document.documentElement.clientWidth; //获取可视宽度
       var maxLeft = screenWidth - obj.offsetWidth; /* - Math.random() * 800 */ //随机宽度差
       obj.style.left = maxLeft + "px";
-      obj.style.color = this.randomColor(); 
-      this.moveMessage(
-        Math.random() * 5 + 1,
-        obj,
-        maxLeft
-      );
-    }
-  }
+      obj.style.color = this.randomColor();
+      this.moveMessage(Math.random() * 5 + 1, obj, maxLeft);
+    },
+  },
 };
 </script>
 
@@ -457,6 +448,26 @@ export default {
     background-size: 1000px 250px;
     background-repeat: repeat-x;
     background-position: center bottom;
+  }
+}
+@media screen and (max-device-width: 460px) {
+  .screen {
+    .words_box {
+      top:10%;
+      width: 350px;
+      height: 250px;
+      .ground {
+        width: 350px;
+        margin-top: 10px;
+        .words {
+          width: 340px;
+        }
+      }
+      .but {
+        margin-top: 40px;
+        margin-left: 0px;
+      }
+    }
   }
 }
 </style>

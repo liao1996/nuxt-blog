@@ -3,7 +3,13 @@
     <div class="star">
       <button @click="reStar">开始新的游戏</button>
     </div>
-    <canvas ref="canvas" width="450" height="450" @click="chessClick" class="wuziqican"></canvas>
+    <canvas
+      ref="canvas"
+      :width="isphone?400:450"
+      :height="isphone?400:450"
+      @click="chessClick"
+      class="wuziqican"
+    ></canvas>
   </div>
 </template>
 
@@ -20,13 +26,19 @@ export default {
       wins: [], // 赢法数组
       myWin: [], // 我方赢法的统计数组
       computerWin: [], // 计算机赢法的统计数组
-      over: false
+      over: false,
     };
   },
+  computed: {
+    isphone() {
+      return this.$store.state.isPhone.isPhone;
+    },
+  },
   mounted() {
-    setTimeout(_ => {
+    setTimeout((_) => {
       this.init();
     });
+    console.log(this.isphone);
   },
   methods: {
     //重开
@@ -34,7 +46,7 @@ export default {
       //清空画布
       this.context.clearRect(0, 0, this.chess.width, this.chess.height);
       this.context.beginPath();
-      //所有变量清0     
+      //所有变量清0
       this.count = 0;
       this.chessBoard = [];
       this.wins = [];
@@ -42,7 +54,7 @@ export default {
       this.computerWin = [];
       this.me = true;
       this.over = false;
-      setTimeout(_ => {
+      setTimeout((_) => {
         // this.init();
         this.drawChessBoard();
         this.fillArray();
@@ -116,28 +128,37 @@ export default {
     // 绘制棋盘
     drawChessBoard() {
       const { context } = this;
+      const space = this.isphone ? 27 : 30; //棋盘间距
+      const whboth = this.isphone ? 390 : 435; //棋盘间距
       // context.strokeStyle = "#bfbfbf";
       for (let i = 0; i < 15; i++) {
-        context.moveTo(15 + i * 30, 15);
-        context.lineTo(15 + i * 30, 435);
+        context.moveTo(space / 2 + i * space, space / 2);
+        context.lineTo(space / 2 + i * space, whboth);
         context.stroke();
-        context.moveTo(15, 15 + i * 30);
-        context.lineTo(435, 15 + i * 30);
+        context.moveTo(space / 2, space / 2 + i * space);
+        context.lineTo(whboth, space / 2 + i * space);
         context.stroke();
       }
     },
     // 落子实现
     onStep(x, y, me) {
       const { context } = this;
+      const space = this.isphone ? 27 : 30; //棋盘间距
       context.beginPath();
-      context.arc(15 + x * 30, 15 + y * 30, 13, 0, 2 * Math.PI);
+      context.arc(
+        space / 2 + x * space,
+        space / 2 + y * space,
+        13,
+        0,
+        2 * Math.PI
+      );
       context.closePath();
       const gradient = context.createRadialGradient(
-        15 + x * 30 + 2,
-        15 + y * 30 - 2,
+        space / 2 + x * space + 2,
+        space / 2 + y * space - 2,
         13,
-        15 + x * 30 + 2,
-        15 + y * 30 - 2,
+        space / 2 + x * space + 2,
+        space / 2 + y * space - 2,
         0
       );
       if (me) {
@@ -152,6 +173,7 @@ export default {
     },
     // 我方落子
     chessClick(e) {
+      const space = this.isphone ? 27 : 30; //棋盘间距
       if (this.over) {
         return;
       }
@@ -160,8 +182,8 @@ export default {
       }
       const ox = e.offsetX;
       const oy = e.offsetY;
-      const x = Math.floor(ox / 30);
-      const y = Math.floor(oy / 30);
+      const x = Math.floor(ox / space);
+      const y = Math.floor(oy / space);
       if (this.chessBoard[x][y] === 0) {
         this.chessBoard[x][y] = 1;
         this.onStep(x, y, this.me);
@@ -174,7 +196,7 @@ export default {
               this.$message({
                 message: "恭喜你，战胜了无敌的阿尔法狗",
                 type: "success",
-                center: true
+                center: true,
               });
               this.over = true;
             }
@@ -264,7 +286,7 @@ export default {
           if (this.computerWin[k] === 5) {
             this.$message({
               message: "计算机赢啦，下次再接再厉吧",
-              center: true
+              center: true,
             });
             this.over = true;
           }
@@ -273,8 +295,8 @@ export default {
       if (!this.over) {
         this.me = !this.me;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -301,6 +323,26 @@ export default {
     margin: 20px auto;
     background: #fff;
     box-shadow: -2px 0 2px #efefef, 5px 5px 5px #b9b9b9;
+  }
+}
+@media screen and (max-device-width: 460px) {
+  /* 图标 */
+  .wuziqi {
+    margin-left: 0;
+    .star {
+      width: 45%;
+      margin: 30px auto;
+
+      button {
+        border: none;
+        background: #000;
+        color: #fff;
+        font-size: 20px;
+        padding: 10px 30px;
+        cursor: pointer;
+        border-radius: 10px;
+      }
+    }
   }
 }
 </style>
