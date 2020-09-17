@@ -138,7 +138,7 @@ import headImg from "~/assets/img/header.jpg";
 import VabProfile from "~/components/VabProfile";
 import { getBlogList  , getAnnouncement} from "~/api/articlelist";
 import $ from "jquery";
-const getdata = (id = 0, falge = 0, size = 3) => {
+const getdata = (id = 0, falge = 0, size = 0) => {
   return getBlogList(id, falge, size)
     .then(res => {
       if (res.resultCode == 1) {
@@ -181,7 +181,7 @@ export default {
       bolgListClick: "",
       loading: false,
       falge: 0, //文章类型
-      size: 3
+      size: 0 
     };
   },
   computed: {
@@ -224,9 +224,10 @@ export default {
     loadMore() {
       if (!this.noMore) {
         this.loading = true;
-        this.size += 2;
+        this.size += 3;
         getdata(0, this.falge, this.size).then(res => {
-          this.$store.commit("global/updateBlogList", res.data);
+          const newBlogList  = this.blogList.concat(res.data)
+          this.$store.commit("global/updateBlogList", newBlogList );
           this.$store.commit("global/updateCount", res.count);
           this.loading = false;
         });

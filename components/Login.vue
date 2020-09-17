@@ -64,7 +64,7 @@
             <img
               title="微博"
               alt="微博"
-              src="http://eightythousand.com:520/assets/weibo.fa758eb.svg"
+              src="~/assets/img/login/weibo.fa758eb.svg"
               class="oauth-btn"
             />
           </div>
@@ -72,7 +72,7 @@
             <img
               title="微信"
               alt="微信"
-              src="http://eightythousand.com:520/assets/wechat.e0ff124.svg"
+              src="~/assets/img/login/wechat.e0ff124.svg"
               class="oauth-btn"
             />
           </div>
@@ -80,7 +80,7 @@
             <img
               title="GitHub"
               alt="GitHub"
-              src="http://eightythousand.com:520/assets/github.547dd8a.svg"
+              src="~/assets/img/login/github.547dd8a.svg"
               class="oauth-btn"
             />
           </div>

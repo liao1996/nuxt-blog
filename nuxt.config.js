@@ -10,11 +10,12 @@ export default {
   ** See https://nuxtjs.org/api/configuration-head
   */
   head: {
-    title:"江家大小姐",
+    title:"贾府公子文和",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
+      { hid: 'description', name: 'description', content: process.env.npm_package_description || '' },
+      {  httpEquiv: 'Content-Security-Policy', content: 'upgrade-insecure-requests' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/lzfavicon.ico' },
@@ -72,7 +73,7 @@ export default {
       target: 'http://www.eightythousand.com:12937/blog/',
       //target: 'http://localhost:12937/blog/',
       pathRewrite: { '^/lz': '' }
-    },
+    }
   },
   /*
   ** Content module configuration
