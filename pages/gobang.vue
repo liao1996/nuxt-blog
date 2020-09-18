@@ -5,8 +5,8 @@
     </div>
     <canvas
       ref="canvas"
-      :width="isphone?400:450"
-      :height="isphone?400:450"
+      :width="isphone?370:450"
+      :height="isphone?370:450"
       @click="chessClick"
       class="wuziqican"
     ></canvas>
@@ -128,8 +128,8 @@ export default {
     // 绘制棋盘
     drawChessBoard() {
       const { context } = this;
-      const space = this.isphone ? 27 : 30; //棋盘间距
-      const whboth = this.isphone ? 390 : 435; //棋盘间距
+      const space = this.isphone ? 25 : 30; //棋盘间距
+      const whboth = this.isphone ? 360 : 435; //棋盘间距
       // context.strokeStyle = "#bfbfbf";
       for (let i = 0; i < 15; i++) {
         context.moveTo(space / 2 + i * space, space / 2);
@@ -143,7 +143,7 @@ export default {
     // 落子实现
     onStep(x, y, me) {
       const { context } = this;
-      const space = this.isphone ? 27 : 30; //棋盘间距
+      const space = this.isphone ? 25 : 30; //棋盘间距
       context.beginPath();
       context.arc(
         space / 2 + x * space,
@@ -173,7 +173,7 @@ export default {
     },
     // 我方落子
     chessClick(e) {
-      const space = this.isphone ? 27 : 30; //棋盘间距
+      const space = this.isphone ? 25 : 30; //棋盘间距
       if (this.over) {
         return;
       }
@@ -330,7 +330,7 @@ export default {
   .wuziqi {
     margin-left: 0;
     .star {
-      width: 45%;
+      width: 50%;
       margin: 30px auto;
 
       button {

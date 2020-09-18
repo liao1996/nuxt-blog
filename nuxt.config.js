@@ -40,7 +40,6 @@ export default {
   */
   plugins: [
     '@/plugins/element-ui',
-    '@/plugins/cookie',
     { src: '@/plugins/infinite-scroll', ssr: false }
   ],
   /*

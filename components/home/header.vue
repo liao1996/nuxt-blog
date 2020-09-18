@@ -106,7 +106,7 @@ export default {
 @media (max-width: 960px) {
   .v-header {
     .header-container {
-      width: 96%;
+      width: 85%;
     }
   }
 }

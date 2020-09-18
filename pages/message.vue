@@ -345,7 +345,7 @@ export default {
     top: 30%;
     left: 0px;
     right: 0px;
-    z-index: 110;
+    z-index: 99;
     .title {
       height: 100px;
       width: 100%;

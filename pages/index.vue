@@ -93,10 +93,10 @@
                   <i class="el-icon-star-on" size="15"></i>
                   &nbsp;&nbsp;&nbsp;{{item.loveNum}}
                 </span>
-                <span class="list_record_span">
+                <!-- <span class="list_record_span">
                   <i class="el-icon-chat-line-round" size="15"></i>
                   &nbsp;&nbsp;{{item.fontNum}}
-                </span>
+                </span> -->
                 <div class="list_tag">
                   <div class="tag">
                     <i
@@ -296,7 +296,7 @@ export default {
   }
 
   /deep/ .el-alert--success, .el-alert--info {
-    width: 90rem;
+    width: 55vw;
     margin: auto;
     top: 25px;
   }

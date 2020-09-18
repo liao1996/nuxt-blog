@@ -83,7 +83,7 @@
         </div>
       </div>
     </transition>
-    <div class="bbox">
+    <div class="bbox"  v-if="!isphone">
       <div
         class="pan"
         :style="{backgroundImage:'url('+pan+')'}"

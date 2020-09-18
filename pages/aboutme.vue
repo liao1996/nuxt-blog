@@ -1,12 +1,12 @@
 <template>
   <div class="page">
-    <el-row :gutter="20">
-      <el-col :span="24">
+    <el-row :gutter="20" style="margin-left: 0px; margin-right: 0px;">
+      <el-col :span="24" style="padding-right:0px; padding-left:0px">
         <div class="grid-content">
           <h2 class="header-title">个人简介</h2>
           <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在你面前的是：发呆业务爱好者、柠檬吞噬者、国家一级退堂鼓表演艺术家、耳机依赖患者、宇宙一级潜在鸽王、退役熬夜选手、拖延俱乐部顶级VIP、资深网络表情包传播者、霍格沃茨废话大赛冠军、赖床世锦赛冠军得主！</p>
           <el-divider></el-divider>
-          <img :src="fontImg" />
+          <img :src="fontImg" :width="isphone?'100%':''" />
         </div>
       </el-col>
     </el-row>
@@ -33,7 +33,13 @@
     <strong>电话：</strong>
     <span>
       <i class="el-icon-phone-outline"></i>1303127695
-      <el-button type="primary" icon="el-icon-chat-line-square" class="callme" round @click="sendPhoto">短信</el-button>
+      <el-button
+        type="primary"
+        icon="el-icon-chat-line-square"
+        class="callme"
+        round
+        @click="sendPhoto"
+      >短信</el-button>
     </span>
     <div class="bloghr" />
     <strong>邮件：</strong>
@@ -50,25 +56,23 @@
     <span>
       <i class="el-icon-office-building"></i>HTML5, CSS3, JS,Ts, Java, Vue, Nuxt, React, Umi, MySql,Linux
     </span>
-    <clock-home class="clock" v-show="!isphone"/>
+    <clock-home class="clock" v-show="!isphone" />
     <div class="about-map">
       <iframe class="iframe" src="/iframe/map.html" />
     </div>
-    
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import fontImg from "~/assets/img/font.png";
-import { isPassword , sendtelPhoto} from "~/api/articlelist";
+import { isPassword, sendtelPhoto } from "~/api/articlelist";
 import ClockHome from "~/components/clock/ClockHome";
 
 export default {
-
   name: "Aboutme",
   data() {
     return {
-      fontImg: fontImg
+      fontImg: fontImg,
     };
   },
   computed: {
@@ -77,7 +81,7 @@ export default {
     },
   },
   components: {
-    ClockHome
+    ClockHome,
   },
   mounted() {},
   methods: {
@@ -85,16 +89,16 @@ export default {
       this.$prompt("请输入正确的验证码", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        inputPlaceholder:"可以使用短信功能，系统会将验证码发送给您",
+        inputPlaceholder: "可以使用短信功能，系统会将验证码发送给您",
         inputPattern: /^\d{6}$/,
-        inputErrorMessage: "验证码格式不正确"
+        inputErrorMessage: "验证码格式不正确",
       })
         .then(({ value }) => {
-          isPassword(value).then(res => {
+          isPassword(value).then((res) => {
             if (res.result.data) {
               this.$message({
                 type: "success",
-                message: "验证码正确，正在为您打开下载链接"
+                message: "验证码正确，正在为您打开下载链接",
               });
               t1 = window.setTimeout(
                 window.open(
@@ -106,7 +110,7 @@ export default {
             } else {
               this.$message({
                 type: "error",
-                message: "验证码错误"
+                message: "验证码错误",
               });
             }
           });
@@ -114,7 +118,7 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "取消输入"
+            message: "取消输入",
           });
         });
     },
@@ -123,19 +127,19 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         inputPattern: /^1[3456789]\d{9}$/,
-        inputErrorMessage: "手机号格式不正确"
+        inputErrorMessage: "手机号格式不正确",
       })
         .then(({ value }) => {
-          sendtelPhoto(value).then(res => {           
+          sendtelPhoto(value).then((res) => {
             if (res.result.code) {
               this.$message({
                 type: "success",
-                message: "发送成功，请查收"
-              });              
+                message: "发送成功，请查收",
+              });
             } else {
               this.$message({
                 type: "error",
-                message: "发送失败,失败原因:"+res.result.message
+                message: "发送失败,失败原因:" + res.result.message,
               });
             }
           });
@@ -143,11 +147,11 @@ export default {
         .catch(() => {
           this.$message({
             type: "info",
-            message: "取消输入"
+            message: "取消输入",
           });
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -211,10 +215,11 @@ export default {
       height: 25rem;
     }
   }
-  /deep/ .callme{
+  /deep/ .callme {
     padding: 5px 10px;
   }
 }
+
 @media screen and (max-device-width: 460px) {
   .page {
     margin: 0;

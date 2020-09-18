@@ -389,9 +389,9 @@
 
 .talk_p2 {
   width: 95%;
-  margin-left: 5%;
+  margin-left: 5% !important;
   height: auto;
-  line-height: 20px;
+  line-height: 20px !important;
   padding-bottom: 20px;
   box-sizing: border-box;
   color: rgb(120, 120, 120);

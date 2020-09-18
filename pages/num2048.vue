@@ -375,8 +375,8 @@ export default {
 <style lang="scss">
 .show {
   position: fixed;
-  bottom: 50vh;
-  left: 20px;
+  // bottom: 50vh;
+  // left: 20px;
   display: flex;
   flex-direction: column;
   margin-bottom: -27%;
