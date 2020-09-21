@@ -429,6 +429,16 @@
   margin-top: 15px;
   list-style: none;
 }
+.seeall{
+  font-size: 30px;
+  display: flex;
+  float: right;
+  margin-top: -16rem;
+  margin-right: 15px;
+  color: pink;
+  /* cursor: pointer; */
+}
+
 
 .noticeList-enter,
 .noticeList-leave-to {

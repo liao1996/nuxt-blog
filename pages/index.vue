@@ -40,13 +40,14 @@
             <i class="el-icon-date" style="line-height: 1px;margin-right: 10px;"></i>择一隅孤独终老
           </p>
           <transition-group name="noticeList" tag="ul" class="notice_list">
-            <li v-for="(item,index) in notice" :key="item.id">
+            <li v-for="(item,index) in notice.slice(0,4)" :key="item.id">
               <i v-if="index===0 || index===1" class="iconfont icon-remen" style="color:red"></i>
               <span class="notice_time">{{item.time}}</span>
               <p class="notice_content">{{item.content}}</p>
             </li>
           </transition-group>
-        </div>
+        </div>      
+          <i class="el-icon-right seeall" @click="drawer = true"></i>     
       </div>
     </div>
     <div>
@@ -96,7 +97,7 @@
                 <!-- <span class="list_record_span">
                   <i class="el-icon-chat-line-round" size="15"></i>
                   &nbsp;&nbsp;{{item.fontNum}}
-                </span> -->
+                </span>-->
                 <div class="list_tag">
                   <div class="tag">
                     <i
@@ -106,7 +107,7 @@
                   </div>
                 </div>
               </div>
-            </div>           
+            </div>
           </nuxt-link>
         </li>
       </transition-group>
@@ -128,29 +129,44 @@
         </div>
         <vab-profile v-if="profileShow" :avatar="headImg" user-name="小透明手辰"></vab-profile>
       </el-card>
-      <a href="http://www.beian.miit.gov.cn">京ICP备20016846号</a>
+      <a href="https://beian.miit.gov.cn">京ICP备20016846号</a>
     </div>
+
+    <el-drawer
+      :visible.sync="drawer"
+      :direction="direction"
+      :with-header="false"
+      style=" overflow: scroll"
+    >
+      <transition-group name="noticeList" tag="ul" class="notice_list" style="margin: 20px 30px ;">
+        <li v-for="(item,index) in notice" :key="item.id">
+          <i class="el-icon-paperclip" :style="{color:index%2===0 ? 'red ':'blue'}"></i>
+          <span class="notice_time">{{item.time}}</span>
+          <p class="notice_content">{{item.content}}</p>
+        </li>
+      </transition-group>
+    </el-drawer>
   </div>
 </template>
 
 <script>
 import headImg from "~/assets/img/header.jpg";
 import VabProfile from "~/components/VabProfile";
-import { getBlogList  , getAnnouncement} from "~/api/articlelist";
+import { getBlogList, getAnnouncement } from "~/api/articlelist";
 import $ from "jquery";
 const getdata = (id = 0, falge = 0, size = 0) => {
   return getBlogList(id, falge, size)
-    .then(res => {
+    .then((res) => {
       if (res.resultCode == 1) {
         return res.result;
       }
     })
-    .catch(err => {});
+    .catch((err) => {});
 };
 export default {
   name: "Index",
   components: {
-    VabProfile
+    VabProfile,
   },
   data() {
     return {
@@ -160,28 +176,13 @@ export default {
       headRight: 5,
       headLeft: 5,
       activeIndex: "1",
-      notice: [
-        // {
-        //   id: 12,
-        //   time: "2020-07-14",
-        //   content: "完成了第一期的所有功能"
-        // },
-        // {
-        //   id: 11,
-        //   time: "2020-07-07",
-        //   content: "写了第一篇博客"
-        // },
-        // { id: 10, time: "2020-06-30", content: "增加了网易云音乐，看板娘" },
-        // {
-        //   id: 9,
-        //   time: "2020-06-25",
-        //   content: "搭建项目，开发首页，详情页"
-        // }
-      ],
+      notice: [],
       bolgListClick: "",
       loading: false,
       falge: 0, //文章类型
-      size: 0 
+      size: 0,
+      drawer: false, //是否查看所有公告
+      direction: "ltr",
     };
   },
   computed: {
@@ -196,7 +197,7 @@ export default {
     },
     count() {
       return this.$store.state.global.count;
-    }
+    },
   },
   async fetch({ store }) {
     const data = await getdata();
@@ -209,11 +210,11 @@ export default {
     this.getAnnouncementData();
   },
   methods: {
-  //公告栏
-    getAnnouncementData(){
-      getAnnouncement().then(res =>{
-        this.notice = res.result.announcement
-      })
+    //公告栏
+    getAnnouncementData() {
+      getAnnouncement().then((res) => {
+        this.notice = res.result.announcement;
+      });
     },
     handleProfile() {
       this.profileShow = false;
@@ -225,9 +226,9 @@ export default {
       if (!this.noMore) {
         this.loading = true;
         this.size += 3;
-        getdata(0, this.falge, this.size).then(res => {
-          const newBlogList  = this.blogList.concat(res.data)
-          this.$store.commit("global/updateBlogList", newBlogList );
+        getdata(0, this.falge, this.size).then((res) => {
+          const newBlogList = this.blogList.concat(res.data);
+          this.$store.commit("global/updateBlogList", newBlogList);
           this.$store.commit("global/updateCount", res.count);
           this.loading = false;
         });
@@ -237,7 +238,7 @@ export default {
       if (!isNaN(key)) {
         this.falge = key;
         this.size = 3;
-        getdata(0, this.falge).then(res => {
+        getdata(0, this.falge).then((res) => {
           this.$store.commit("global/updateBlogList", res.data);
           this.$store.commit("global/updateCount", res.count);
         });
@@ -250,7 +251,7 @@ export default {
       this.bolgListClick = "";
     },
     BindEvent() {
-      $(document).on("scroll", ev => {
+      $(document).on("scroll", (ev) => {
         if (this.$route.path == "/") {
           this.headTop = $(document).scrollTop() + 150;
         }
@@ -263,19 +264,20 @@ export default {
       str = str.replace(/&nbsp;/gi, ""); //去掉&nbsp;
       str = str.replace(/\s/g, ""); //将空格去掉
       return str;
-    }
+    },
   },
   filters: {
     FontFilter(val) {
       return val.substr(0, 200) + "...";
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="stylus" scoped>
 @import url('~/assets/pagecss/blogmain.css');
 @import url('~/assets/pagecss/blogmainmobile.css');
+
 .container {
   nav {
     left: 0;
@@ -303,6 +305,14 @@ export default {
 
   /deep/ .el-backtop {
     bottom: 10px !important;
+  }
+
+  /deep/ .el-drawer {
+    width: 90%;
+    overflow-y: auto;
+  }
+   /deep/ :focus {
+    outline: 0;
   }
 }
 </style>
