@@ -20,8 +20,8 @@
       >https://github.com/llzhen228/nuxt-blog</a>，使用的Nuxt+Element，
       <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;后端地址：
       <a
-        href="https://github.com/llzhen228/java-blog"
-      >https://github.com/llzhen228/java-blog</a>，使用的spring+MqSql。
+        href="https://github.com/lzhen228/lz-javablog"
+      >https://github.com/lzhen228/lz-javablog</a>，使用的spring+MqSql。
     </p>
     <el-divider content-position="left">感谢你的到来</el-divider>
     <strong>名称：</strong>
