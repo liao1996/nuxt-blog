@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="dis_list">
-      <div class="list_box" v-if="listIsDis">      
+      <div class="list_box" v-if="listIsDis">
         <div class="list_close" @click="DisList">x</div>
         <div class="music_list">
           <div class="list_l">
@@ -9,20 +9,36 @@
               <li
                 v-for="item in musicTypeList"
                 @click="_getMusicType(item.id)"
-                :class="{type_active:item.id==thisMusicType}"
+                :class="{ type_active: item.id == thisMusicType }"
                 :key="item.id"
-              >{{item.name}}</li>
+              >
+                {{ item.name }}
+              </li>
             </ul>
             <div class="list_title">
-              <span style="font-size: 14px;">歌曲列表</span>
-              <img :src="musicStateButton" alt class="music_state" @click="MusicStateChange" />
+              <span style="font-size: 14px">歌曲列表</span>
+              <img
+                :src="musicStateButton"
+                alt
+                class="music_state"
+                @click="MusicStateChange"
+              />
               <div class="music_search_box">
-                <input type="text" class="music_search" v-model="musicSearchVal" placeholder="搜索歌曲" />
+                <input
+                  type="text"
+                  class="music_search"
+                  v-model="musicSearchVal"
+                  placeholder="搜索歌曲"
+                />
                 <transition name="music_search">
-                  <ul class="search_list" v-if="musicSearchVal!=''">
-                    <li v-for="item in musicSearchList" @click="ListAdd(item)" :key="item.name">
-                      <span class="music_search_name">{{item.name}}</span>
-                      <span class="music_search_ar">{{item.artists[0].name}}</span>
+                  <ul class="search_list" v-if="musicSearchVal != ''">
+                    <li
+                      v-for="item in musicSearchList"
+                      @click="ListAdd(item)"
+                      :key="item.name"
+                    >
+                      <span class="music_search_name">{{ item.name }}</span>
+                      <span class="music_search_ar">{{ item.artists[0].name }}</span>
                     </li>
                   </ul>
                 </transition>
@@ -35,41 +51,44 @@
             </div>
             <ul class="list">
               <li
-                v-for="(item,index) in thisMusicList"
+                v-for="(item, index) in thisMusicList"
                 @mouseover="ButtonActive(index)"
-                @dblclick="ListPlay((thisListPage-1)*10+index)"
+                @dblclick="ListPlay((thisListPage - 1) * 10 + index)"
                 :key="index"
               >
-                <div class="this_music_shlter" v-if="(thisListPage-1)*10+index==thisMusicIndex"></div>
-                <span>{{item.name}}</span>
-                <span>{{item.ar[0].name}}</span>
-                <span>{{item.al.name}}</span>
+                <div
+                  class="this_music_shlter"
+                  v-if="(thisListPage - 1) * 10 + index == thisMusicIndex"
+                ></div>
+                <span>{{ item.name }}</span>
+                <span>{{ item.ar[0].name }}</span>
+                <span>{{ item.al.name }}</span>
                 <transition name="list_button">
-                  <div class="music_button" v-if="listButtonActiveIndex==index">
+                  <div class="music_button" v-if="listButtonActiveIndex == index">
                     <div
                       class="list_play"
                       title="播放这首歌"
-                      :style="{backgroundImage:'url('+listPlay+')'}"
-                      @click="ListPlay((thisListPage-1)*10+index)"
+                      :style="{ backgroundImage: 'url(' + listPlay + ')' }"
+                      @click="ListPlay((thisListPage - 1) * 10 + index)"
                     ></div>
                     <div
                       class="list_play"
                       title="添加到 My Songs"
-                      :style="{backgroundImage:'url('+add+')'}"
+                      :style="{ backgroundImage: 'url(' + add + ')' }"
                       @click="ListAdd(item)"
-                      v-if="thisMusicType!=-1"
+                      v-if="thisMusicType != -1"
                     ></div>
                   </div>
                 </transition>
               </li>
             </ul>
             <div class="list_page">
-              <div class="page_last" v-if="thisListPage!=1" @click="ListChange(true)">
+              <div class="page_last" v-if="thisListPage != 1" @click="ListChange(true)">
                 <i class="el-icon-d-arrow-left"></i>
               </div>
               <div
                 class="page_next"
-                v-if="thisListPage!=Math.ceil(musicList.length/10)"
+                v-if="thisListPage != Math.ceil(musicList.length / 10)"
                 @click="ListChange(false)"
               >
                 <i class="el-icon-d-arrow-right"></i>
@@ -78,48 +97,53 @@
           </div>
           <div class="list_r">
             <img class="music_list_bg" :src="musicImg" />
-            <div class="music_list_shlter" :style="{backgroundImage:'url('+shlter+')'}"></div>
+            <div
+              class="music_list_shlter"
+              :style="{ backgroundImage: 'url(' + shlter + ')' }"
+            ></div>
           </div>
         </div>
       </div>
     </transition>
-    <div class="bbox"  v-if="!isphone">
+    <div class="bbox" v-if="!isphone">
       <div
         class="pan"
-        :style="{backgroundImage:'url('+pan+')'}"
-        :class="{pan_active:disActive}"
+        :style="{ backgroundImage: 'url(' + pan + ')' }"
+        :class="{ pan_active: disActive }"
         @click="DisActive"
       >
         <img :src="musicImg" alt class="pan_c" />
       </div>
       <div
         class="box"
-        :style="{backgroundImage:'url('+musicImg+')'}"
-        :class="{box_active:disActive}"
+        :style="{ backgroundImage: 'url(' + musicImg + ')' }"
+        :class="{ box_active: disActive }"
         @dblclick="DisList"
       >
         <div
           class="music_shlter_2"
-          :style="{backgroundImage:'url('+musicImg+')'}"
-          :class="{shlter_active:disActive}"
+          :style="{ backgroundImage: 'url(' + musicImg + ')' }"
+          :class="{ shlter_active: disActive }"
         ></div>
         <div
           class="music_shlter"
-          :style="{backgroundImage:'url('+musicImg+')'}"
-          :class="{shlter_active:disActive}"
+          :style="{ backgroundImage: 'url(' + musicImg + ')' }"
+          :class="{ shlter_active: disActive }"
         ></div>
         <div class="music_dis">
           <div class="dis_list" @click="DisList">···</div>
-          <p class="music_title">{{musicTitle}}</p>
-          <p class="music_intro">歌手: {{musicName}}</p>
+          <p class="music_title">{{ musicTitle }}</p>
+          <p class="music_intro">歌手: {{ musicName }}</p>
           <ul class="music_words">
-            <div class="music_words_box" :style="{top:wordsTop+'px'}">
+            <div class="music_words_box" :style="{ top: wordsTop + 'px' }">
               <li
-                v-for="(item,index) in musicWords"
+                v-for="(item, index) in musicWords"
                 class="music_word"
-                :class="{word_highlight:wordIndex==index}"
+                :class="{ word_highlight: wordIndex == index }"
                 :key="index"
-              >{{item}}</li>
+              >
+                {{ item }}
+              </li>
             </div>
           </ul>
         </div>
@@ -128,7 +152,7 @@
             <img :src="playIcon" alt class="control_icon" />
           </div>
           <div class="progress">
-            <div class="progress_c" :style="{width:currentProgress}">
+            <div class="progress_c" :style="{ width: currentProgress }">
               <div class="progress_circle">
                 <div class="progress_circle_c"></div>
               </div>
@@ -147,7 +171,8 @@ import {
   getMusicInfo,
   getMusicUrl,
   getHotMusic,
-  getSearchSuggest
+  getSearchSuggest,
+  loginMusic,
 } from "./api/music";
 import pan from "./img/pan.png";
 import play from "./img/play.png";
@@ -195,14 +220,15 @@ export default {
         { name: "新歌榜", id: 3779629 },
         { name: "飙升榜", id: 19723756 },
         { name: "个人爱听", id: 3194482794 },
-        { name: "My Songs", id: -1 }
+        { name: "My Songs", id: -1 },
       ],
       thisMusicType: -1,
       notPlay: [],
       musicState: 0, //0列表循环  1单曲循环
       musicStateButton: state1,
       musicSearchVal: "",
-      musicSearchList: []
+      musicSearchList: [],
+      islogin:false,
       // musicAlertVal:'',
       // musicAlertState:false,
       // musicAlertTimer:''
@@ -221,14 +247,13 @@ export default {
     isphone() {
       return this.$store.state.isPhone.isPhone;
     },
- 
   },
   watch: {
     musicSearchVal() {
       if (this.musicSearchVal == "") {
         this.musicSearchList = [];
       } else {
-        getSearchSuggest(this.musicSearchVal).then(res => {
+        getSearchSuggest(this.musicSearchVal).then((res) => {
           if (res.data.result.songs == undefined) {
             this.musicSearchList = [];
           } else {
@@ -236,7 +261,7 @@ export default {
           }
         });
       }
-    }
+    },
   },
   methods: {
     // MusicAlert(val){
@@ -249,7 +274,7 @@ export default {
     //     },2000);
     // },
     ListAdd(obj) {
-      getMusicInfo(obj.id).then(res => {
+      getMusicInfo(obj.id).then((res) => {
         this.musicSearchVal = "";
         if (this.myMusicList.length == 0) {
           this.myMusicList = [res.data.songs[0]];
@@ -261,7 +286,7 @@ export default {
         }
         this.$message({
           message: "添加成功",
-          type: "success"
+          type: "success",
         });
       });
     },
@@ -271,14 +296,14 @@ export default {
         this.musicStateButton = this.state0;
         this.$message({
           message: "已切换为单曲循环模式",
-          type: "success"
+          type: "success",
         });
       } else {
         this.musicState = 0;
         this.musicStateButton = this.state1;
         this.$message({
           message: "已切换为列表循环模式",
-          type: "success"
+          type: "success",
         });
       }
     },
@@ -312,7 +337,7 @@ export default {
     DisActive() {
       this.disActive = this.disActive ? false : true;
     },
-    _getMusicType(id) {
+     async _getMusicType(id) {
       if (this.thisMusicType != id) {
         this.notPlay = [];
         if (id == -1) {
@@ -334,30 +359,38 @@ export default {
             //自定义库没有歌曲 提示需要搜索才可以添加
             this.$message({
               message: "没有歌曲,需要自己添加",
-              type: "warning"
+              type: "warning",
             });
           }
         } else {
-          getHotMusic(id).then(res => {
-            this.musicList = res.data.playlist.tracks.splice(0, 200);
-            this.thisMusicType = id;
-            this.thisMusicIndex = 0;
-            this.thisListPage = 1;
-            this._getInfo();
-            this.top = 0;
-            this.o = 0;
-            this.wordIndex = 0;
-            this.wordsTop = 0;
-            this.currentProgress = "0%";
-            if (!this.playState) {
-              $(".control_icon").click();
-            }
+          if(!this.islogin){
+           await loginMusic().then((res) => {
+              if(res.data.code == 200){
+                this.islogin = true
+              }
+            });
+          }
+            getHotMusic(id).then((res) => {
+              this.musicList = res.data.playlist.tracks.splice(0, 200);
+              this.thisMusicType = id;
+              this.thisMusicIndex = 0;
+              this.thisListPage = 1;
+              this._getInfo();
+              this.top = 0;
+              this.o = 0;
+              this.wordIndex = 0;
+              this.wordsTop = 0;
+              this.currentProgress = "0%";
+              if (!this.playState) {
+                $(".control_icon").click();
+              }
+            
           });
         }
       }
     },
     _getInfo() {
-      getMusicUrl(this.musicList[this.thisMusicIndex].id).then(res => {
+      getMusicUrl(this.musicList[this.thisMusicIndex].id).then((res) => {
         if (
           res.data.data[0].url == null ||
           res.data.data[0].url == "" ||
@@ -370,10 +403,8 @@ export default {
             }
 
             this.$message({
-              message: `${
-                this.musicList[this.thisMusicIndex].name
-              }因为一些原因不能播放`,
-              type: "warning"
+              message: `${this.musicList[this.thisMusicIndex].name}因为一些原因不能播放`,
+              type: "warning",
             });
             this.ListPlay(nextIndex); //寻找下一首歌  直到找到
 
@@ -381,23 +412,21 @@ export default {
           } else {
             //遍历完没有找到
             this.$message.error({
-              message: `此列表所有歌都不能播放`
+              message: `此列表所有歌都不能播放`,
             });
           }
         } else {
           this.musicUrl = res.data.data[0].url.replace("http://", "https://");
           this.musicImg =
-            this.musicList[this.thisMusicIndex].al.picUrl.replace(
-              "http://",
-              "https://"
-            ) + "?param=300y300";
+            this.musicList[this.thisMusicIndex].al.picUrl.replace("http://", "https://") +
+            "?param=300y300";
           this.musicTitle = this.musicList[this.thisMusicIndex].name;
           let name_arr = [];
-          this.musicList[this.thisMusicIndex].ar.forEach(i => {
+          this.musicList[this.thisMusicIndex].ar.forEach((i) => {
             name_arr.push(i.name);
           });
           this.musicName = name_arr.join("/");
-          getWords(this.musicList[this.thisMusicIndex].id).then(res => {
+          getWords(this.musicList[this.thisMusicIndex].id).then((res) => {
             if (!res.data.nolyric) {
               let info = this.Cut(res.data.lrc.lyric);
               this.musicWords = info.wordArr;
@@ -438,31 +467,18 @@ export default {
       //   $("body").unbind("click");
       // });
       function timer() {
-        self.currentProgress = `${(player.currentTime / player.duration) *
-          100}%`;
+        self.currentProgress = `${(player.currentTime / player.duration) * 100}%`;
         //接着这里写歌词滚动
         if (player.currentTime >= self.wordsTime[self.o + 1]) {
           self.top += Number.parseInt(
-            $(".music_word")
-              .eq(self.o)
-              .height() +
-              Number.parseInt(
-                $(".music_word")
-                  .eq(self.o)
-                  .css("marginTop")
-              )
+            $(".music_word").eq(self.o).height() +
+              Number.parseInt($(".music_word").eq(self.o).css("marginTop"))
           );
           if (self.top >= $(".music_words").height() / 2 - 11) {
             //开始滚动的高度
             self.wordsTop += -Number.parseInt(
-              $(".music_word")
-                .eq(self.o)
-                .height() +
-                Number.parseInt(
-                  $(".music_word")
-                    .eq(self.o)
-                    .css("marginTop")
-                )
+              $(".music_word").eq(self.o).height() +
+                Number.parseInt($(".music_word").eq(self.o).css("marginTop"))
             );
           }
           self.wordIndex = self.o + 1;
@@ -489,16 +505,14 @@ export default {
         }
       }
       //进度条控制
-      $(".progress").on("mousedown", ev => {
+      $(".progress").on("mousedown", (ev) => {
         let e = ev || event;
-        let pro =
-          (e.clientX - $(".progress").offset().left) / $(".progress").width();
+        let pro = (e.clientX - $(".progress").offset().left) / $(".progress").width();
         clearInterval(playerTimer);
         this.currentProgress = `${pro * 100}%`;
-        $(document).on("mousemove", ev => {
+        $(document).on("mousemove", (ev) => {
           let e = ev || event;
-          pro =
-            (e.clientX - $(".progress").offset().left) / $(".progress").width();
+          pro = (e.clientX - $(".progress").offset().left) / $(".progress").width();
           this.currentProgress = `${pro * 100}%`;
         });
         $(document).on("mouseup", () => {
@@ -513,27 +527,15 @@ export default {
           if (this.o < now_o) {
             for (let i = this.o; i < now_o; i++) {
               diff_h += -Number.parseInt(
-                $(".music_word")
-                  .eq(i)
-                  .height() +
-                  Number.parseInt(
-                    $(".music_word")
-                      .eq(i)
-                      .css("marginTop")
-                  )
+                $(".music_word").eq(i).height() +
+                  Number.parseInt($(".music_word").eq(i).css("marginTop"))
               );
             }
           } else {
             for (let i = now_o; i < this.o; i++) {
               diff_h += Number.parseInt(
-                $(".music_word")
-                  .eq(i)
-                  .height() +
-                  Number.parseInt(
-                    $(".music_word")
-                      .eq(i)
-                      .css("marginTop")
-                  )
+                $(".music_word").eq(i).height() +
+                  Number.parseInt($(".music_word").eq(i).css("marginTop"))
               );
             }
           }
@@ -574,8 +576,8 @@ export default {
     Contorl() {
       let player = $("#music")[0];
       player.currentTime = 100;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

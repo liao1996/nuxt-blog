@@ -3,6 +3,10 @@ import axios from 'axios'
 export const getWords=(id)=>{
     return axios.get(`api/lyric?id=${id}`);
 }
+//登录
+export const loginMusic=()=>{
+    return axios.get(`api/login/cellphone?phone=13036127695&password=liao1996z`);
+}
 //获取歌曲详情
 export const getMusicInfo=(id)=>{
     return axios.get(`api/song/detail?ids=${id}`);
